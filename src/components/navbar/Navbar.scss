@@ -1,0 +1,97 @@
+@import '../../utils/variable.scss';
+
+.wrapp-navbar{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    .nav-contact{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 10%;
+        background-color: #fff;
+        box-shadow: 0 1px 2px -1px rgba(0,0,0,0.1);
+        z-index: 1;
+
+        .column-icon-medsos{
+            display: flex;
+            align-items: center;
+
+            .icon-medsos{
+                display: flex;
+                list-style: none;
+                margin-right: 20px;
+                font-size: 13px;
+                color: $color1;
+
+                i{
+                    cursor: pointer;
+                    transition: 0.3s ease-in-out;
+                    &:hover{
+                        color: $color2;
+                    }
+                }
+            }
+        }
+
+        .column-contact{
+            display: flex;
+            align-items: center;
+
+            .icon-contact{
+                display: flex;
+                list-style: none;
+                align-items: center;
+                margin-left: 30px;
+                font-size: 13px;
+                cursor: pointer;
+                transition: 0.3s ease-in-out;
+                &:hover{
+                    color: $color2;
+                }
+
+                i{
+                    margin-top: 1px;
+                    margin-right: 10px;
+                    color: $color2;
+                }
+            }
+        }
+    }
+
+    .nav-page{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $color3;
+        padding: 25px 10%;
+
+        .logo-web{
+            display: flex;
+            object-fit: cover;
+            object-position: center;
+            cursor: pointer;
+        }
+
+        .menu-page-navbar{
+            display: flex;
+            align-items: center;
+
+            .page-navbar{
+                display: flex;
+                margin-left: 20px;
+                cursor: pointer;
+                font-size: 13px;
+                color: #000;
+                transition: 0.3s ease-in-out;
+                &:hover{
+                    color: $color2;
+                }
+            }
+        }
+    }
+}
