@@ -1,0 +1,50 @@
+@import '../../utils/variable.scss';
+
+.about-myself-home{
+    display: flex;
+    padding: 100px 10% 0 10%;
+
+    .img-about-myself-home{
+        display: flex;
+        height: auto;
+        width: 60%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .kanan-about-myself-home{
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        padding: 80px 100px 40px 100px;
+        background-color: $color5;
+
+        .title-about-myself-home{
+            display: flex;
+            text-align: start;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .paragraph-about-myself-home{
+            display: flex;
+            font-size: 14px;
+            color: $color1;
+            text-align: start;
+            margin-top: 20px;
+        }
+
+        .column-card-about-myself{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 40px;
+
+            .card-about-myself{
+                display: flex;
+                width: calc(90%/2);
+                margin-bottom: 35px;
+            }
+        }
+    }
+}

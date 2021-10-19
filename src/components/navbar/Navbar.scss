@@ -3,10 +3,8 @@
 .wrapp-navbar{
     display: flex;
     flex-direction: column;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
+    // position: fixed;
+    width: 100%;
 
     .nav-contact{
         display: flex;
@@ -25,12 +23,13 @@
                 display: flex;
                 list-style: none;
                 margin-right: 20px;
-                font-size: 13px;
+                font-size: 12px;
                 color: $color1;
+                overflow: hidden;
 
                 i{
                     cursor: pointer;
-                    transition: 0.3s ease-in-out;
+                    transition: 0.2s ease-in-out;
                     &:hover{
                         color: $color2;
                     }
@@ -47,9 +46,9 @@
                 list-style: none;
                 align-items: center;
                 margin-left: 30px;
-                font-size: 13px;
+                font-size: 12px;
                 cursor: pointer;
-                transition: 0.3s ease-in-out;
+                transition: 0.2s ease-in-out;
                 &:hover{
                     color: $color2;
                 }
@@ -83,11 +82,12 @@
 
             .page-navbar{
                 display: flex;
-                margin-left: 20px;
+                margin-left: 30px;
                 cursor: pointer;
                 font-size: 13px;
+                font-weight: bold;
                 color: #000;
-                transition: 0.3s ease-in-out;
+                transition: 0.2s ease-in-out;
                 &:hover{
                     color: $color2;
                 }

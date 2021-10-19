@@ -1,0 +1,60 @@
+@import '../../utils/variable.scss';
+
+.wrapp-card{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+
+    .img-card{
+        display: flex;
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        cursor: pointer;
+    }
+
+    .hover-bg-img-black{
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 0 40px;
+        background-color: rgba(0,0,0,0.3);
+
+        .title-hover-img{
+            display: flex;
+            font-size: 24px;
+            color: #fff;
+            border-top: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+            padding: 20px 0;
+        }
+    }
+    
+    .column-content-card{
+        display: none;
+        flex-direction: column;
+
+        i{
+            display: flex;
+            font-size: 20px;
+            color: $color2;
+        }
+
+        .title-card{
+            display: flex;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: start;
+            margin: 20px 0;
+        }
+
+        .paragraph-card{
+            display: flex;
+            text-align: start;
+            font-size: 14px;
+            color: $color1;
+        }
+    }
+}

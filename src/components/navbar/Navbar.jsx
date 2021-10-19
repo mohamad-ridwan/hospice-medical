@@ -1,8 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Navbar.scss';
 import logoWeb from '../../images/logo-web.jpg'
 
 function Navbar() {
+
+    const [menuPage, setMenuPage] = useState([
+        {
+            name : 'HOME',
+        },
+        {
+            name : 'DEPARTMENTS',
+        },
+        {
+            name : 'DOCTORS',
+        },
+        {
+            name : 'PAGES',
+        },
+        {
+            name : 'BLOG',
+        },
+        {
+            name : 'CONTACT',
+        }
+    ])
+
     return (
         <>
             <div className="wrapp-navbar">
@@ -35,24 +57,13 @@ function Navbar() {
                     <img src={logoWeb} alt="" className="logo-web" />
 
                     <ul className="menu-page-navbar">
-                        <li className="page-navbar">
-                            HOME
-                        </li>
-                        <li className="page-navbar">
-                            DEPARTMENTS
-                        </li>
-                        <li className="page-navbar">
-                            DOCTORS
-                        </li>
-                        <li className="page-navbar">
-                            PAGES
-                        </li>
-                        <li className="page-navbar">
-                            BLOG
-                        </li>
-                        <li className="page-navbar">
-                            CONTACT
-                        </li>
+                        {menuPage.map((e)=>{
+                            return(
+                                <li className="page-navbar">
+                                    {e.name}
+                                </li>
+                            )
+                        })}
                     </ul>
                 </div>
             </div>
