@@ -55,6 +55,7 @@ function Home(){
             for(let i = 0; i < eCardAboutMyself.length; i++){
                 eCardAboutMyself[i].style.border = '1px solid #ddd'
                 // eCardAboutMyself[i].style.boxShadow = '1px solid #ddd'
+                
             }
 
             eCardAboutMyself[i].style.border = 'none'
