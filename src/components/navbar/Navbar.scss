@@ -29,7 +29,7 @@
 
                 i{
                     cursor: pointer;
-                    transition: 0.2s ease-in-out;
+                    transition: 0.3s ease-in-out;
                     &:hover{
                         color: $color2;
                     }
@@ -48,7 +48,7 @@
                 margin-left: 30px;
                 font-size: 12px;
                 cursor: pointer;
-                transition: 0.2s ease-in-out;
+                transition: 0.3s ease-in-out;
                 &:hover{
                     color: $color2;
                 }
@@ -87,7 +87,7 @@
                 font-size: 13px;
                 font-weight: bold;
                 color: #000;
-                transition: 0.2s ease-in-out;
+                transition: 0.3s ease-in-out;
                 &:hover{
                     color: $color2;
                 }

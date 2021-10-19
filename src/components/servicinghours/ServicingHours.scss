@@ -1,0 +1,97 @@
+@import '../../utils/variable.scss';
+
+.wrapp-card-book-an-appointment{
+    display: flex;
+    position: relative;
+    padding: 40px 0;
+    background-color: #fff;
+
+    .container-book-an-appointment{
+        display: flex;
+        background-color: $color5;
+        padding: 100px 10% 150px 10%;
+        width: 100%;
+
+        .servicing-hours{
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+
+            .title-servicing{
+                display: flex;
+                font-size: 30px;
+                font-weight: bold;
+                text-align: start;
+            }
+
+            .paragraph-servicing{
+                display: flex;
+                font-size: 14px;
+                color: $color1;
+                text-align: start;
+                margin-top: 20px;
+            }
+
+            .column-date-servicing{
+                display: flex;
+                flex-direction: column;
+                margin-top: 40px;
+
+                .date-servicing{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 20px;
+                    margin-bottom: 20px;
+
+                    .name-day{
+                        display: flex;
+                        font-size: 14px;
+                    }
+
+                    .clock-time{
+                        display: flex;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+
+        .book-an-appointment{
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            right: 10%;
+            width: 35%;
+            padding: 40px;
+            background-color: #fff;
+            z-index: 11;
+            box-shadow: 0px 6px 20px -1px rgba(0,0,0,0.1);
+            overflow: hidden;
+
+            .title-book-an-appointment{
+                display: flex;
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .form-book-an-appointment{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 20px;
+
+                .column-btn-submit{
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 30px;
+                }
+            }
+        }
+    }
+}

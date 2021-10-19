@@ -1,10 +1,10 @@
 import React from 'react';
 import './Card.scss';
 
-function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, classWrapp}){
+function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, classTitle, heightImg}){
     return(
         <>
-        <div className={`wrapp-card ${classWrapp}`} style={{
+        <div className={`wrapp-card`} style={{
             border: borderWrapp,
             boxShadow: shadowWrapp,
             padding: paddingWrapp,
@@ -14,19 +14,30 @@ function Card({img, titleImgHover, displayContentCard, displayImg, title, paragr
         onMouseLeave={mouseLeave}
         >
             <img src={img} alt="" className="img-card" style={{
-                display: displayImg
+                display: displayImg,
+                height: heightImg
             }}/>
 
             <div className="column-content-card" style={{
                 display: displayContentCard
             }}>
-                <i className={icon}></i>
+                <i className={icon} style={{
+                    fontSize: fontSizeIcon,
+                    justifyContent: justifyContentIcon
+                }}></i>
 
-                <p className="title-card">
+                <p className={`title-card ${classTitle}`} style={{
+                    fontSize: fontSizeTitle,
+                    justifyContent: justifyContentTitle,
+                    textAlign: textAlignTitle
+                }}>
                     {title}
                 </p>
 
-                <p className="paragraph-card">
+                <p className="paragraph-card" style={{
+                    justifyContent: justifyContentParagraph,
+                    textAlign: textAlignParagraph
+                }}>
                     {paragraph}
                 </p>
             </div>

@@ -19,7 +19,7 @@ function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classW
                     <div className="column-card-about-myself">
                         {data && data.length > 0 ? data.map((e, i)=>{
                             return(
-                                <div className="card-about-myself">
+                                <div className={`card-about-myself ${classWrapp}`}>
                                     <Card
                                     displayImg="none"
                                     displayContentCard="flex"
@@ -27,9 +27,6 @@ function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classW
                                     title={e.title}
                                     paragraph={e.paragraph}
                                     paddingWrapp="20px"
-                                    bdrRadiusWrapp="5px"
-                                    borderWrapp="1px solid #ddd"
-                                    classWrapp={classWrapp}
                                     mouseOver={()=>mouseOver(i)}
                                     mouseLeave={mouseLeave}
                                     />

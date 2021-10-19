@@ -1,0 +1,23 @@
+@import '../../utils/variable.scss';
+
+.button-card{
+    display: flex;
+    padding: 15px 40px;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Mulish', sans-serif;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: $color2;
+    border: 1px solid $color2;
+    outline: none;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    &:hover{
+        background-color: #fff;
+        color: $color2;
+    }
+}

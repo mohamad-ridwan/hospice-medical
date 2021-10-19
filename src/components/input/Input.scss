@@ -1,0 +1,66 @@
+@import '../../utils/variable.scss';
+
+.input-card{
+    display: flex;
+    font-size: 13px;
+    border: 1px solid $color7;
+    padding: 10px 12px;
+    color: $color8;
+    outline: none;
+    margin-bottom: 10px;
+    font-family: 'Mulish', sans-serif;
+    letter-spacing: 0.5px;
+}
+.input-card::placeholder{
+    font-size: 13px;
+    color: $color8;
+}
+.input-card:focus{
+    border: 1px solid $color2;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-input-card{
+    display: none;
+    position: relative;
+    font-size: 13px;
+    color: $color8;
+    padding: 10px 12px 10px 40px;
+    border: 1px solid $color7;
+    outline: none;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: 'Mulish', sans-serif;
+    letter-spacing: 0.5px;
+
+    i{
+        display: flex;
+        position: absolute;
+        right: 12px;
+    }
+}
+
+.input-area-card{
+    display: none;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: $color8;
+    outline: none;
+    border: 1px solid $color7;
+    resize: vertical;
+    font-family: 'Mulish', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.input-area-card::placeholder{
+    font-size: 13px;
+    color: $color8;
+}
+
+.input-area-card:focus{
+    border: 1px solid $color2;
+    transition: 0.3s ease-in-out;
+}
+

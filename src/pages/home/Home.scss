@@ -73,4 +73,99 @@
             }
         }
     }
+
+    .feedback-home{
+        display: flex;
+        flex-direction: column;
+        padding: 100px 0% 80px 0%;
+        background-color: $color5;
+
+        .title-feedback-home{
+            display: flex;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 0 10%;
+            justify-content: center;
+        }
+
+        .paragraph-feedback-home{
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            font-size: 14px;
+            color: $color1;
+            padding: 20px 25% 0 25%;
+        }
+    }
+
+    .our-offered-services-home{
+        display: flex;
+        flex-direction: column;
+        padding: 100px 0;
+
+        .title-offered-services-home{
+            display: flex;
+            font-size: 30px;
+            font-weight: bold;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .paragraph-offered-services-home{
+            display: flex;
+            font-size: 14px;
+            color: $color1;
+            padding: 20px 25% 0 25%;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .column-card-offered-services-home{
+            display: flex;
+            padding: 80px 10% 0px 10%;
+            align-items: center;
+            justify-content: space-between;
+
+            .card-offered-services-home{
+                display: flex;
+                width: calc(90%/4);
+            }
+        }
+    }
+
+    .our-recent-blogs-home{
+        display: flex;
+        flex-direction: column;
+        padding: 80px 0 100px 0;
+        
+        .title-recent-blogs-home{
+            display: flex;
+            font-size: 30px;
+            font-weight: bold;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .paragraph-recent-blogs-home{
+            display: flex;
+            font-size: 14px;
+            color: $color1;
+            justify-content: center;
+            text-align: center;
+            padding: 20px 25% 0 25%;
+        }
+
+        .column-card-recent-blogs-home{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 80px;
+            padding: 0 10% 0 10%;
+
+            .card-recent-blogs-home{
+                display: flex;
+                width: calc(95%/3);
+            }
+        }
+    }
 }

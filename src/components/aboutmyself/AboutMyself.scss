@@ -2,7 +2,7 @@
 
 .about-myself-home{
     display: flex;
-    padding: 100px 10% 0 10%;
+    padding: 100px 10% 100px 10%;
 
     .img-about-myself-home{
         display: flex;
@@ -16,7 +16,7 @@
         display: flex;
         flex-direction: column;
         width: 40%;
-        padding: 80px 100px 40px 100px;
+        padding: 80px 80px 40px 80px;
         background-color: $color5;
 
         .title-about-myself-home{
@@ -24,6 +24,7 @@
             text-align: start;
             font-size: 30px;
             font-weight: bold;
+            padding: 0 20px 0 20px;
         }
 
         .paragraph-about-myself-home{
@@ -32,6 +33,7 @@
             color: $color1;
             text-align: start;
             margin-top: 20px;
+            padding: 0 20px 0 20px;
         }
 
         .column-card-about-myself{
@@ -39,11 +41,15 @@
             justify-content: space-between;
             flex-wrap: wrap;
             margin-top: 40px;
+            padding: 20px;
 
             .card-about-myself{
                 display: flex;
                 width: calc(90%/2);
-                margin-bottom: 35px;
+                margin-bottom: 30px;
+                transition: 0.3s ease-in-out;
+                border-radius: 5px;
+                border: 1px solid #ddd;
             }
         }
     }
