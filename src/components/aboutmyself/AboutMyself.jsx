@@ -2,10 +2,12 @@ import React from 'react';
 import Card from '../card/Card';
 import './AboutMyself.scss';
 
-function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classWrapp}){
+function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classWrapp, paddingTopWrapp}){
     return(
         <>
-        <div className="about-myself-home">
+        <div className="about-myself-home" style={{
+            paddingTop: paddingTopWrapp
+        }}>
                 <img src={img} alt="" className="img-about-myself-home"/>
 
                 <div className="kanan-about-myself-home">

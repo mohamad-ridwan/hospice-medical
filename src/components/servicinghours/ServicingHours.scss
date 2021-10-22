@@ -1,21 +1,35 @@
 @import '../../utils/variable.scss';
 
+@mixin mobile {
+    @media (max-width: 768px) {
+        @content;
+    }
+}
+
 .wrapp-card-book-an-appointment{
     display: flex;
     position: relative;
     padding: 40px 0;
     background-color: #fff;
+    overflow: hidden;
 
     .container-book-an-appointment{
         display: flex;
         background-color: $color5;
-        padding: 100px 10% 150px 10%;
+        padding: 0px 0% 0px 10%;
         width: 100%;
+        overflow: hidden;
 
         .servicing-hours{
             display: flex;
             flex-direction: column;
             width: 40%;
+            padding: 100px 0 200px 0;
+
+            @include mobile(){
+                width: 100%;
+                padding: 100px 10% 680px 0;
+            }
 
             .title-servicing{
                 display: flex;
@@ -62,15 +76,23 @@
             display: flex;
             flex-direction: column;
             position: absolute;
+            width: 30%;
             top: 20px;
             bottom: 20px;
             right: 10%;
-            width: 35%;
             padding: 40px;
             background-color: #fff;
-            z-index: 11;
             box-shadow: 0px 6px 20px -1px rgba(0,0,0,0.1);
+            z-index: 9999;
             overflow: hidden;
+
+            @include mobile(){
+                top: 500px;
+                width: auto;
+                right: 10%;
+                left: 10%;
+                bottom: 20px;
+            }
 
             .title-book-an-appointment{
                 display: flex;

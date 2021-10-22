@@ -1,23 +1,27 @@
 import React from 'react';
 import './Card.scss';
 
-function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, classTitle, heightImg}){
+function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, classTitle, heightImg, date, totalComment, displayDate, cursorWrapp, classImg, marginWrapp}){
     return(
         <>
         <div className={`wrapp-card`} style={{
             border: borderWrapp,
             boxShadow: shadowWrapp,
             padding: paddingWrapp,
-            borderRadius: bdrRadiusWrapp
+            borderRadius: bdrRadiusWrapp,
+            cursor: cursorWrapp,
+            margin: marginWrapp
         }}
         onMouseOver={mouseOver}
         onMouseLeave={mouseLeave}
         >
-            <img src={img} alt="" className="img-card" style={{
-                display: displayImg,
-                height: heightImg
-            }}/>
-
+            <div className="column-img-card" style={{
+                    display: displayImg,
+                    height: heightImg
+                }}>
+                <img src={img} alt="" className={`img-card ${classImg}`}/>
+            </div>
+            
             <div className="column-content-card" style={{
                 display: displayContentCard
             }}>
@@ -41,6 +45,27 @@ function Card({img, titleImgHover, displayContentCard, displayImg, title, paragr
                     {paragraph}
                 </p>
             </div>
+
+            <ul className="column-date-content-card" style={{
+                display: displayDate
+            }}>
+                <li>
+                        <i className="far fa-calendar-alt">
+                        
+                        </i>
+                        <p className="date-content-card">
+                            {date}
+                        </p>
+                    </li>
+                    <li>
+                        <i className="far fa-comment">
+                        
+                        </i>
+                        <p className="date-content-card">
+                            {totalComment}
+                        </p>
+                    </li>
+            </ul>
 
             <div className="hover-bg-img-black">
                 <p className="title-hover-img">

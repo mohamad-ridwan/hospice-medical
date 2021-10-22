@@ -1,0 +1,46 @@
+@import '../../utils/variable.scss';
+
+.wrapp-doctors{
+    display: flex;
+    flex-direction: column;
+
+    .container-header{
+        display: flex;
+    }
+
+    .offered-services-doctors{
+        display: flex;
+        flex-direction: column;
+        padding: 100px 0 50px 0;
+
+        .title-services-doctors{
+            display: flex;
+            font-size: 30px;
+            font-weight: bold;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .paragraph-services-doctors{
+            display: flex;
+            font-size: 14px;
+            color: $color1;
+            text-align: center;
+            justify-content: center;
+            padding: 20px 25% 0 25%;
+        }
+
+        .column-card-services-doctors{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 80px 10% 0 10%;
+
+            .card-services-doctors{
+                display: flex;
+                width: calc(95%/3);
+                margin-bottom: 30px;
+            }
+        }
+    }
+}

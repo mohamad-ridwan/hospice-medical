@@ -1,0 +1,124 @@
+@import '../../utils/variable.scss';
+
+.wrapp-footer{
+    display: flex;
+    flex-direction: column;
+    background-color: $color9;
+    padding: 100px 10%;
+
+    .column-contact-us{
+        display: flex;
+
+        .contact-us{
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            margin-right: 20px;
+
+            ul{
+                display: flex;
+                flex-direction: column;
+                .no-telp{
+                    display: flex;
+                    list-style: none;
+                    margin-bottom: 5px;
+
+                    .to-contact{
+                        text-decoration: none;
+                        font-size: 22px;
+                        font-weight: bold;
+                        color: #fff;
+                        transition: 0.3s ease-in-out;
+                        &:hover{
+                            color: $color2;
+                        }
+                    }
+                }
+            }
+        }
+
+        .newsletter{
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+        }
+
+        .title-contact-us-group{
+            display: flex;
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .paragraph-contact-us-group{
+            display: flex;
+            font-size: 14px;
+            color: $color1;
+            margin: 20px 0;
+            text-align: start;
+        }
+
+        .form-input-email-newsletter{
+            display: flex;
+            justify-content: space-between;
+
+            .column-btn-submit-newsletter{
+                display: flex;
+                margin-left: 20px;
+                justify-content: flex-end;
+                width: 45%;
+            }
+        }
+    }
+
+    .column-copy-right{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+
+        .copy-right{
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: $color1;
+            text-align: start;
+            margin-right: 20px;
+            align-items: center;
+
+            .name-developer{
+                display: flex;
+                margin: 1px 0 0 3px;
+                color: $color2;
+            }
+        }
+
+        ul{
+            display: flex;
+            align-items: center;
+
+            .list-medsos{
+                display: flex;
+                list-style: none;
+                cursor: pointer;
+                background-color: $color11;
+                transition: 0.3s ease-in-out;
+                margin-left: 5px;
+                width: 35px;
+                justify-content: center;
+                align-items: center;
+                padding: 10px 0;
+                &:hover{
+                    background-color: $color2;
+                }
+
+                .link-medsos{
+                    display: flex;
+                    text-decoration: none;
+                    color: #fff;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

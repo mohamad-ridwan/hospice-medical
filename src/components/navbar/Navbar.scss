@@ -3,7 +3,6 @@
 .wrapp-navbar{
     display: flex;
     flex-direction: column;
-    // position: fixed;
     width: 100%;
 
     .nav-contact{
@@ -64,6 +63,9 @@
 
     .nav-page{
         display: flex;
+        // position: fixed;
+        // left: 0;
+        // right: 0;
         justify-content: space-between;
         align-items: center;
         background-color: $color3;

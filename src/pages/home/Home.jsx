@@ -152,6 +152,30 @@ function Home(){
         }
     }
 
+    const titleRecentBlogs = document.getElementsByClassName('title-card-recent-blogs-home')
+    const imgRecentBlogs = document.getElementsByClassName('img-card-recent-blogs-home')
+    
+    function mouseOverRecentBlogs(idx){
+        if(titleRecentBlogs.length > 0){
+            for(let i = 0; i < titleRecentBlogs.length; i++){
+                titleRecentBlogs[i].style.color = '#000'
+                imgRecentBlogs[i].style.transform = 'scale(1)'
+            }
+
+            titleRecentBlogs[idx].style.color = '#3face4'
+            imgRecentBlogs[idx].style.transform = 'scale(1.1)'
+        }
+    }
+
+    function mouseLeaveRecentBlogs(){
+        if(titleRecentBlogs.length > 0){
+            for(let i = 0; i < titleRecentBlogs.length; i++){
+                titleRecentBlogs[i].style.color = '#000'
+                imgRecentBlogs[i].style.transform = 'scale(1)'
+            }
+        }
+    }
+
     return(
         <>
         <div className="wrapp-home">
@@ -255,21 +279,28 @@ function Home(){
                 </p>
 
                 <div className="column-card-recent-blogs-home">
-                    {ourRecentBlogs.map((e)=>{
+                    {ourRecentBlogs.map((e, i)=>{
                         return(
                             <div className="card-recent-blogs-home">
                                 <Card
                                     displayContentCard="flex"
+                                    displayDate="flex"
                                     img={e.image}
                                     title={e.title}
                                     paragraph={e.paragraph}
+                                    cursorWrapp="pointer"
                                     heightImg="200px"
                                     fontSizeTitle="18px"
+                                    date="13th Dec"
+                                    totalComment="04"
+                                    classTitle="title-card-recent-blogs-home"
+                                    classImg="img-card-recent-blogs-home"
+                                    mouseOver={()=>mouseOverRecentBlogs(i)}
+                                    mouseLeave={mouseLeaveRecentBlogs}
                                 />
                             </div>
                         )
                     })}
-                    
                 </div>
             </div>
         </div>

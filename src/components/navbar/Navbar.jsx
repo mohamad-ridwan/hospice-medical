@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
 import './Navbar.scss';
 import logoWeb from '../../images/logo-web.jpg'
+import { useHistory } from 'react-router';
 
 function Navbar() {
 
     const [menuPage, setMenuPage] = useState([
         {
             name : 'HOME',
+            path: '/'
         },
         {
             name : 'DEPARTMENTS',
+            path: '/departments'
         },
         {
             name : 'DOCTORS',
+            path: '/doctors'
         },
         {
             name : 'PAGES',
@@ -24,6 +28,8 @@ function Navbar() {
             name : 'CONTACT',
         }
     ])
+
+    const history = useHistory();
 
     return (
         <>
@@ -59,7 +65,9 @@ function Navbar() {
                     <ul className="menu-page-navbar">
                         {menuPage.map((e)=>{
                             return(
-                                <li className="page-navbar">
+                                <li className="page-navbar" onClick={()=>{
+                                    history.push(e.path)
+                                }}>
                                     {e.name}
                                 </li>
                             )

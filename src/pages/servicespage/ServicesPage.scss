@@ -1,0 +1,10 @@
+@import '../../utils/variable.scss';
+
+.wrapp-services-page{
+    display: flex;
+    flex-direction: column;
+
+    .container-header{
+        display: flex;
+    }
+}

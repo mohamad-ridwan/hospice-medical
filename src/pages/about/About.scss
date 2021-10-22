@@ -1,0 +1,43 @@
+@import '../../utils/variable.scss';
+
+.wrapp-about{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .container-header{
+        display: flex;
+        z-index: 1;
+        margin-bottom: -40px;
+    }
+
+    .feedback-about{
+        display: flex;
+        flex-direction: column;
+        padding: 100px 0;
+        background-color: $color5;
+
+        .title-feedback-about{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 0 10%;
+        }
+
+        .paragraph-feedback-about{
+            display: flex;
+            font-size: 14px;
+            color: $color1;
+            justify-content: center;
+            text-align: center;
+            padding: 20px 25% 0 25%;
+        }
+
+        .column-carousel-feedback-about{
+            display: flex;
+            margin-top: 80px;
+        }
+    }
+}

@@ -6,13 +6,20 @@
     width: 100%;
     background-color: #fff;
 
-    .img-card{
+    .column-img-card{
         display: flex;
         height: 300px;
         width: 100%;
-        object-fit: cover;
-        object-position: center;
         cursor: pointer;
+        overflow: hidden;
+
+        .img-card{
+            display: flex;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: 0.3s ease-in-out;
+        }
     }
 
     .hover-bg-img-black{
@@ -56,6 +63,31 @@
             text-align: start;
             font-size: 14px;
             color: $color1;
+        }
+    }
+
+    .column-date-content-card{
+        display: none;
+        align-items: center;
+        margin-top: 20px;
+
+        li{
+            display: flex;
+            align-items: center;
+            color: $color1;
+            font-size: 14px;
+            list-style: none;
+            margin-right: 20px;
+
+            i{
+                display: flex;
+                align-items: center;
+                padding-right: 5px;
+            }
+
+            .date-content-card{
+                display: flex;
+            }
         }
     }
 }
