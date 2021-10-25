@@ -76,6 +76,7 @@ function About(){
                     img={img}
                     displayIcon2="none"
                     page1="About"
+                    displayIcon3="none"
                 />
             </div>
             <ServicingHours

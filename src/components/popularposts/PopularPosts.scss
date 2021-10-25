@@ -1,0 +1,54 @@
+@import '../../utils/variable.scss';
+
+.column-kanan-content-blog{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: 28%;
+    border: 1px solid #eee;
+    padding: 30px;
+
+    .title-content-kanan-blog{
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        padding: 10px 20px;
+        background-color: $color2;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .title-post-categories{
+        margin-bottom: 15px;
+    }
+
+    .line-grey{
+        display: flex;
+        height: 1px;
+        background-color: #eee;
+        margin-bottom: 30px;
+    }
+
+    .column-list-post-categories{
+        display: flex;
+        flex-direction: column;
+
+        .list-post-categories{
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            color: $color1;
+            font-size: 14px;
+            list-style: none;
+            padding: 15px 0;
+            border-bottom: 2px dotted #eee;
+            transition: 0.3s ease-in-out;
+            &:hover{
+                color: $color2;
+                border-bottom: 2px dotted $color2;
+            }
+        }
+    }
+}

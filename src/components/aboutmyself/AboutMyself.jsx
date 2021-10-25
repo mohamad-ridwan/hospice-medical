@@ -31,6 +31,7 @@ function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classW
                                     paddingWrapp="20px"
                                     mouseOver={()=>mouseOver(i)}
                                     mouseLeave={mouseLeave}
+                                    colorTitle="#000"
                                     />
                                 </div>
                                 )

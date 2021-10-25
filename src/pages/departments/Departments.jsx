@@ -45,6 +45,7 @@ function Departments(){
                 img={img}
                 displayIcon2="none"
                 page1="Departments"
+                displayIcon3="none"
                 />
             </div>
 

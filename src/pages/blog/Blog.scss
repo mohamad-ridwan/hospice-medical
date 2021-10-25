@@ -1,0 +1,74 @@
+@import '../../utils/variable.scss';
+
+.wrapp-blog{
+    display: flex;
+    flex-direction: column;
+    background-color: $color5;
+
+    .container-header{
+        display: flex;
+    }
+
+    .column-card-img-blog{
+        display: flex;
+        justify-content: space-between;
+        padding: 100px 10% 80px 10%;
+
+        .card-img-blog{
+            display: flex;
+            width: calc(95%/3);
+        }
+    }
+
+    .container-content-blog{
+        display: flex;
+        padding: 0px 10% 40px 10%;
+
+        .column-kiri-content-blog{
+            display: flex;
+            flex-direction: column;
+            margin-right: 30px;
+            width: 72%;
+
+            .column-card-content-blog{
+                display: flex;
+                margin-bottom: 40px;
+
+                .date-content-blog{
+                    display: flex;
+                    flex-direction: column;
+                    width: 20%;
+                    margin-right: 20px;
+
+                    .date-group-content{
+                        display: flex;
+                        font-size: 14px;
+                        color: $color1;
+                        transition: 0.3s ease-in-out;
+                        text-align: start;
+                        margin-bottom: 10px;
+                        align-items: center;
+                        justify-content: space-between;
+                        &:hover{
+                            color: $color2;
+                        }
+
+                        i{
+                            margin-left: 10px;
+                        }
+                    }
+
+                    .name-kategori-content{
+                        color: $color2;
+                        margin-bottom: 20px;
+                    }
+                }
+
+                .card-content-blog{
+                    display: flex;
+                    width: 80%;
+                }
+            }
+        }
+    }
+}

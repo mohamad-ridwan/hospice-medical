@@ -8,6 +8,7 @@
 
     .column-img-card{
         display: flex;
+        position: relative;
         height: 300px;
         width: 100%;
         cursor: pointer;
@@ -20,22 +21,32 @@
             object-position: center;
             transition: 0.3s ease-in-out;
         }
-    }
 
-    .hover-bg-img-black{
-        display: none;
-        justify-content: center;
-        align-items: center;
-        padding: 0 40px;
-        background-color: rgba(0,0,0,0.3);
-
-        .title-hover-img{
+        .hover-bg-img-black{
             display: flex;
-            font-size: 24px;
-            color: #fff;
-            border-top: 1px solid #fff;
-            border-bottom: 1px solid #fff;
-            padding: 20px 0;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            background-color: rgba(0,0,0,0.5);
+            transition: 0.3s ease-in-out;
+    
+            .title-hover-img{
+                display: none;
+                font-size: 24px;
+                color: #fff;
+                border-top: 1px solid #fff;
+                border-bottom: 1px solid #fff;
+                padding: 20px 0;
+            }
+
+            i{
+                display: flex;
+                font-size: 20px;
+                color: #eee;
+            }
         }
     }
     
@@ -56,6 +67,9 @@
             text-align: start;
             margin: 20px 0;
             transition: 0.3s ease-in-out;
+            &:hover{
+                color: $color2;
+            }
         }
 
         .paragraph-card{
@@ -63,6 +77,14 @@
             text-align: start;
             font-size: 14px;
             color: $color1;
+        }
+
+        .comments-card{
+            display: none;
+            margin-top: 20px;
+            font-size: 14px;
+            color: $color1;
+            text-align: start;
         }
     }
 
@@ -89,5 +111,10 @@
                 display: flex;
             }
         }
+    }
+
+    .column-btn-submit-card{
+        display: none;
+        margin-top: 20px;
     }
 }

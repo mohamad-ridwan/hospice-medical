@@ -7,4 +7,41 @@
     .container-header{
         display: flex;
     }
+
+    .offered-services-page{
+        display: flex;
+        flex-direction: column;
+        padding: 100px 0 20px 0;
+
+        .title-offered-service-page{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 0 10%;
+        }
+
+        .paragraph-offered-service-page{
+            display: flex;
+            font-size: 14px;
+            text-align: center;
+            justify-content: center;
+            color: $color1;
+            padding: 20px 25% 0 25%;
+        }
+
+        .column-card-services-page{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 80px 10% 0 10%;
+
+            .card-services-page{
+                display: flex;
+                width: calc(90%/4);
+                margin-bottom: 60px;
+            }
+        }
+    }
 }

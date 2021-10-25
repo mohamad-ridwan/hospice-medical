@@ -45,6 +45,7 @@ function Doctors(){
                     img={img}
                     displayIcon2="none"
                     page1="Consultants"
+                    displayIcon3="none"
                 />
             </div>
 

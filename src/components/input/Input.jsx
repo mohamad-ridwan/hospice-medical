@@ -1,7 +1,7 @@
 import React from 'react';
 import './Input.scss';
 
-function Input({type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard}){
+function Input({type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea}){
     return(
         <>
             <input type={type} className="input-card" placeholder={placeholder} style={{
@@ -25,7 +25,9 @@ function Input({type, placeholder, nameBtn, displayTxtInput, displayBtnInput, pl
 
             <textarea name="" id="" cols="30" rows="8" className="input-area-card" placeholder={placeholderTxtArea} style={{
                 display: displayTxtArea,
-                resize: resizeTxtArea
+                resize: resizeTxtArea,
+                width: widthTxtArea,
+                border: borderTxtArea
             }}></textarea>
         </>
     )

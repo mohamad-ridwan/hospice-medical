@@ -1,0 +1,65 @@
+@import '../../utils/variable.scss';
+
+.wrapp-contact{
+    display: flex;
+    flex-direction: column;
+
+    .container-header{
+        display: flex;
+    }
+
+    .container-content-contact{
+        display: flex;
+        flex-direction: column;
+        padding: 100px 10% 80px 10%;
+
+        .column-info-contact-us{
+            display: flex;
+            justify-content: space-between;
+
+            .info-contact-us-group{
+                display: flex;
+                flex-direction: column;
+                width: calc(95%/3);
+
+                .column-address-contact{
+                    display: flex;
+                    margin-bottom: 20px;
+
+                    i{
+                        display: flex;
+                        font-size: 20px;
+                        color: $color2;
+                        margin-right: 15px;
+                    }
+
+                    .list-address-contact{
+                        display: flex;
+                        flex-direction: column;
+
+                        .title-address-contact{
+                            display: flex;
+                            font-size: 16px;
+                            font-weight: bold;
+                            text-align: start;
+                            margin-bottom: 5px;
+                        }
+
+                        .paragraph-address-contact{
+                            display: flex;
+                            font-size: 14px;
+                            color: $color1;
+                            text-align: start;
+                        }
+                    }
+                }
+
+                .column-btn-submit-contact-us{
+                    display: flex;
+                    justify-content: flex-end;
+                    padding-top: 30px;
+                }
+            }
+        }
+    }
+}
