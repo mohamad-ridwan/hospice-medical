@@ -12,29 +12,38 @@ function Departments(){
     const [imgProcedure, setImgProcedure] = useState([
         {
             img: categorySatu,
-            title: ''
+            title: 'EMERGENCY TREATMENT'
         },
         {
             img: categoryDua,
-            title: ''
+            title: 'EMERGENCY TREATMENT'
         },
         {
             img: categoryTiga,
-            title: ''
+            title: 'EMERGENCY TREATMENT'
         },
         {
             img: categorySatu,
-            title: ''
+            title: 'EMERGENCY TREATMENT'
         },
         {
             img: categoryDua,
-            title: ''
+            title: 'EMERGENCY TREATMENT'
         },
         {
             img: categoryTiga,
-            title: ''
+            title: 'EMERGENCY TREATMENT'
         },
     ])
+    const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
+
+    function mouseOverProcedureCtg(i){
+        setHoverProcedureCtg(i)
+    }
+
+    function mouseLeaveProcedureCtg(){
+        setHoverProcedureCtg(null)
+    }
 
     return(
         <>
@@ -58,11 +67,23 @@ function Departments(){
                 </p>
 
                 <div className="column-card-procedure-departments">
-                    {imgProcedure.map((e)=>{
+                    {imgProcedure.map((e, i)=>{
                         return(
                             <div className="card-procedure-departments">
                             <Card 
                                 img={e.img}
+                                titleImgHover={e.title}
+                                marginHoverImg="20px"
+                                paddingHoverImg="40px"
+                                fontSizeTitleHoverImg="16px"
+                                displayTitleHoverImg="flex"
+                                fontWeightTitleHoverImg="bold"
+                                paddingTitleHoverImg="10px 0"
+                                widthTitleHoverImg="100%"
+                                opacityHoverImg={i === hoverProcedureCtg ? '1' : '0'}
+                                mouseOver={()=>mouseOverProcedureCtg(i)}
+                                mouseLeave={mouseLeaveProcedureCtg}
+                                cursorImg="default"
                             />
                             </div>     
                         )

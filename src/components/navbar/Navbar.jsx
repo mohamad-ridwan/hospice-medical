@@ -26,6 +26,7 @@ function Navbar() {
         },
         {
             name : 'CONTACT',
+            path: '/contact'
         }
     ])
 

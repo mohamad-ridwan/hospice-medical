@@ -2,7 +2,8 @@ import React from 'react';
 import './Card.scss';
 import Button from '../button/Button';
 
-function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, classTitle, heightImg, date, totalComment, displayDate, cursorWrapp, classImg, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, classBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments}){
+function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, classTitle, heightImg, date, totalComment, displayDate, cursorWrapp, classImg, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, classBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments, marginHoverImg, opacityHoverImg, paddingHoverImg, fontSizeTitleHoverImg, fontWeightTitleHoverImg, paddingTitleHoverImg, bgColorHoverImg, justifyContentHoverImg, displayListMedsos, paragraphHoverImg, displayParagraphoverImg, borderTitleHoverImg, positionTitleHoverImg, bottomTitleHoverImg,
+positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg}){
     return(
         <>
         <div className={`wrapp-card`} style={{
@@ -29,11 +30,56 @@ function Card({img, titleImgHover, displayContentCard, displayImg, title, paragr
                 }}>
                 <img src={img} alt="" className={`img-card ${classImg}`}/>
 
-                <div className={`hover-bg-img-black ${classHoverBgImg}`}>
+                <div className={`hover-bg-img-black ${classHoverBgImg}`} style={{
+                    margin: marginHoverImg,
+                    opacity: opacityHoverImg,
+                    padding: paddingHoverImg,
+                    backgroundColor: bgColorHoverImg,
+                    justifyContent: justifyContentHoverImg
+                }}>
+                    <ul className="column-list-medsos-doctors" style={{
+                        display: displayListMedsos
+                    }}>
+                        <li className="list-medsos-doctors">
+                            <a target="_blank" href="" className="link-medsos-doctors">
+                            <i className="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li className="list-medsos-doctors">
+                            <a target="_blank" href="" className="link-medsos-doctors">
+                            <i className="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li className="list-medsos-doctors">
+                            <a target="_blank" href="" className="link-medsos-doctors">
+                            <i className="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+
                     <p className="title-hover-img" style={{
-                        display: displayTitleHoverImg
+                        display: displayTitleHoverImg,
+                        fontSize: fontSizeTitleHoverImg,
+                        fontWeight: fontWeightTitleHoverImg,
+                        padding: paddingTitleHoverImg,
+                        border: borderTitleHoverImg,
+                        position: positionTitleHoverImg,
+                        bottom: bottomTitleHoverImg,
+                        width: widthTitleHoverImg,
+                        justifyContent: justifyContentTitleHoverImg
                     }}>
                         {titleImgHover}
+                    </p>
+
+                    <p className="paragraph-hover-img" style={{
+                        display: displayParagraphoverImg,
+                        position: positionParagraphHoverImg,
+                        bottom: bottomParagraphHoverImg,
+                        margin: marginParagraphHoverImg,
+                        borderTop: borderTopParagraphHoverImg,
+                        padding: paddingParagraphHoverImg
+                    }}>
+                        {paragraphHoverImg}
                     </p>
 
                     <i className={iconHoverImg}></i>

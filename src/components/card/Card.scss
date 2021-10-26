@@ -24,14 +24,52 @@
 
         .hover-bg-img-black{
             display: flex;
+            flex-direction: column;
             position: absolute;
             justify-content: center;
             align-items: center;
-            height: 100%;
-            width: 100%;
             opacity: 0;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
             background-color: rgba(0,0,0,0.5);
             transition: 0.3s ease-in-out;
+
+            .column-list-medsos-doctors{
+                display: none;
+                align-items: center;
+                position: absolute;
+                top: 40px;
+
+                .list-medsos-doctors{
+                    display: flex;
+                    margin-right: 5px;
+
+                    .link-medsos-doctors{
+                        display: flex;
+                        text-decoration: none;
+                        
+                        i{
+                            display: flex;
+                            font-size: 14px;
+                            height: 30px;
+                            width: 30px;
+                            border: 1px solid #fff;
+                            justify-content: center;
+                            align-items: center;
+                            color: #fff;
+                            opacity: 0.8;
+                            transition: 0.3s ease-in-out;
+                            overflow: hidden;
+                            &:hover{
+                                background-color: #fff;
+                                color: $color2;
+                            }
+                        }
+                    }
+                }
+            }
     
             .title-hover-img{
                 display: none;
@@ -40,6 +78,14 @@
                 border-top: 1px solid #fff;
                 border-bottom: 1px solid #fff;
                 padding: 20px 0;
+            }
+
+            .paragraph-hover-img{
+                display: none;
+                font-size: 14px;
+                color: #fff;
+                text-align: center;
+                overflow: hidden;
             }
 
             i{

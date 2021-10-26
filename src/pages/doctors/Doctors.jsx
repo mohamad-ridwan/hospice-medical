@@ -12,29 +12,54 @@ function Doctors(){
     const [imgDoctors, setImgDoctors] = useState([
         {
             img: categorySatu,
-            title: ''
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
         },
         {
             img: categoryDua,
-            title: ''
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
         },
         {
             img: categoryTiga,
-            title: ''
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
         },
         {
             img: categorySatu,
-            title: ''
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
         },
         {
             img: categoryDua,
-            title: ''
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
         },
         {
             img: categoryTiga,
-            title: ''
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
+        },
+        {
+            img: categoryTiga,
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
+        },
+        {
+            img: categoryTiga,
+            title: 'Andy Florence',
+            paragraph: 'inappropriate behavior'
         },
     ])
+    const [idxHover, setIdxHover] = useState(null)
+
+    function mouseOver(i){
+        setIdxHover(i)
+    }
+
+    function mouseLeave(){
+        setIdxHover(null)
+    }
 
     return(
         <>
@@ -58,11 +83,30 @@ function Doctors(){
                 </p>
 
                 <div className="column-card-services-doctors">
-                    {imgDoctors.map((e)=>{
+                    {imgDoctors.map((e, i)=>{
                         return(
                             <div className="card-services-doctors">
                                 <Card 
                                     img={e.img}
+                                    titleImgHover={e.title}
+                                    paragraphHoverImg={e.paragraph}
+                                    displayTitleHoverImg="flex"
+                                    displayParagraphoverImg="flex"
+                                    fontSizeTitleHoverImg="16px"
+                                    paddingTitleHoverImg="0"
+                                    fontWeightTitleHoverImg="bold"
+                                    opacityHoverImg={i == idxHover ? '1' : '0'}
+                                    cursorImg="default"
+                                    bgColorHoverImg="#3fade4d5"
+                                    paddingHoverImg="20px"
+                                    displayListMedsos="flex"
+                                    borderTitleHoverImg="none"
+                                    positionTitleHoverImg="absolute"
+                                    bottomTitleHoverImg="75px"
+                                    positionParagraphHoverImg="absolute"
+                                    bottomParagraphHoverImg="40px"
+                                    mouseOver={()=>mouseOver(i)}
+                                    mouseLeave={mouseLeave}
                                 />
                             </div>
                         )

@@ -95,6 +95,7 @@ function Blog(){
             total: '70'
         },
     ])
+    const [hoverImg, setHoverImg] = useState(null)
 
     const btnContentBlogCard = document.getElementsByClassName('btn-content-blog-card')
 
@@ -120,6 +121,14 @@ function Blog(){
         }
     }
 
+    function mouseOverImg(i){
+        setHoverImg(i)
+    }
+    
+    function mouseLeaveImg(){
+        setHoverImg(null)
+    }
+
     return(
         <>
         <div className="wrapp-blog">
@@ -134,12 +143,29 @@ function Blog(){
             </div>
 
             <div className="column-card-img-blog">
-                {dataImgKategori.map((e)=>{
+                {dataImgKategori.map((e, i)=>{
                     return(
                     <div className="card-img-blog">
                         <Card
                             img={e.img}
-                            heightImg="auto"
+                            titleImgHover={e.title}
+                            paragraphHoverImg={e.deskripsi}
+                            heightImg="200px"
+                            opacityHoverImg="1"
+                            marginHoverImg="20px"
+                            fontSizeTitleHoverImg="16px"
+                            fontWeightTitleHoverImg="bold"
+                            displayTitleHoverImg="flex"
+                            bgColorHoverImg={i == hoverImg ? '#3fade491' : 'rgba(0,0,0,0.5)'}
+                            displayParagraphoverImg="flex"
+                            paddingTitleHoverImg="0 0px 5px 0px"
+                            paddingHoverImg="40px"
+                            borderTitleHoverImg="none"
+                            borderTopParagraphHoverImg="1px solid #fff"
+                            paddingParagraphHoverImg="10px 0 0 0"
+                            marginParagraphHoverImg="10px 0 0 0"
+                            mouseOver={()=>mouseOverImg(i)}
+                            mouseLeave={mouseLeaveImg}
                         />
                     </div>
                 )   

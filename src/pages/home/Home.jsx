@@ -16,15 +16,15 @@ function Home(){
 
     const [imgProcedure, setImgProcedure] = useState([
         {
-            title: '',
+            title: 'EMERGENCY TREATMENT',
             img: categorySatu
         },
         {
-            title: '',
+            title: 'EMERGENCY TREATMENT',
             img: categoryDua
         },
         {
-            title: '',
+            title: 'EMERGENCY TREATMENT',
             img: categoryTiga
         }
     ])
@@ -109,6 +109,7 @@ function Home(){
             comments: '04'
         }
     ])
+    const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
 
     const eCardAboutMyself = document.getElementsByClassName('card-about-myself-home')
 
@@ -176,6 +177,14 @@ function Home(){
         }
     }
 
+    function mouseOverProcedureCtg(i){
+        setHoverProcedureCtg(i)
+    }
+
+    function mouseLeaveProcedureCtg(){
+        setHoverProcedureCtg(null)
+    }
+
     return(
         <>
         <div className="wrapp-home">
@@ -200,11 +209,22 @@ function Home(){
                 </p>
 
                 <div className="container-card-procedure-home">
-                    {imgProcedure.map((e)=>{
+                    {imgProcedure.map((e, i)=>{
                         return(
                             <div className="card-procedure-home">
                                 <Card 
                                 img={e.img}
+                                titleImgHover={e.title}
+                                marginHoverImg="20px"
+                                paddingHoverImg="40px"
+                                fontSizeTitleHoverImg="16px"
+                                displayTitleHoverImg="flex"
+                                fontWeightTitleHoverImg="bold"
+                                paddingTitleHoverImg="10px 0"
+                                opacityHoverImg={i === hoverProcedureCtg ? '1' : '0'}
+                                mouseOver={()=>mouseOverProcedureCtg(i)}
+                                mouseLeave={mouseLeaveProcedureCtg}
+                                cursorImg="default"
                                 />
                             </div>
                         )
