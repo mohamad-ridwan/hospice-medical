@@ -47,25 +47,14 @@ function ServicesPage(){
             paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
         }
     ])
+    const [idxHover, setIdxHover] = useState(null)
 
-    const titleServicesHome = document.getElementsByClassName('title-services-page')
-
-    function mouseOverCardServices(idx){
-        if(titleServicesHome.length > 0){
-            for(let i = 0; i < titleServicesHome.length; i++){
-                titleServicesHome[i].style.color = '#000'
-            }
-
-            titleServicesHome[idx].style.color = '#3face4'
-        }
+    function mouseOverCardServices(i){
+        setIdxHover(i)
     }
 
     function mouseLeaveCardServices(){
-        if(titleServicesHome.length > 0){
-            for(let i = 0; i < titleServicesHome.length; i++){
-                titleServicesHome[i].style.color = '#000'
-            }
-        }
+        setIdxHover(null)
     }
 
     return(
@@ -99,7 +88,7 @@ function ServicesPage(){
                                     icon={e.icon}
                                     title={e.title}
                                     paragraph={e.paragraph}
-                                    classTitle="title-services-page"
+                                    colorTitle={i == idxHover ? '#3face4' : '#000'}
                                     fontSizeTitle="18px"
                                     fontSizeIcon="30px"
                                     justifyContentParagraph="center"

@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './About.scss';
 import img from '../../images/banner-home.jpg'
+import imgCarousel from '../../images/carousel.jpg';
 import aboutMyselfImg from '../../images/about-myself.jpg'
 import Header from '../../components/header/Header';
 import ServicingHours from '../../components/servicinghours/ServicingHours';
 import AboutMyself from '../../components/aboutmyself/AboutMyself';
+import CarouselCard from '../../components/carouselcard/CarouselCard';
 
 function About(){
 
@@ -44,28 +46,39 @@ function About(){
             paragraph: 'Total Volunteers'
         }
     ])
-
-    const eCardAboutMyself = document.getElementsByClassName('card-about-myself-about')
-
-    function mouseOverCardAboutMyself(i){
-        if(eCardAboutMyself.length > 0){
-            for(let i = 0; i < eCardAboutMyself.length; i++){
-                eCardAboutMyself[i].style.border = '1px solid #ddd'
-            }
-
-            eCardAboutMyself[i].style.border = '1px solid #fff'
-            eCardAboutMyself[i].style.boxShadow = '0px 6px 20px -1px rgba(0,0,0,0.1)'
+    const [dataCarousel, setDataCarousel] = useState([
+        {
+            img: imgCarousel,
+            title: 'Fannie Rowe',
+            paragraph: 'Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker. Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker'
+        },
+        {
+            img: imgCarousel,
+            title: 'Dono Kasino',
+            paragraph: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but'
+        },
+        {
+            img: imgCarousel,
+            title: 'Dono Kasino',
+            paragraph: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but'
         }
+    ])
+
+    const contentCarousel = document.getElementsByClassName('content-carousel-card')
+
+    function displayCarousel(){
+        setTimeout(() => {
+            if(contentCarousel.length > 0){
+                for(let i = 0; i < contentCarousel.length; i++){
+                    contentCarousel[i].style.display = 'flex'
+                }
+            }
+        }, 0);
     }
 
-    function mouseLeaveCardAboutMyself(){
-        if(eCardAboutMyself.length > 0){
-            for(let i = 0; i < eCardAboutMyself.length; i++){
-                eCardAboutMyself[i].style.border = '1px solid #ddd'
-                eCardAboutMyself[i].style.boxShadow = 'none'
-            }
-        }
-    }
+    useEffect(()=>{
+        displayCarousel()
+    }, [])
 
     return(
         <>
@@ -87,11 +100,8 @@ function About(){
                 img={aboutMyselfImg}
                 title="About Myself"
                 paragraph="nappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach."
-                classWrapp="card-about-myself-about"
                 data={cardAboutMyself}
                 paddingTopWrapp="80px"
-                mouseOver={(i)=>mouseOverCardAboutMyself(i)}
-                mouseLeave={mouseLeaveCardAboutMyself}
             />
 
             <div className="feedback-about">
@@ -102,9 +112,7 @@ function About(){
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
 
-                <div className="column-carousel-feedback-about">
-                    
-                </div>
+                <CarouselCard data={dataCarousel}/>
             </div>
         </div>
         </>

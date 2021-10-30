@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {Loader, LoaderOptions} from 'google-maps'
 import './Contact.scss';
 import Header from '../../components/header/Header';
 import img from '../../images/banner-home.jpg'
@@ -24,6 +25,27 @@ function Contact(){
             paragraph :'Send us your query anytime!'
         }
     ])
+
+    const lat = -6.454882
+    const lng = 106.795199
+    const APIKey = 'AIzaSyAdmoWMT0t7Gj1EButLm35pQJ9BhiG6ZL0'
+
+    useEffect(()=>{
+        initMap();
+    }, [])
+
+    async function initMap(){
+        const loader = new Loader(APIKey, LoaderOptions);
+
+        const google = await loader.load();
+
+        const map = new google.maps.Map(document.getElementsByClassName('column-google-maps')[0], {
+            center: {lat: lat, lng: lng},
+            zoom: 8
+        })
+
+        return map;
+    }
 
     return (
         <>

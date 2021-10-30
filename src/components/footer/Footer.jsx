@@ -1,24 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Footer.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
 
 function Footer(){
 
-    const btnSubmit = document.getElementsByClassName('btn-submit-footer')
+    const [hoverBtnSubmit, setHoverBtnSubmit] = useState(false)
 
     function mouseOverBtnSubmit(){
-        if(btnSubmit.length > 0){
-            btnSubmit[0].style.backgroundColor = 'transparent'
-            btnSubmit[0].style.color = '#3face4'
-        }
+        setHoverBtnSubmit(true)
     }
 
     function mouseLeaveBtnSubmit(){
-        if(btnSubmit.length > 0){
-            btnSubmit[0].style.backgroundColor = '#3face4'
-            btnSubmit[0].style.color = '#fff'
-        }
+        setHoverBtnSubmit(false)
     }
 
     return(
@@ -71,11 +65,12 @@ function Footer(){
                         <div className="column-btn-submit-newsletter">
                             <Button
                             nameBtn="Get Started"
+                            bgColor={hoverBtnSubmit ? 'transparent' : '#3face4'}
+                            color={hoverBtnSubmit ? '#3face4' : '#fff'}
                             bdrRadius="100px"
                             padding="12px 40px"
                             displayIcon="flex"
                             icon="fas fa-long-arrow-alt-right"
-                            classBtn="btn-submit-footer"
                             mouseOver={mouseOverBtnSubmit}
                             mouseLeave={mouseLeaveBtnSubmit}
                             />

@@ -2,8 +2,8 @@ import React from 'react';
 import './Card.scss';
 import Button from '../button/Button';
 
-function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, classTitle, heightImg, date, totalComment, displayDate, cursorWrapp, classImg, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, classBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments, marginHoverImg, opacityHoverImg, paddingHoverImg, fontSizeTitleHoverImg, fontWeightTitleHoverImg, paddingTitleHoverImg, bgColorHoverImg, justifyContentHoverImg, displayListMedsos, paragraphHoverImg, displayParagraphoverImg, borderTitleHoverImg, positionTitleHoverImg, bottomTitleHoverImg,
-positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg}){
+function Card({img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, heightImg, date, totalComment, displayDate, cursorWrapp, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments, marginHoverImg, opacityHoverImg, paddingHoverImg, fontSizeTitleHoverImg, fontWeightTitleHoverImg, paddingTitleHoverImg, bgColorHoverImg, justifyContentHoverImg, displayListMedsos, paragraphHoverImg, displayParagraphoverImg, borderTitleHoverImg, positionTitleHoverImg, bottomTitleHoverImg,
+positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard}){
     return(
         <>
         <div className={`wrapp-card`} style={{
@@ -28,7 +28,9 @@ positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyC
                     margin: marginImg,
                     cursor: cursorImg
                 }}>
-                <img src={img} alt="" className={`img-card ${classImg}`}/>
+                <img src={img} alt="" className="img-card" style={{
+                    transform: transformImg
+                }}/>
 
                 <div className={`hover-bg-img-black ${classHoverBgImg}`} style={{
                     margin: marginHoverImg,
@@ -87,14 +89,15 @@ positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyC
             </div>
             
             <div className="column-content-card" style={{
-                display: displayContentCard
+                display: displayContentCard,
+                width: widthContentCard
             }}>
                 <i className={icon} style={{
                     fontSize: fontSizeIcon,
                     justifyContent: justifyContentIcon
                 }}></i>
 
-                <p className={`title-card ${classTitle}`} style={{
+                <p className={`title-card ${classTitle}`} id={idTitle} style={{
                     fontSize: fontSizeTitle,
                     justifyContent: justifyContentTitle,
                     textAlign: textAlignTitle,
@@ -152,12 +155,11 @@ positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyC
                 <Button
                 padding={paddingBtn}
                 nameBtn={nameBtn}
-                color="#000"
-                bgColor="transparent"
-                border="1px solid #eee"
+                color={colorBtn}
+                bgColor={bgColorBtn}
+                border={borderBtn}
                 mouseOver={mouseOverBtn}
                 mouseLeave={mouseLeaveBtn}
-                classBtn={classBtn}
                 />
             </div>
         </div>

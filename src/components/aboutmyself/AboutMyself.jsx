@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from '../card/Card';
 import './AboutMyself.scss';
 
-function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classWrapp, paddingTopWrapp}){
+function AboutMyself({img, title, paragraph, data, paddingTopWrapp}){
+
+    const [idxHover, setIdxHover] = useState(null)
+
+    function mouseOverCard(i){
+        setIdxHover(i)
+    }
+
+    function mouseLeaveCard(){
+        setIdxHover(null)
+    }
+
     return(
         <>
         <div className="about-myself-home" style={{
@@ -21,7 +32,10 @@ function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classW
                     <div className="column-card-about-myself">
                         {data && data.length > 0 ? data.map((e, i)=>{
                             return(
-                                <div className={`card-about-myself ${classWrapp}`}>
+                                <div className="card-about-myself" style={{
+                                    border: i == idxHover ? '1px solid #fff' : '1px solid #ddd',
+                                    boxShadow: i == idxHover ? '0px 6px 20px -1px rgba(0,0,0,0.1)' : 'none'
+                                }}>
                                     <Card
                                     displayImg="none"
                                     displayContentCard="flex"
@@ -29,8 +43,8 @@ function AboutMyself({img, title, paragraph, data, mouseOver, mouseLeave, classW
                                     title={e.title}
                                     paragraph={e.paragraph}
                                     paddingWrapp="20px"
-                                    mouseOver={()=>mouseOver(i)}
-                                    mouseLeave={mouseLeave}
+                                    mouseOver={()=>mouseOverCard(i)}
+                                    mouseLeave={mouseLeaveCard}
                                     colorTitle="#000"
                                     />
                                 </div>

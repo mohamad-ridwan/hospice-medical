@@ -1,0 +1,43 @@
+@import '../../utils/variable.scss';
+
+.wrapp-carousel{
+    display: flex;
+    padding: 0 10%;
+    margin-top: 60px;
+
+    .content-carousel-card{
+        display: flex;
+        cursor: grab;
+
+        .img-carousel{
+            display: flex;
+            height: 350px;
+            width: 50%;
+            object-fit: cover;
+            object-position: center;
+            margin-right: 30px;
+        }
+
+        .column-txt-carousel{
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            padding-top: 60px;
+
+            .title-carousel{
+                display: flex;
+                font-size: 18px;
+                text-align: start;
+                font-weight: bold;
+            }
+    
+            .paragraph-carousel{
+                display: flex;
+                font-size: 14px;
+                color: $color1;
+                text-align: start;
+                margin-top: 10px;
+            }
+        }
+    }
+}

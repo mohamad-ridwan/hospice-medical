@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Blog.scss';
 import img from '../../images/banner-home.jpg'
 import Header from '../../components/header/Header';
@@ -13,6 +13,7 @@ import imgPopularPosts2 from '../../images/img-popular-posts2.jpg'
 import imgPopularPosts3 from '../../images/img-popular-posts3.jpg'
 import imgPopularPosts4 from '../../images/img-popular-posts4.jpg'
 import PopularPosts from '../../components/popularposts/PopularPosts';
+import Pagination from '../../components/pagination/Pagination';
 
 function Blog(){
 
@@ -95,30 +96,39 @@ function Blog(){
             total: '70'
         },
     ])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [perPage, setPerPage] = useState(1)
+    const [idxPaginateActive, setIdxPaginateActive] = useState(0)
+    const [loadingContent, setLoadingContent] = useState(false)
     const [hoverImg, setHoverImg] = useState(null)
+    const [hoverBtn, setHoverBtn] = useState(null)
 
-    const btnContentBlogCard = document.getElementsByClassName('btn-content-blog-card')
+    const paginate = document.getElementsByClassName('number-pagination')
 
-    function mouseOverBtnContent(idx){
-        if(btnContentBlogCard.length > 0){
-            for(let i = 0; i < btnContentBlogCard.length; i++){
-                btnContentBlogCard[i].style.color = '#000'
-                btnContentBlogCard[i].style.backgroundColor = 'transparent'
-                btnContentBlogCard[i].style.border = '1px solid #eee'
-            }
+    useEffect(()=>{
+        setTimeout(() => {
+            loadActivePaginate();
+        }, 0);
+    }, [])
 
-            btnContentBlogCard[idx].style.color = '#fff'
-            btnContentBlogCard[idx].style.backgroundColor = '#3face4'
-            btnContentBlogCard[idx].style.border = '1px solid #3face4'
+    const indexOfLastPage = currentPage * perPage;
+    const indexOfFirstPage = indexOfLastPage - perPage;
+    const currentList = contentBlog.slice(indexOfFirstPage, indexOfLastPage);
+
+    function loadActivePaginate(){
+        if(paginate.length > 0){
+            paginate[0].style.backgroundColor = '#3face4';
+            paginate[0].style.border = '1px solid #3face4';
+            paginate[0].style.color = '#fff';
         }
+    }
+ 
+    function mouseOverBtnContent(i){
+        setHoverBtn(i)
     }
     
     function mouseLeaveBtnContent(){
-        for(let i = 0; i < btnContentBlogCard.length; i++){
-            btnContentBlogCard[i].style.color = '#000'
-            btnContentBlogCard[i].style.backgroundColor = 'transparent'
-            btnContentBlogCard[i].style.border = '1px solid #eee'
-        }
+        setHoverBtn(null)
     }
 
     function mouseOverImg(i){
@@ -127,6 +137,27 @@ function Blog(){
     
     function mouseLeaveImg(){
         setHoverImg(null)
+    }
+
+    function clickPaginate(idx){
+        setIdxPaginateActive(idx)
+        setCurrentPage(idx + 1)
+
+        for(let i = 0; i < paginate.length; i ++){
+            paginate[i].style.backgroundColor = 'transparent';
+            paginate[i].style.border = '1px solid #eee';
+            paginate[i].style.color = '#777';
+        }
+
+        paginate[idx].style.backgroundColor = '#3face4';
+        paginate[idx].style.border = '1px solid #3face4';
+        paginate[idx].style.color = '#fff';
+
+        setLoadingContent(true);
+
+        setTimeout(() => {
+            setLoadingContent(false);
+        }, 1000);
     }
 
     return(
@@ -174,7 +205,7 @@ function Blog(){
 
             <div className="container-content-blog">
                 <div className="column-kiri-content-blog">
-                    {contentBlog.map((e, i)=>{
+                    {currentList.map((e, i)=>{
                         return(
                             <div className="column-card-content-blog">
                                 <div className="date-content-blog">
@@ -200,13 +231,15 @@ function Blog(){
                                         title={e.title}
                                         paragraph={e.paragraph}
                                         heightImg="auto"
+                                        colorBtn={i == hoverBtn ? '#fff' : '#000'}
+                                        bgColorBtn={i == hoverBtn ? '#3face4' : 'transparent'}
+                                        borderBtn={i == hoverBtn ? '1px solid #3face4' : '1px solid #eee'}
                                         fontSizeTitle="22px"
                                         cursorTitle="pointer"
                                         nameBtn="View More"
                                         displayBtn="flex"
                                         paddingBtn="10px 30px"
                                         bgColorWrapp="transparent"
-                                        classBtn="btn-content-blog-card"
                                         cursorImg="default"
                                         mouseOverBtn={()=>mouseOverBtnContent(i)}
                                         mouseLeaveBtn={mouseLeaveBtnContent}
@@ -215,6 +248,14 @@ function Blog(){
                             </div>
                         )
                     })}
+
+                    <Pagination
+                    perPage={perPage}
+                    totalData={contentBlog.length}
+                    idxPaginateActive={idxPaginateActive}
+                    marginLeftLoading={loadingContent ? '0' : '-100px'}
+                    click={(i)=>clickPaginate(i)}
+                    />
                 </div>
 
                 <PopularPosts

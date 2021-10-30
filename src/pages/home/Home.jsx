@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './Home.scss';
 import bannerHome from '../../images/banner-home.jpg'
 import Card from '../../components/card/Card';
@@ -11,6 +11,8 @@ import ServicingHours from '../../components/servicinghours/ServicingHours';
 import recentBlogs1 from '../../images/recent-blogs1.jpg';
 import recentBlogs2 from '../../images/recent-blogs2.jpg';
 import recentBlogs3 from '../../images/recent-blogs3.jpg';
+import imgCarousel from '../../images/carousel.jpg';
+import CarouselCard from '../../components/carouselcard/CarouselCard';
 
 function Home(){
 
@@ -109,72 +111,57 @@ function Home(){
             comments: '04'
         }
     ])
+    const [dataCarousel, setDataCarousel] = useState([
+        {
+            img: imgCarousel,
+            title: 'Fannie Rowe',
+            paragraph: 'Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker. Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker'
+        },
+        {
+            img: imgCarousel,
+            title: 'Dono Kasino',
+            paragraph: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but'
+        },
+        {
+            img: imgCarousel,
+            title: 'Dono Kasino',
+            paragraph: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but'
+        }
+    ])
     const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
+    const [idxHoverTitleSerivices, setIdxHoverTitleServices] = useState(null)
+    const [idxHoverRecentBlog, setIdxHoverRecentBlog] = useState(null)
 
-    const eCardAboutMyself = document.getElementsByClassName('card-about-myself-home')
+    const contentCarousel = document.getElementsByClassName('content-carousel-card')
 
-    function mouseOverCardAboutMyself(i){
-        if(eCardAboutMyself.length > 0){
-            for(let i = 0; i < eCardAboutMyself.length; i++){
-                eCardAboutMyself[i].style.border = '1px solid #ddd'
+    function displayCarousel(){
+        setTimeout(() => {
+            if(contentCarousel.length > 0){
+                for(let i = 0; i < contentCarousel.length; i++){
+                    contentCarousel[i].style.display = 'flex'
+                }
             }
-
-            eCardAboutMyself[i].style.border = '1px solid #fff'
-            eCardAboutMyself[i].style.boxShadow = '0px 6px 20px -1px rgba(0,0,0,0.1)'
-        }
+        }, 0);
     }
 
-    function mouseLeaveCardAboutMyself(){
-        if(eCardAboutMyself.length > 0){
-            for(let i = 0; i < eCardAboutMyself.length; i++){
-                eCardAboutMyself[i].style.border = '1px solid #ddd'
-                eCardAboutMyself[i].style.boxShadow = 'none'
-            }
-        }
-    }
+    useEffect(()=>{
+        displayCarousel()
+    }, [])
 
-    const titleServicesHome = document.getElementsByClassName('title-services-home')
-
-    function mouseOverCardServices(idx){
-        if(titleServicesHome.length > 0){
-            for(let i = 0; i < titleServicesHome.length; i++){
-                titleServicesHome[i].style.color = '#000'
-            }
-
-            titleServicesHome[idx].style.color = '#3face4'
-        }
+    function mouseOverCardServices(i){
+        setIdxHoverTitleServices(i)
     }
 
     function mouseLeaveCardServices(){
-        if(titleServicesHome.length > 0){
-            for(let i = 0; i < titleServicesHome.length; i++){
-                titleServicesHome[i].style.color = '#000'
-            }
-        }
+        setIdxHoverTitleServices(null)
     }
-
-    const titleRecentBlogs = document.getElementsByClassName('title-card-recent-blogs-home')
-    const imgRecentBlogs = document.getElementsByClassName('img-card-recent-blogs-home')
     
-    function mouseOverRecentBlogs(idx){
-        if(titleRecentBlogs.length > 0){
-            for(let i = 0; i < titleRecentBlogs.length; i++){
-                titleRecentBlogs[i].style.color = '#000'
-                imgRecentBlogs[i].style.transform = 'scale(1)'
-            }
-
-            titleRecentBlogs[idx].style.color = '#3face4'
-            imgRecentBlogs[idx].style.transform = 'scale(1.1)'
-        }
+    function mouseOverRecentBlogs(i){
+        setIdxHoverRecentBlog(i)
     }
 
     function mouseLeaveRecentBlogs(){
-        if(titleRecentBlogs.length > 0){
-            for(let i = 0; i < titleRecentBlogs.length; i++){
-                titleRecentBlogs[i].style.color = '#000'
-                imgRecentBlogs[i].style.transform = 'scale(1)'
-            }
-        }
+        setIdxHoverRecentBlog(null)
     }
 
     function mouseOverProcedureCtg(i){
@@ -187,7 +174,7 @@ function Home(){
 
     return(
         <>
-        <div className="wrapp-home">
+        <div className="wrapp-home" id="home">
             <div className="banner-home" style={{
                 backgroundImage: `url(${bannerHome})`
             }}>
@@ -236,10 +223,7 @@ function Home(){
                 img={aboutMyselfImg}
                 title="About Myself"
                 paragraph="nappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach."
-                classWrapp="card-about-myself-home"
                 data={cardAboutMyself}
-                mouseOver={(i)=>mouseOverCardAboutMyself(i)}
-                mouseLeave={mouseLeaveCardAboutMyself}
             />
 
             <div className="feedback-home">
@@ -249,6 +233,8 @@ function Home(){
                 <p className="paragraph-feedback-home">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
+
+                <CarouselCard data={dataCarousel}/>
             </div>
 
             <div className="our-offered-services-home">
@@ -269,7 +255,7 @@ function Home(){
                                     icon={e.icon}
                                     title={e.title}
                                     paragraph={e.paragraph}
-                                    classTitle="title-services-home"
+                                    colorTitle={i == idxHoverTitleSerivices ? '#3face4' : '#000'}
                                     fontSizeTitle="18px"
                                     fontSizeIcon="30px"
                                     justifyContentParagraph="center"
@@ -313,8 +299,8 @@ function Home(){
                                     fontSizeTitle="18px"
                                     date="13th Dec"
                                     totalComment="04"
-                                    classTitle="title-card-recent-blogs-home"
-                                    classImg="img-card-recent-blogs-home"
+                                    colorTitle={i == idxHoverRecentBlog ? '#3face4' : '#000'}
+                                    transformImg={i == idxHoverRecentBlog ? 'scale(1.1)' : 'scale(1)'}
                                     mouseOver={()=>mouseOverRecentBlogs(i)}
                                     mouseLeave={mouseLeaveRecentBlogs}
                                 />

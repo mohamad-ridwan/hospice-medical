@@ -1,10 +1,10 @@
 import React from 'react';
 import './Button.scss';
 
-function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, classBtn, color, bgColor,border}){
+function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border}){
     return(
         <>
-        <button className={`button-card ${classBtn}`} style={{
+        <button className="button-card" style={{
             borderRadius: bdrRadius,
             padding: padding,
             color: color,

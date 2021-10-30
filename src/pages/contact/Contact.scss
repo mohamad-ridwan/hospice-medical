@@ -13,6 +13,15 @@
         flex-direction: column;
         padding: 100px 10% 80px 10%;
 
+        .column-google-maps{
+            display: flex;
+            height: 400px;
+            width: 100%;
+            margin-bottom: 80px;
+            background-size: cover;
+            background-position: center;
+        }
+
         .column-info-contact-us{
             display: flex;
             justify-content: space-between;
