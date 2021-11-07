@@ -16,6 +16,7 @@
     transition: 0.3s ease-in-out;
     cursor: pointer;
     letter-spacing: 0.5px;
+    overflow: hidden;
     &:hover{
         background-color: #fff;
         color: $color2;
