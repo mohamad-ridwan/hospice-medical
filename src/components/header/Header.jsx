@@ -1,7 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import './Header.scss';
 
 function Header({title, page1, img, displayIcon2, page2, displayIcon3}){
+
+    const history = useHistory()
+
     return(
         <>
         <div className="wrapp-header" style={{
@@ -12,7 +16,7 @@ function Header({title, page1, img, displayIcon2, page2, displayIcon3}){
             </p>
 
             <ul>
-                <li className="link-page-header">
+                <li className="link-page-header" onClick={()=>history.push('/')}>
                     Home
 
                     <i className="fas fa-long-arrow-alt-right"></i>

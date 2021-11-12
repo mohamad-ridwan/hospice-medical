@@ -10,48 +10,51 @@ import ServicesPage from './pages/servicespage/ServicesPage';
 import Blog from './pages/blog/Blog';
 import DetailBlog from './pages/detailblog/DetailBlog';
 import Contact from './pages/contact/Contact';
+import IndexContext from './services/context';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <Switch>
-          <Route path="/contact">
-            <Contact/>
-          </Route>
+      <IndexContext>
+        <BrowserRouter>
+          <Navbar />
+          <Switch>
+            <Route path="/contact">
+              <Contact />
+            </Route>
 
-          <Route path="/blog/blog-details">
-            <DetailBlog/>
-          </Route>
+            <Route path="/blog/blog-details">
+              <DetailBlog />
+            </Route>
 
-          <Route path="/blog">
-            <Blog/>
-          </Route>
+            <Route path="/blog">
+              <Blog />
+            </Route>
 
-          <Route path="/services">
-            <ServicesPage/>
-          </Route>
+            <Route path="/services">
+              <ServicesPage />
+            </Route>
 
-          <Route path="/about">
-            <About/>
-          </Route>
+            <Route path="/about">
+              <About />
+            </Route>
 
-          <Route path="/doctors">
-            <Doctors/>
-          </Route>
+            <Route path="/doctors">
+              <Doctors />
+            </Route>
 
-          <Route path="/departments">
-            <Departments/>
-          </Route>
+            <Route path="/departments">
+              <Departments />
+            </Route>
 
-          <Route path="/">
-            <Home/>
-          </Route>
-        </Switch>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
 
-        <Footer/>
-      </BrowserRouter>
+          <Footer />
+        </BrowserRouter>
+      </IndexContext>
     </div>
   );
 }

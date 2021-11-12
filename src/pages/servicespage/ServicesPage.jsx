@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './ServicesPage.scss';
 import Header from '../../components/header/Header';
 import img from '../../images/banner-home.jpg'
@@ -48,6 +48,10 @@ function ServicesPage(){
         }
     ])
     const [idxHover, setIdxHover] = useState(null)
+
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    }, [])
 
     function mouseOverCardServices(i){
         setIdxHover(i)

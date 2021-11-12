@@ -3,16 +3,19 @@
 .wrapp-navbar{
     display: flex;
     flex-direction: column;
-    width: 100%;
 
     .nav-contact{
         display: flex;
+        position: fixed;
+        left: 0;
+        right: 0;
         justify-content: space-between;
         align-items: center;
         padding: 15px 10%;
         background-color: #fff;
         box-shadow: 0 1px 2px -1px rgba(0,0,0,0.1);
-        z-index: 1;
+        z-index: 99999;
+        transition: 0.3s ease-in-out;
 
         .column-icon-medsos{
             display: flex;
@@ -48,14 +51,19 @@
                 font-size: 12px;
                 cursor: pointer;
                 transition: 0.3s ease-in-out;
-                &:hover{
-                    color: $color2;
-                }
 
                 i{
                     margin-top: 1px;
                     margin-right: 10px;
                     color: $color2;
+                }
+
+                .contact{
+                    text-decoration: none;
+                    color: $color1;
+                    &:hover{
+                        color: $color2;
+                    }
                 }
             }
         }
@@ -63,13 +71,16 @@
 
     .nav-page{
         display: flex;
-        // position: fixed;
-        // left: 0;
-        // right: 0;
+        position: fixed;
+        margin-top: 45px;
+        left: 0;
+        right: 0;
+        z-index: 99999;
         justify-content: space-between;
         align-items: center;
         background-color: $color3;
-        padding: 25px 10%;
+        transition: 0.3s ease-in-out;
+        padding: 0px 10%;
 
         .logo-web{
             display: flex;
@@ -85,13 +96,37 @@
             .page-navbar{
                 display: flex;
                 margin-left: 30px;
+                height: 80px;
                 cursor: pointer;
                 font-size: 13px;
                 font-weight: bold;
                 color: #000;
                 transition: 0.3s ease-in-out;
+                align-items: center;
+                overflow: hidden;
                 &:hover{
                     color: $color2;
+                }
+            }
+
+            .menu-collapse{
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                background-color: #fff;
+                box-shadow: 0 2px 8px -1px rgba(0,0,0,0.1);
+
+                .name-menu-collapse{
+                    display: flex;
+                    color: #000;
+                    padding: 12px 80px 12px 30px;
+                    border-bottom: 1px solid #eee;
+                    transition: 0.3s ease-in-out;
+                    &:hover{
+                        background-color: $color2;
+                        color: #fff;
+                        border-bottom: 1px solid $color2;
+                    }
                 }
             }
         }

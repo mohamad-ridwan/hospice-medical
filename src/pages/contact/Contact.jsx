@@ -31,6 +31,7 @@ function Contact(){
     const APIKey = 'AIzaSyAdmoWMT0t7Gj1EButLm35pQJ9BhiG6ZL0'
 
     useEffect(()=>{
+        window.scrollTo(0,0)
         initMap();
     }, [])
 

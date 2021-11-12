@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Doctors.scss';
 import img from '../../images/banner-home.jpg'
 import Header from '../../components/header/Header';
@@ -52,6 +52,10 @@ function Doctors(){
         },
     ])
     const [idxHover, setIdxHover] = useState(null)
+
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    }, [])
 
     function mouseOver(i){
         setIdxHover(i)

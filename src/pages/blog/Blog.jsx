@@ -106,6 +106,7 @@ function Blog(){
     const paginate = document.getElementsByClassName('number-pagination')
 
     useEffect(()=>{
+        window.scrollTo(0,0)
         setTimeout(() => {
             loadActivePaginate();
         }, 0);

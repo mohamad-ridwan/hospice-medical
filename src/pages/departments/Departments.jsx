@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Departments.scss';
 import Header from '../../components/header/Header';
 import img from '../../images/banner-home.jpg'
@@ -36,6 +36,10 @@ function Departments(){
         },
     ])
     const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
+
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    }, [])
 
     function mouseOverProcedureCtg(i){
         setHoverProcedureCtg(i)

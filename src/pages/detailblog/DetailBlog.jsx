@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './DetailBlog.scss';
 import Header from '../../components/header/Header';
 import img from '../../images/banner-home.jpg'
@@ -88,6 +88,10 @@ function DetailBlog(){
     ])
  
     const hoverBgImgPaginate = document.getElementsByClassName('hover-paginate-blog-details')
+
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    }, [])
 
     function mouseOverPaginate(idx){
         if(hoverBgImgPaginate.length > 0){
