@@ -1,7 +1,7 @@
 import React from 'react';
 import './Button.scss';
 
-function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border}){
+function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border, click}){
     return(
         <>
         <button className="button-card" style={{
@@ -13,6 +13,7 @@ function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouse
         }}
         onMouseOver={mouseOver}
         onMouseLeave={mouseLeave}
+        onClick={click}
         >
             {nameBtn}
 

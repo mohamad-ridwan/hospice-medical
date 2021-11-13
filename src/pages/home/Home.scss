@@ -10,11 +10,13 @@
     .banner-home{
         display: flex;
         flex-direction: column;
+        position: relative;
         height: 600px;
         width: 100%;
         justify-content: center;
         background-size: cover;
         background-position: bottom;
+        overflow: hidden;
 
         .title-banner-home{
             display: flex;
@@ -24,6 +26,7 @@
             font-weight: bold;
             padding: 0 10%;
             width: 500px;
+            z-index: 1;
         }
 
         .paragraph-banner-home{
@@ -34,6 +37,16 @@
             color: #fff;
             padding: 0 10%;
             width: 500px;
+            z-index: 1;
+        }
+
+        .img-banner-home{
+            display: flex;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
         }
     }
 

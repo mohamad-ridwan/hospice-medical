@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Slider from 'react-slick'
+import endpoint from '../../services/api/endpoint';
 import './CarouselCard.scss'
 
 function CarouselCard({data}){
@@ -12,22 +13,32 @@ function CarouselCard({data}){
         slidesToScroll: 1
     }
 
+    const carousel = document.getElementsByClassName('content-carousel-card')
+
+    setTimeout(() => {
+        if(carousel.length > 0){
+            for(let i = 0; i < carousel.length; i++){
+                carousel[i].style.display = 'flex'
+            }
+        }
+    }, 50);
+
     return(
         <>
         <div className="wrapp-carousel">
             <Slider {...settings}>
-            {data && data.length > 0 ? data.map((e)=>{
+            {data && data.length > 0 ? data.map((e, i)=>{
                     return(
-                        <div className="content-carousel-card">
-                            <img src={e.img} alt="" className="img-carousel" />
+                        <div key={i} className="content-carousel-card">
+                            <img src={`${endpoint}/${e.image}`} alt="" className="img-carousel" />
 
                             <div className="column-txt-carousel">
                                 <p className="title-carousel">
-                                    {e.title}
+                                    {e.name}
                                 </p>
 
                                 <p className="paragraph-carousel">
-                                    {e.paragraph}
+                                    {e.comment}
                                 </p>
                             </div>
                         </div>

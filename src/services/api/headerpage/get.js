@@ -1,7 +1,7 @@
 import endpoint from "../endpoint"
 
-const GetNavbar = (path)=>{
-    return new Promise((resolve, reject)=>{
+const GetHeaderPage = async (path)=>{
+    return await new Promise((resolve, reject)=>{
         fetch(`${endpoint}/${path}`, {
             method: 'GET',
             mode: 'cors',
@@ -10,9 +10,9 @@ const GetNavbar = (path)=>{
             }
         })
         .then(res=>res.json())
-        .then(res=> resolve(res))
+        .then(res=>resolve(res))
         .catch(err=>reject(err))
     })
 }
 
-export default GetNavbar
+export default GetHeaderPage

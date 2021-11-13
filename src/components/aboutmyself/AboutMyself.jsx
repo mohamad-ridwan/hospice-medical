@@ -39,9 +39,9 @@ function AboutMyself({img, title, paragraph, data, paddingTopWrapp}){
                                     <Card
                                     displayImg="none"
                                     displayContentCard="flex"
-                                    icon={e.icon}
+                                    icon={e.nameIcon}
                                     title={e.title}
-                                    paragraph={e.paragraph}
+                                    paragraph={e.deskripsi}
                                     paddingWrapp="20px"
                                     mouseOver={()=>mouseOverCard(i)}
                                     mouseLeave={mouseLeaveCard}

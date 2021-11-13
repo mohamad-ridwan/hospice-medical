@@ -45,8 +45,6 @@ function Navbar() {
         history.push(path)
     }
 
-    const elementMenuCollapse = document.getElementsByClassName('menu-collapse')
-
     function changePositionPageCollapse(index){
         const scrollPosition = Math.floor(window.pageYOffset)
         const heightNavContact = Math.floor(navContact[0].getBoundingClientRect().height)
@@ -59,6 +57,8 @@ function Navbar() {
             elementMenuCollapse[index].style.top = `${heightNavPage}px`
         }
     }
+
+    const elementMenuCollapse = document.getElementsByClassName('menu-collapse')
 
     function mouseOverMenuCollapse(dataCollapse, index) {
         if (dataCollapse.length > 0) {

@@ -7,7 +7,7 @@
     padding: 10px 12px;
     color: $color8;
     outline: none;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-family: 'Mulish', sans-serif;
     letter-spacing: 0.5px;
 }
@@ -24,21 +24,45 @@
     position: relative;
     font-size: 13px;
     color: $color8;
-    padding: 10px 12px 10px 40px;
+    padding: 10px 12px 10px 30px;
     border: 1px solid #eee;
     outline: none;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     background-color: transparent;
     cursor: pointer;
     font-family: 'Mulish', sans-serif;
     letter-spacing: 0.5px;
+    overflow: hidden;
 
     i{
         display: flex;
         position: absolute;
         right: 12px;
         overflow: hidden;
+        transition: 0.2s ease-in-out;
+    }
+}
+
+.menu-list-disease-type{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    border: 1px solid $color2;
+    padding: 15px 15px 10px 15px;
+    background-color: #fff;
+    left: 35px;
+    right: 35px;
+    z-index: 99999999;
+
+    .name-disease-type{
+        cursor: pointer;
+        color: $color1;
+        font-size: 12px;
+        width: 100%;
+        text-align: start;
+        padding: 5px 0;
+        transition: 0.3s ease-in-out;
     }
 }
 
@@ -52,6 +76,7 @@
     resize: vertical;
     font-family: 'Mulish', sans-serif;
     letter-spacing: 0.5px;
+    margin-bottom: 5px;
 }
 
 .input-area-card::placeholder{
@@ -64,3 +89,11 @@
     transition: 0.3s ease-in-out;
 }
 
+.error-message{
+    display: none;
+    font-size: 10px;
+    color: red;
+    text-align: start;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+}
