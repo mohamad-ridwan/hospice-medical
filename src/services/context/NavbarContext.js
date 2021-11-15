@@ -23,6 +23,7 @@ const NavbarProvider = ({children})=>{
             setLogoWeb(getLogoWeb[0])
             setMenuPage(getMenuPage)
         })
+        .catch(err=>console.log(err))
     }
 
     useEffect(()=>{

@@ -1,110 +1,166 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Footer.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
+import API from '../../services/api';
+import { NavbarContext } from '../../services/context/NavbarContext';
 
-function Footer(){
-
+function Footer() {
+    const [linkMedsos, contactNav, logoWeb, menuPage] = useContext(NavbarContext)
+    const [contactUs, setContactUs] = useState({})
+    const [newsletter, setNewsletter] = useState({})
     const [hoverBtnSubmit, setHoverBtnSubmit] = useState(false)
+    const [inputNewsletter, setInputNewsletter] = useState('')
 
-    function mouseOverBtnSubmit(){
+    function mouseOverBtnSubmit() {
         setHoverBtnSubmit(true)
     }
 
-    function mouseLeaveBtnSubmit(){
+    function mouseLeaveBtnSubmit() {
         setHoverBtnSubmit(false)
     }
 
-    return(
+    function setAllAPI() {
+        API.APIGetFooter()
+            .then(res => {
+                const respons = res.data
+
+                const getContactUs = respons.filter((e) => e.id === "contact-us")
+                setContactUs(getContactUs[0])
+                const getNewsletter = respons.filter((e) => e.id === "newsletter")
+                setNewsletter(getNewsletter[0])
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        setAllAPI()
+    }, [])
+
+    function RenderCopyRight({ cpRight }) {
+        return (
+            <p className="copy-right" dangerouslySetInnerHTML={{ __html: cpRight }}></p>
+        )
+    }
+
+    function submitFormNewsletter(e) {
+        e.preventDefault()
+        if (inputNewsletter.length > 0 && inputNewsletter.includes('@')) {
+            const data = {
+                email: inputNewsletter
+            }
+
+            if (window.confirm('Ingin mengirim email untuk berita ter update kami?')) {
+                API.APIPostNewsletter(newsletter._id, data)
+                    .then(res => {
+                        alert('Berhasil mengirimkan email Anda\nNantikan berita terbaru dari kami!')
+                        setInputNewsletter('')
+                        return res
+                    })
+                    .catch(err => {
+                        alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                        console.log(err)
+                    })
+            }
+        }
+    }
+
+    const cursorSubmit = !inputNewsletter ? 'not-allowed' : !inputNewsletter.includes('@') ? 'not-allowed' : 'pointer'
+
+    return (
         <>
-        <div className="wrapp-footer">
-            <div className="column-contact-us">
-                <div className="contact-us">
-                    <p className="title-contact-us-group">
-                        Contact Us
-                    </p>
-                    <p className="paragraph-contact-us-group">
-                        56/8, Santa bullevard, Rocky beach, San fransisco, Los angeles, USA
-                    </p>
+            <div className="wrapp-footer">
+                <div className="column-contact-us">
+                    <div className="contact-us">
+                        <p className="title-contact-us-group">
+                            Contact Us
+                        </p>
+                        {Object.keys(contactUs).length > 0 ? (
+                            <>
+                                <p className="paragraph-contact-us-group">
+                                    {contactUs.alamat}
+                                </p>
+
+                                <ul>
+                                    <li className="no-telp">
+                                        <a href={`tel:${contactUs.noTelpSatu}`} className="to-contact">
+                                            {contactUs.noTelpSatu}
+                                        </a>
+                                    </li>
+                                    <li className="no-telp">
+                                        <a href={`tel:${contactUs.noTelpDua}`} className="to-contact">
+                                            {contactUs.noTelpDua}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </>
+                        ) : (
+                            <div></div>
+                        )}
+                    </div>
+
+                    <div className="newsletter">
+                        <p className="title-contact-us-group">
+                            Newsletter
+                        </p>
+                        <p className="paragraph-contact-us-group">
+                            {newsletter && newsletter.title}
+                        </p>
+
+                        <form onSubmit={submitFormNewsletter} className="form-input-email-newsletter">
+                            <Input
+                                type="email"
+                                placeholder="Your Email Address"
+                                bgColorInputCard="#2d2d2d"
+                                borderInputCard="1px solid #2d2d2d"
+                                colorInputCard="#fff"
+                                bdrRadiusInputCard="100px"
+                                paddingInputCard="12px 15px"
+                                widthInputCard="55%"
+                                marginInputCard="0"
+                                valueInput={inputNewsletter}
+                                changeInput={(e) => setInputNewsletter(e.target.value)}
+                            />
+
+                            <div className="column-btn-submit-newsletter">
+                                <Button
+                                    nameBtn="Get Started"
+                                    bgColor={hoverBtnSubmit ? 'transparent' : '#3face4'}
+                                    color={hoverBtnSubmit ? '#3face4' : '#fff'}
+                                    bdrRadius="100px"
+                                    padding="12px 40px"
+                                    displayIcon="flex"
+                                    cursor={cursorSubmit}
+                                    icon="fas fa-long-arrow-alt-right"
+                                    mouseOver={mouseOverBtnSubmit}
+                                    mouseLeave={mouseLeaveBtnSubmit}
+                                    click={submitFormNewsletter}
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div className="column-copy-right">
+                    <RenderCopyRight cpRight={contactUs && contactUs.copyRight} />
 
                     <ul>
-                        <li className="no-telp">
-                            <a href="tel:+6281383959452" className="to-contact">
-                                081-383-959-452
-                            </a>
-                        </li>
-                        <li className="no-telp">
-                            <a href="tel:+6289611683455" className="to-contact">
-                                089-611-683-455
-                            </a>
-                        </li>
+                        {linkMedsos && linkMedsos.length > 0 ? linkMedsos.map((e, i) => {
+                            return (
+                                <>
+                                    <li key={i} className="list-medsos">
+                                        <a target="_blank" href={e.path} className="link-medsos">
+                                            <i className={e.nameIcon}></i>
+                                        </a>
+                                    </li>
+                                </>
+                            )
+                        }) : (
+                            <div></div>
+                        )}
                     </ul>
                 </div>
-
-                <div className="newsletter">
-                    <p className="title-contact-us-group">
-                        Newsletter
-                    </p>
-                    <p className="paragraph-contact-us-group">
-                        You can trust us. we only send promo offers, not a single spam.
-                    </p>
-
-                    <form action="" className="form-input-email-newsletter">
-                        <Input
-                            type="email"
-                            placeholder="Your Email Address"
-                            bgColorInputCard="#2d2d2d"
-                            borderInputCard="1px solid #2d2d2d"
-                            colorInputCard="#fff"
-                            bdrRadiusInputCard="100px"
-                            paddingInputCard="12px 15px"
-                            widthInputCard="55%"
-                            marginInputCard="0"
-                        />
-                        
-                        <div className="column-btn-submit-newsletter">
-                            <Button
-                            nameBtn="Get Started"
-                            bgColor={hoverBtnSubmit ? 'transparent' : '#3face4'}
-                            color={hoverBtnSubmit ? '#3face4' : '#fff'}
-                            bdrRadius="100px"
-                            padding="12px 40px"
-                            displayIcon="flex"
-                            icon="fas fa-long-arrow-alt-right"
-                            mouseOver={mouseOverBtnSubmit}
-                            mouseLeave={mouseLeaveBtnSubmit}
-                            />
-                        </div>
-                    </form>
-                </div>
             </div>
-
-            <div className="column-copy-right">
-                <p className="copy-right">
-                    © 2021 Hospice Medical. Developed by <p className="name-developer">
-                    Ridwan
-                </p>
-                </p>
-
-                <ul>
-                    <li className="list-medsos">
-                        <a target="_blank" href="" className="link-medsos">
-                            <i className="fab fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li className="list-medsos">
-                        <a target="_blank" href="" className="link-medsos">
-                            <i className="fab fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li className="list-medsos">
-                        <a target="_blank" href="" className="link-medsos">
-                            <i className="fab fa-instagram"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
         </>
     )
 }

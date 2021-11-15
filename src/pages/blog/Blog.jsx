@@ -1,150 +1,145 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Blog.scss';
-import img from '../../images/banner-home.jpg'
 import Header from '../../components/header/Header';
 import Card from '../../components/card/Card';
-import imgKategori1 from '../../images/img-blog-kategori1.jpg'
-import imgKategori2 from '../../images/img-blog-kategori2.jpg'
-import imgKategori3 from '../../images/img-blog-kategori3.jpg'
-import imgContentBlog1 from '../../images/img-content-blog1.jpg'
-import imgContentBlog2 from '../../images/img-content-blog2.jpg'
-import imgPopularPosts1 from '../../images/img-popular-posts1.jpg'
-import imgPopularPosts2 from '../../images/img-popular-posts2.jpg'
-import imgPopularPosts3 from '../../images/img-popular-posts3.jpg'
-import imgPopularPosts4 from '../../images/img-popular-posts4.jpg'
 import PopularPosts from '../../components/popularposts/PopularPosts';
 import Pagination from '../../components/pagination/Pagination';
+import API from '../../services/api';
+import endpoint from '../../services/api/endpoint';
+import { useHistory } from 'react-router';
+import { BlogContext } from '../../services/context/BlogContext';
+import Loading from '../../components/loading/Loading';
 
-function Blog(){
-
-    const [dataImgKategori, setDataImgKategori] = useState([
-        {
-            img: imgKategori1,
-            title: 'SOCIAL LIFE',
-            deskripsi: 'Enjoy your social life together'
-        },
-        {
-            img: imgKategori2,
-            title: 'POLITICS',
-            deskripsi: 'Be a part of politics'
-        },
-        {
-            img: imgKategori3,
-            title: 'FOOD',
-            deskripsi: 'Let the food be finished'
-        },
-    ])
-    const [contentBlog, setContentBlog] = useState([
-        {
-            kategori: 'Category, Social Life',
-            date: '12 Dec, 2017',
-            totalComment: '06 Comments',
-            img: imgContentBlog1,
-            title: 'Astronomy Binoculars A Great Alternative',
-            paragraph: 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction.'
-        },
-        {
-            kategori: 'Category, Politics',
-            date: '14 Dec, 2018',
-            totalComment: '20 Comments',
-            img: imgContentBlog2,
-            title: 'The Basics Of Buying A Telescope',
-            paragraph: 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction.'
-        }
-    ])
-    const [dataPopularPosts, setDataPopularPosts] = useState([
-        {
-            img: imgPopularPosts1,
-            title: 'Space The Final Frontier',
-            date: '21:51 12 Dec, 2017'
-        },
-        {
-            img: imgPopularPosts2,
-            title: 'The Amazing Hubble',
-            date: '08:51 13 Dec, 2012'
-        },
-        {
-            img: imgPopularPosts3,
-            title: 'Astronomy Or Astrology',
-            date: '09:51 12 Dec, 2013'
-        },
-        {
-            img: imgPopularPosts4,
-            title: 'Asteroids telescope',
-            date: '21:51 12 Dec, 2017'
-        },
-    ])
-    const [dataPostCategories, setDataPostCategories] = useState([
-        {
-            name: 'Social Life',
-            total: '23'
-        },
-        {
-            name: 'Politics',
-            total: '50'
-        },
-        {
-            name: 'Food',
-            total: '20'
-        },
-        {
-            name: 'Technology',
-            total: '18'
-        },
-        {
-            name: 'Art',
-            total: '70'
-        },
-    ])
+function Blog() {
+    const [filterBlog, selectBlogCategory] = useContext(BlogContext)
+    const [getHeaders, setGetHeaders] = useState({})
+    const [dataImgKategori, setDataImgKategori] = useState([])
+    const [contentBlog, setContentBlog] = useState([])
+    const [dataPopularPosts, setDataPopularPosts] = useState([])
+    const [dataPostCategories, setDataPostCategories] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const [perPage, setPerPage] = useState(1)
+    const [perPage, setPerPage] = useState(5)
     const [idxPaginateActive, setIdxPaginateActive] = useState(0)
-    const [loadingContent, setLoadingContent] = useState(false)
+    const [loadingBottom, setLoadingBottom] = useState(false)
     const [hoverImg, setHoverImg] = useState(null)
     const [hoverBtn, setHoverBtn] = useState(null)
 
+    const history = useHistory()
     const paginate = document.getElementsByClassName('number-pagination')
 
-    useEffect(()=>{
-        window.scrollTo(0,0)
-        setTimeout(() => {
-            loadActivePaginate();
-        }, 0);
+    function setAllAPI() {
+        API.APIGetHeaderPage()
+            .then(res => {
+                const respons = res.data
+                const headers = respons.filter(e => e.id === "header-blog")
+                setGetHeaders(headers[0])
+            })
+            .catch(err => console.log(err))
+
+        API.APIGetBlogs()
+            .then(res => {
+                const respons = res.data
+
+                const imgCategory = respons.filter(e => e.idCategory === "post-categories")
+                const getThreeItems = imgCategory.filter((e, i) => i < 3)
+                setDataImgKategori(getThreeItems)
+                setDataPostCategories(imgCategory)
+
+                const getPopularPosts = respons.filter(e => e.id === "popular-posts")
+                const getFourItems = getPopularPosts[0].data.filter((e, i) => i < 4)
+                setDataPopularPosts(getFourItems)
+
+                loadFilterBlog(filterBlog)
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        setAllAPI()
+        window.scrollTo(0, 0)
     }, [])
+
+    function loadFilterBlog(id, loadBtm) {
+        if(loadBtm){
+            setLoadingBottom(true)
+        }
+
+        API.APIGetBlogs()
+            .then(res => {
+                const respons = res.data
+
+                const imgCategory = respons.filter(e => e.idCategory === "post-categories")
+
+                const newData = []
+
+                const combine = imgCategory.forEach(e => {
+                    const getData = e.data.forEach(e => {
+                        newData.push(e)
+                    })
+                    setTimeout(() => {
+                        if (newData.length > 0) {
+                            if (id !== undefined && id.length > 0) {
+                                const filteringBlog = newData.filter(e => e.path.split('/')[0].includes(id))
+                                setContentBlog(filteringBlog)
+                                clickPaginate(0)
+                                setLoadingBottom(false)
+                            } else {
+                                setContentBlog(newData)
+                                clickPaginate(0)
+                                setLoadingBottom(false)
+                            }
+                        }
+
+                        setTimeout(() => {
+                            loadActivePaginate()
+                        }, 10);
+                    }, 0);
+                    return getData
+                })
+                return combine
+            })
+            .catch(err => console.log(err))
+    }
 
     const indexOfLastPage = currentPage * perPage;
     const indexOfFirstPage = indexOfLastPage - perPage;
     const currentList = contentBlog.slice(indexOfFirstPage, indexOfLastPage);
 
-    function loadActivePaginate(){
-        if(paginate.length > 0){
+    function loadActivePaginate() {
+        if (paginate.length > 0) {
             paginate[0].style.backgroundColor = '#3face4';
             paginate[0].style.border = '1px solid #3face4';
             paginate[0].style.color = '#fff';
         }
     }
- 
-    function mouseOverBtnContent(i){
+
+    function RenderParagraphSatu({ paragraphSatu }) {
+        return (
+            <p dangerouslySetInnerHTML={{ __html: paragraphSatu.length > 300 ? paragraphSatu.substr(0, 300) + '...' : paragraphSatu }}></p>
+        )
+    }
+
+    function mouseOverBtnContent(i) {
         setHoverBtn(i)
     }
-    
-    function mouseLeaveBtnContent(){
+
+    function mouseLeaveBtnContent() {
         setHoverBtn(null)
     }
 
-    function mouseOverImg(i){
+    function mouseOverImg(i) {
         setHoverImg(i)
     }
-    
-    function mouseLeaveImg(){
+
+    function mouseLeaveImg() {
         setHoverImg(null)
     }
 
-    function clickPaginate(idx){
+    function clickPaginate(idx) {
         setIdxPaginateActive(idx)
         setCurrentPage(idx + 1)
 
-        for(let i = 0; i < paginate.length; i ++){
+        for (let i = 0; i < paginate.length; i++) {
             paginate[i].style.backgroundColor = 'transparent';
             paginate[i].style.border = '1px solid #eee';
             paginate[i].style.color = '#777';
@@ -153,118 +148,180 @@ function Blog(){
         paginate[idx].style.backgroundColor = '#3face4';
         paginate[idx].style.border = '1px solid #3face4';
         paginate[idx].style.color = '#fff';
-
-        setLoadingContent(true);
-
-        setTimeout(() => {
-            setLoadingContent(false);
-        }, 1000);
     }
 
-    return(
+    const elementPostCategories = document.getElementsByClassName('list-post-categories')
+    const elementFromFilter = document.getElementsByClassName(filterBlog)
+
+    function toPage(path) {
+        history.push(path)
+    }
+
+    function activeListCategories(condition, conditionMouseOver, idxMouseOver) {
+        if (condition) {
+            if (elementPostCategories.length > 0) {
+                for (let i = 0; i < elementPostCategories.length; i++) {
+                    elementPostCategories[i].style.color = "#777"
+                    elementPostCategories[i].style.borderBottom = "2px dotted #eee"
+                }
+            }
+            if (elementFromFilter.length > 0) {
+                elementFromFilter[0].style.color = "#3face4"
+                elementFromFilter[0].style.borderBottom = "2px dotted #3face4"
+            }
+
+            if (conditionMouseOver) {
+                elementPostCategories[idxMouseOver].style.color = "#3face4"
+                elementPostCategories[idxMouseOver].style.borderBottom = "2px dotted #3face4"
+            }
+        }
+    }
+
+    setTimeout(() => {
+        activeListCategories(filterBlog.length > 0)
+    }, 0);
+
+    function mouseOverListCategories(idx) {
+        activeListCategories(true, true, idx)
+    }
+
+    function mouseLeaveListCategories() {
+        activeListCategories(true)
+    }
+
+    return (
         <>
-        <div className="wrapp-blog">
-            <div className="container-header">
-                <Header
-                    title="Blog"
-                    img={img}
-                    displayIcon2="none"
-                    page1="Blog"
-                    displayIcon3="none"
-                />
-            </div>
-
-            <div className="column-card-img-blog">
-                {dataImgKategori.map((e, i)=>{
-                    return(
-                    <div className="card-img-blog">
-                        <Card
-                            img={e.img}
-                            titleImgHover={e.title}
-                            paragraphHoverImg={e.deskripsi}
-                            heightImg="200px"
-                            opacityHoverImg="1"
-                            marginHoverImg="20px"
-                            fontSizeTitleHoverImg="16px"
-                            fontWeightTitleHoverImg="bold"
-                            displayTitleHoverImg="flex"
-                            bgColorHoverImg={i == hoverImg ? '#3fade491' : 'rgba(0,0,0,0.5)'}
-                            displayParagraphoverImg="flex"
-                            paddingTitleHoverImg="0 0px 5px 0px"
-                            paddingHoverImg="40px"
-                            borderTitleHoverImg="none"
-                            borderTopParagraphHoverImg="1px solid #fff"
-                            paddingParagraphHoverImg="10px 0 0 0"
-                            marginParagraphHoverImg="10px 0 0 0"
-                            mouseOver={()=>mouseOverImg(i)}
-                            mouseLeave={mouseLeaveImg}
+            <div className="wrapp-blog">
+                <div className="container-header">
+                    {Object.keys(getHeaders).length > 0 ? (
+                        <Header
+                            title={getHeaders.title}
+                            img={`${endpoint}/${getHeaders.image}`}
+                            displayIcon2="none"
+                            page1="Blog"
+                            displayIcon3="none"
                         />
-                    </div>
-                )   
-                })}
-            </div>
+                    ) : (
+                        <div></div>
+                    )}
+                </div>
 
-            <div className="container-content-blog">
-                <div className="column-kiri-content-blog">
-                    {currentList.map((e, i)=>{
-                        return(
-                            <div className="column-card-content-blog">
-                                <div className="date-content-blog">
-                                    <p className="name-kategori-content date-group-content">
-                                        {e.kategori}
-                                    </p>
-                                    <p className="date-content-publish date-group-content">
-                                        {e.date}
-
-                                        <i className="far fa-calendar-alt"></i>
-                                    </p>
-                                    <p className="total-comment-content date-group-content">
-                                        {e.totalComment}
-
-                                        <i className="far fa-comment"></i>
-                                    </p>
-                                </div>
-
-                                <div className="card-content-blog">
-                                    <Card
-                                        displayContentCard="flex"
-                                        img={e.img}
-                                        title={e.title}
-                                        paragraph={e.paragraph}
-                                        heightImg="auto"
-                                        colorBtn={i == hoverBtn ? '#fff' : '#000'}
-                                        bgColorBtn={i == hoverBtn ? '#3face4' : 'transparent'}
-                                        borderBtn={i == hoverBtn ? '1px solid #3face4' : '1px solid #eee'}
-                                        fontSizeTitle="22px"
-                                        cursorTitle="pointer"
-                                        nameBtn="View More"
-                                        displayBtn="flex"
-                                        paddingBtn="10px 30px"
-                                        bgColorWrapp="transparent"
-                                        cursorImg="default"
-                                        mouseOverBtn={()=>mouseOverBtnContent(i)}
-                                        mouseLeaveBtn={mouseLeaveBtnContent}
-                                    />
-                                </div>
+                <div className="column-card-img-blog">
+                    {dataImgKategori && dataImgKategori.length > 0 ? dataImgKategori.map((e, i) => {
+                        return (
+                            <div key={i} className="card-img-blog">
+                                <Card
+                                    img={`${endpoint}/${e.image}`}
+                                    titleImgHover={e.title.toUpperCase()}
+                                    paragraphHoverImg={e.deskripsi}
+                                    heightImg="200px"
+                                    opacityHoverImg="1"
+                                    marginHoverImg="20px"
+                                    fontSizeTitleHoverImg="16px"
+                                    fontWeightTitleHoverImg="bold"
+                                    displayTitleHoverImg="flex"
+                                    bgColorHoverImg={i == hoverImg ? '#3fade491' : 'rgba(0,0,0,0.5)'}
+                                    displayParagraphoverImg="flex"
+                                    paddingTitleHoverImg="0 0px 5px 0px"
+                                    paddingHoverImg="40px"
+                                    borderTitleHoverImg="none"
+                                    borderTopParagraphHoverImg="1px solid #fff"
+                                    paddingParagraphHoverImg="10px 0 0 0"
+                                    marginParagraphHoverImg="10px 0 0 0"
+                                    mouseOver={() => mouseOverImg(i)}
+                                    mouseLeave={mouseLeaveImg}
+                                    clickWrapp={() => {
+                                        selectBlogCategory(e.id)
+                                        loadFilterBlog(e.id)
+                                    }}
+                                />
                             </div>
                         )
-                    })}
+                    }) : (
+                        <div></div>
+                    )}
+                </div>
 
-                    <Pagination
-                    perPage={perPage}
-                    totalData={contentBlog.length}
-                    idxPaginateActive={idxPaginateActive}
-                    marginLeftLoading={loadingContent ? '0' : '-100px'}
-                    click={(i)=>clickPaginate(i)}
+                <div className="container-content-blog">
+                    <div className="column-kiri-content-blog">
+                        {currentList && currentList.length > 0 ? currentList.map((e, i) => {
+                            return (
+                                <div key={i} className="column-card-content-blog">
+                                    <div className="date-content-blog">
+                                        <p className="name-kategori-content date-group-content">
+                                            Category, {e.category}
+                                        </p>
+                                        <p className="date-content-clock date-group-content">
+                                            {e.clock}
+
+                                            <i className="far fa-clock"></i>
+                                        </p>
+                                        <p className="date-content-publish date-group-content">
+                                            {e.date}
+
+                                            <i className="far fa-calendar-alt"></i>
+                                        </p>
+                                        <p className="total-comment-content date-group-content">
+                                            {e.comments.length} Comments
+
+                                            <i className="far fa-comment"></i>
+                                        </p>
+                                    </div>
+
+                                    <div className="card-content-blog">
+                                        <Card
+                                            displayContentCard="flex"
+                                            img={`${endpoint}/${e.image}`}
+                                            title={e.title}
+                                            paragraph={<RenderParagraphSatu paragraphSatu={e.paragraphSatu} />}
+                                            heightImg="auto"
+                                            colorBtn={i == hoverBtn ? '#fff' : '#000'}
+                                            bgColorBtn={i == hoverBtn ? '#3face4' : 'transparent'}
+                                            borderBtn={i == hoverBtn ? '1px solid #3face4' : '1px solid #eee'}
+                                            fontSizeTitle="22px"
+                                            cursorTitle="pointer"
+                                            nameBtn="View More"
+                                            displayBtn="flex"
+                                            paddingBtn="10px 30px"
+                                            bgColorWrapp="transparent"
+                                            cursorImg="default"
+                                            mouseOverBtn={() => mouseOverBtnContent(i)}
+                                            mouseLeaveBtn={mouseLeaveBtnContent}
+                                            clickBtn={() => toPage(`/blog/blog-details/${e.path}`)}
+                                            clickTitle={() => toPage(`/blog/blog-details/${e.path}`)}
+                                        />
+                                    </div>
+                                </div>
+                            )
+                        }) : (
+                            <div></div>
+                        )}
+
+                        <Pagination
+                            perPage={perPage}
+                            totalData={contentBlog.length}
+                            idxPaginateActive={idxPaginateActive}
+                            click={(i) => clickPaginate(i)}
+                        />
+                    </div>
+
+                    <PopularPosts
+                        dataPopularPosts={dataPopularPosts}
+                        dataPostCategories={dataPostCategories}
+                        btnListPostCategories={(id) => {
+                            selectBlogCategory(id)
+                            loadFilterBlog(id, true)
+                        }}
+                        mouseOver={(idx) => mouseOverListCategories(idx)}
+                        mouseLeave={mouseLeaveListCategories}
                     />
                 </div>
 
-                <PopularPosts
-                    dataPopularPosts={dataPopularPosts}
-                    dataPostCategories={dataPostCategories}
+                <Loading
+                    displayLoadingBottom="flex"
+                    rightLoadingBottom={loadingBottom ? '40px' : '-1000px'}
                 />
             </div>
-        </div>
         </>
     )
 }

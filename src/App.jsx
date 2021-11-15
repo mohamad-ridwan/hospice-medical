@@ -23,7 +23,7 @@ function App() {
               <Contact />
             </Route>
 
-            <Route path="/blog/blog-details">
+            <Route path="/blog/blog-details/:id">
               <DetailBlog />
             </Route>
 

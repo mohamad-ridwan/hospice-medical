@@ -1,6 +1,11 @@
 import GetAboutMyself from "./aboutmyself/get"
 import GetBlogs from "./blogs/get"
+import GetContact from "./contact/get"
+import PostContactForm from "./contact/post"
+import GetDoctors from "./doctors/get"
 import GetFeedback from "./feedback/get"
+import GetFooter from "./footer/get"
+import PostNewsletter from "./footer/postnewsletter"
 import GetHeaderPage from "./headerpage/get"
 import GetNavbar from "./navbar/get"
 import GetOurOfferedServices from "./ourofferedservices/get"
@@ -33,6 +38,17 @@ const APIPostFormAppointment = (_id, data)=>PostFormAppointment(`v8/servicing-ho
 // blogs
 const APIGetBlogs = ()=>GetBlogs('v9/blog/get')
 
+// footer
+const APIGetFooter = ()=> GetFooter('v2/footer/get')
+const APIPostNewsletter = (_id, data)=>PostNewsletter(`v2/footer/post/newsletter/users/${_id}`, data)
+
+// doctors
+const APIGetDoctors = ()=>GetDoctors('v10/doctors/get')
+
+// contact
+const APIGetContact = ()=>GetContact('v11/contact/get/get-all')
+const APIPostContactForm = (_id, data)=>PostContactForm(`v11/contact/post/form-contact-us/data/${_id}`, data)
+
 const API = {
     APIGetNavbar,
     APIGetHeaderPage,
@@ -42,7 +58,12 @@ const API = {
     APIGetOurOfferedServices,
     APIGetServicingHours,
     APIPostFormAppointment,
-    APIGetBlogs
+    APIGetBlogs,
+    APIGetFooter,
+    APIGetDoctors,
+    APIGetContact,
+    APIPostContactForm,
+    APIPostNewsletter
 }
 
 export default API

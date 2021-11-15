@@ -60,7 +60,7 @@ function Pagination({totalData, perPage, idxPaginateActive, click, marginLeftLoa
                 })}
             </ul>
 
-            <div className="loading-paginate" style={{
+            {/* <div className="loading-paginate" style={{
                 marginLeft: marginLeftLoading
             }}>
                 <div className="circle-loading">
@@ -69,7 +69,7 @@ function Pagination({totalData, perPage, idxPaginateActive, click, marginLeftLoa
                 <p className="txt-loading-paginate">
                     Loading
                 </p>
-            </div>
+            </div> */}
         </div>
         </>
     )

@@ -4,7 +4,7 @@ import Input from '../input/Input';
 import Button from '../button/Button';
 import API from '../../services/api';
 
-function ServicingHours({ dateServicing, widthWrapp, positionWrapp, paddingWrapp, topBook, bottomBook, marginWrapp }) {
+function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bottomBook, marginWrapp }) {
 
     const [servicing, setServicing] = useState({})
     const [dataDiseaseType, setDataDiseaseType] = useState([])

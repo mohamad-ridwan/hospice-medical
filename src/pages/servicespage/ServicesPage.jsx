@@ -1,114 +1,104 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './ServicesPage.scss';
 import Header from '../../components/header/Header';
-import img from '../../images/banner-home.jpg'
 import Card from '../../components/card/Card';
+import API from '../../services/api';
+import endpoint from '../../services/api/endpoint';
 
-function ServicesPage(){
-
-    const [offeredServices, setOfferedServices] = useState([
-        {
-            icon: 'fas fa-rocket',
-            title: '24/7 Emergency',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },
-        {
-            icon: 'fas fa-heartbeat',
-            title: 'Expert Consultation',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },
-        {
-            icon: 'fas fa-bug',
-            title: 'Intensive Care',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },
-        {
-            icon: 'fas fa-user-friends',
-            title: 'Family Planning',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },{
-            icon: 'fas fa-rocket',
-            title: '24/7 Emergency',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },
-        {
-            icon: 'fas fa-heartbeat',
-            title: 'Expert Consultation',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },
-        {
-            icon: 'fas fa-bug',
-            title: 'Intensive Care',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        },
-        {
-            icon: 'fas fa-user-friends',
-            title: 'Family Planning',
-            paragraph: 'inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct women face higher conduct.'
-        }
-    ])
+function ServicesPage() {
+    const [dataHeaders, setDataHeaders] = useState({})
+    const [offeredServices, setOfferedServices] = useState({})
     const [idxHover, setIdxHover] = useState(null)
 
-    useEffect(()=>{
-        window.scrollTo(0,0)
+    function setAllAPI() {
+        API.APIGetHeaderPage()
+            .then(res => {
+                const respons = res.data
+                const headers = respons.filter((e) => e.id === "header-services")
+                setDataHeaders(headers[0])
+            })
+            .catch(err => console.log(err))
+
+        API.APIGetOurOfferedServices()
+            .then(res => {
+                setOfferedServices(res.data[0])
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        setAllAPI()
+        window.scrollTo(0, 0)
     }, [])
 
-    function mouseOverCardServices(i){
+    function mouseOverCardServices(i) {
         setIdxHover(i)
     }
 
-    function mouseLeaveCardServices(){
+    function mouseLeaveCardServices() {
         setIdxHover(null)
     }
 
-    return(
+    return (
         <>
-        <div className="wrapp-services-page">
-            <div className="container-header">
-                <Header
-                    title="Offered Services"
-                    img={img}
-                    displayIcon2="none"
-                    page1="Services"
-                    displayIcon3="none"
-                />
-            </div>
+            <div className="wrapp-services-page">
+                <div className="container-header">
+                    {Object.keys(dataHeaders).length > 0 ? (
+                        <Header
+                            title={dataHeaders.title}
+                            img={`${endpoint}/${dataHeaders.image}`}
+                            displayIcon2="none"
+                            page1="Services"
+                            displayIcon3="none"
+                        />
+                    ) : (
+                        <div></div>
+                    )}
+                </div>
 
-            <div className="offered-services-page">
-                <p className="title-offered-service-page">
-                    Our Offered Services
-                </p>
-                <p className="paragraph-offered-service-page">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
+                <div className="offered-services-page">
+                    {Object.keys(offeredServices).length > 0 ? (
+                        <>
+                            <p className="title-offered-service-page">
+                                {offeredServices.title}
+                            </p>
+                            <p className="paragraph-offered-service-page">
+                                {offeredServices.deskripsi}
+                            </p>
 
-                <div className="column-card-services-page">
-                    {offeredServices.map((e, i)=>{
-                        return(
-                            <div className="card-services-page">
-                                <Card
-                                    displayImg="none"
-                                    displayContentCard="flex"
-                                    icon={e.icon}
-                                    title={e.title}
-                                    paragraph={e.paragraph}
-                                    colorTitle={i == idxHover ? '#3face4' : '#000'}
-                                    fontSizeTitle="18px"
-                                    fontSizeIcon="30px"
-                                    justifyContentParagraph="center"
-                                    justifyContentTitle="center"
-                                    textAlignParagraph="center"
-                                    textAlignTitle="center"
-                                    justifyContentIcon="center"
-                                    mouseOver={()=>mouseOverCardServices(i)}
-                                    mouseLeave={mouseLeaveCardServices}
-                                />
+                            <div className="column-card-services-page">
+                                {offeredServices && offeredServices.data ? offeredServices.data.map((e, i) => {
+                                    return (
+                                        <div className="card-services-page">
+                                            <Card
+                                                displayImg="none"
+                                                displayContentCard="flex"
+                                                icon={e.nameIcon}
+                                                title={e.title}
+                                                paragraph={e.deskripsi}
+                                                colorTitle={i == idxHover ? '#3face4' : '#000'}
+                                                fontSizeTitle="18px"
+                                                fontSizeIcon="30px"
+                                                justifyContentParagraph="center"
+                                                justifyContentTitle="center"
+                                                textAlignParagraph="center"
+                                                textAlignTitle="center"
+                                                justifyContentIcon="center"
+                                                mouseOver={() => mouseOverCardServices(i)}
+                                                mouseLeave={mouseLeaveCardServices}
+                                            />
+                                        </div>
+                                    )
+                                }) : (
+                                    <div></div>
+                                )}
                             </div>
-                        )
-                    })}
+                        </>
+                    ) : (
+                        <div></div>
+                    )}
                 </div>
             </div>
-        </div>
         </>
     )
 }

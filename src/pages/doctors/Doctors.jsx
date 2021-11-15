@@ -1,123 +1,111 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './Doctors.scss';
-import img from '../../images/banner-home.jpg'
 import Header from '../../components/header/Header';
-import categorySatu from '../../images/category-satu.jpg';
-import categoryDua from '../../images/category-dua.jpg';
-import categoryTiga from '../../images/category-tiga.jpg';
 import Card from '../../components/card/Card';
+import API from '../../services/api';
+import endpoint from '../../services/api/endpoint';
 
-function Doctors(){
+function Doctors() {
 
-    const [imgDoctors, setImgDoctors] = useState([
-        {
-            img: categorySatu,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categoryDua,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categoryTiga,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categorySatu,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categoryDua,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categoryTiga,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categoryTiga,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-        {
-            img: categoryTiga,
-            title: 'Andy Florence',
-            paragraph: 'inappropriate behavior'
-        },
-    ])
+    const [dataHeaders, setDataHeaders] = useState({})
+    const [dataDoctors, setDataDoctors] = useState({})
     const [idxHover, setIdxHover] = useState(null)
 
-    useEffect(()=>{
-        window.scrollTo(0,0)
+    function setAllAPI() {
+        API.APIGetHeaderPage()
+            .then(res => {
+                const respons = res.data
+                const headers = respons.filter((e) => e.id === "header-doctors")
+                setDataHeaders(headers[0])
+            })
+            .catch(err => console.log(err))
+
+        API.APIGetDoctors()
+            .then(res => {
+                setDataDoctors(res.data[0])
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        setAllAPI()
+        window.scrollTo(0, 0)
     }, [])
 
-    function mouseOver(i){
+    function mouseOver(i) {
         setIdxHover(i)
     }
 
-    function mouseLeave(){
+    function mouseLeave() {
         setIdxHover(null)
     }
 
-    return(
+    return (
         <>
-        <div className="wrapp-doctors">
-            <div className="container-header">
-                <Header
-                    title="Consultants"
-                    img={img}
-                    displayIcon2="none"
-                    page1="Consultants"
-                    displayIcon3="none"
-                />
-            </div>
+            <div className="wrapp-doctors">
+                <div className="container-header">
+                    {Object.keys(dataHeaders).length > 0 ? (
+                        <Header
+                            title={dataHeaders.title}
+                            img={`${endpoint}/${dataHeaders.image}`}
+                            displayIcon2="none"
+                            page1="Consultants"
+                            displayIcon3="none"
+                        /> 
+                    ) : (
+                        <div></div>
+                    )}
+                </div>
 
-            <div className="offered-services-doctors">
-                <p className="title-services-doctors">
-                    Our Offered Services
-                </p>
-                <p className="paragraph-services-doctors">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
+                <div className="offered-services-doctors">
+                    {Object.keys(dataDoctors).length > 0 ? (
+                        <>
+                            <p className="title-services-doctors">
+                                {dataDoctors.title}
+                            </p>
+                            <p className="paragraph-services-doctors">
+                                {dataDoctors.deskripsi}
+                            </p>
 
-                <div className="column-card-services-doctors">
-                    {imgDoctors.map((e, i)=>{
-                        return(
-                            <div className="card-services-doctors">
-                                <Card 
-                                    img={e.img}
-                                    titleImgHover={e.title}
-                                    paragraphHoverImg={e.paragraph}
-                                    displayTitleHoverImg="flex"
-                                    displayParagraphoverImg="flex"
-                                    fontSizeTitleHoverImg="16px"
-                                    paddingTitleHoverImg="0"
-                                    fontWeightTitleHoverImg="bold"
-                                    opacityHoverImg={i == idxHover ? '1' : '0'}
-                                    cursorImg="default"
-                                    bgColorHoverImg="#3fade4d5"
-                                    paddingHoverImg="20px"
-                                    displayListMedsos="flex"
-                                    borderTitleHoverImg="none"
-                                    positionTitleHoverImg="absolute"
-                                    bottomTitleHoverImg="75px"
-                                    positionParagraphHoverImg="absolute"
-                                    bottomParagraphHoverImg="40px"
-                                    mouseOver={()=>mouseOver(i)}
-                                    mouseLeave={mouseLeave}
-                                />
+                            <div className="column-card-services-doctors">
+                                {dataDoctors && dataDoctors.data ? dataDoctors.data.map((e, i) => {
+                                    return (
+                                        <div key={i} className="card-services-doctors">
+                                            <Card
+                                                img={`${endpoint}/${e.image}`}
+                                                titleImgHover={e.name}
+                                                paragraphHoverImg={e.deskripsi}
+                                                displayTitleHoverImg="flex"
+                                                displayParagraphoverImg="flex"
+                                                fontSizeTitleHoverImg="16px"
+                                                paddingTitleHoverImg="0"
+                                                fontWeightTitleHoverImg="bold"
+                                                opacityHoverImg={i == idxHover ? '1' : '0'}
+                                                dataMedsos={e.medsos}
+                                                cursorImg="default"
+                                                bgColorHoverImg="#3fade4d5"
+                                                paddingHoverImg="20px"
+                                                displayListMedsos="flex"
+                                                borderTitleHoverImg="none"
+                                                positionTitleHoverImg="absolute"
+                                                bottomTitleHoverImg="75px"
+                                                positionParagraphHoverImg="absolute"
+                                                bottomParagraphHoverImg="40px"
+                                                mouseOver={() => mouseOver(i)}
+                                                mouseLeave={mouseLeave}
+                                            />
+                                        </div>
+                                    )
+                                }) : (
+                                    <div></div>
+                                )}
                             </div>
-                        )
-                    })}
+                        </>
+                    ) : (
+                        <div></div>
+                    )}
                 </div>
             </div>
-        </div>
         </>
     )
 }

@@ -3,8 +3,10 @@ import './Navbar.scss';
 import { useHistory } from 'react-router';
 import { NavbarContext } from '../../services/context/NavbarContext';
 import endpoint from '../../services/api/endpoint';
+import { BlogContext } from '../../services/context/BlogContext';
 
 function Navbar() {
+    const [filterBlog, selectBlogCategory] = useContext(BlogContext)
     const [linkMedsos, contactNav, logoWeb, menuPage] = useContext(NavbarContext)
 
     const history = useHistory();
@@ -41,19 +43,33 @@ function Navbar() {
         window.open(path)
     }
 
-    function toPage(path) {
+    async function toPage(path) {
+        const locationBlog = window.location.pathname === "/blog"
         history.push(path)
+        
+        if(locationBlog === false){
+            if (filterBlog.length > 0) {
+                const getActiveListPostCtg = document.getElementsByClassName(filterBlog)
+                if (getActiveListPostCtg.length > 0) {
+                    getActiveListPostCtg[0].style.color = "#777"
+                    getActiveListPostCtg[0].style.borderBottom = "2px dotted #eee"
+                }
+                selectBlogCategory('')
+            }
+        }
+        
+        await window.scrollTo(0, 0)
     }
 
-    function changePositionPageCollapse(index){
+    function changePositionPageCollapse(index) {
         const scrollPosition = Math.floor(window.pageYOffset)
         const heightNavContact = Math.floor(navContact[0].getBoundingClientRect().height)
         const heightNavPage = Math.floor(navPage[0].getBoundingClientRect().height)
         const count = heightNavContact + heightNavPage
 
-        if(scrollPosition < count){
+        if (scrollPosition < count) {
             elementMenuCollapse[index].style.top = '125px'
-        } else if(scrollPosition > count){
+        } else if (scrollPosition > count) {
             elementMenuCollapse[index].style.top = `${heightNavPage}px`
         }
     }
@@ -107,7 +123,7 @@ function Navbar() {
                 </div>
 
                 <div className="nav-page">
-                    <img src={logoWeb && Object.keys(logoWeb).length !== 0 ? `${endpoint}/${logoWeb.image}` : ''} alt="" className="logo-web" onClick={() => history.push('/')} />
+                    <img src={logoWeb && Object.keys(logoWeb).length !== 0 ? `${endpoint}/${logoWeb.image}` : ''} alt="" className="logo-web" onClick={() => toPage('/')} />
 
                     <ul className="menu-page-navbar">
                         {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
@@ -115,7 +131,11 @@ function Navbar() {
 
                             return (
                                 <>
-                                    <li key={i} className="page-navbar" onClick={() => toPage(e.path)}
+                                    <li key={i} className="page-navbar" onClick={() => {
+                                        if (e.path !== "null") {
+                                            toPage(e.path)
+                                        }
+                                    }}
                                         onMouseOver={() => mouseOverMenuCollapse(e.menuCollapse, i)}
                                         onMouseLeave={() => mouseLeaveMenuCollapse(e.menuCollapse, i)}
                                     >

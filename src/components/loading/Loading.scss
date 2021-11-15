@@ -1,0 +1,45 @@
+@import '../../utils/variable.scss';
+
+.wrapp-loading{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.loading-bottom{
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+    z-index: 1;
+    align-items: center;
+    overflow: hidden;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+
+    .circle-loading-bottom{
+        display: flex;
+        height: 20px;
+        width: 20px;
+        border-radius: 500px;
+        border: 1px solid $color2;
+        border-top-color: #fff;
+        animation: loading 0.5s ease-in-out infinite;
+    }
+
+    .txt-loading-bottom{
+        display: flex;
+        color: $color1;
+        font-size: 13px;
+        margin-left: 8px;
+    }
+}
+
+@keyframes loading{
+    to{
+        transform: rotate(360deg);
+    }
+}

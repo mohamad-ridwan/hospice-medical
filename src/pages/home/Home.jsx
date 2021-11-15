@@ -6,6 +6,7 @@ import ServicingHours from '../../components/servicinghours/ServicingHours';
 import CarouselCard from '../../components/carouselcard/CarouselCard';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
+import { useHistory } from 'react-router';
 
 function Home() {
 
@@ -20,8 +21,6 @@ function Home() {
     const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
     const [idxHoverTitleSerivices, setIdxHoverTitleServices] = useState(null)
     const [idxHoverRecentBlog, setIdxHoverRecentBlog] = useState(null)
-
-    const contentCarousel = document.getElementsByClassName('content-carousel-card')
 
     function setAllAPI() {
         API.APIGetHeaderPage()
@@ -76,21 +75,16 @@ function Home() {
             .catch(err => console.log(err))
     }
 
-    function displayCarousel() {
-        setTimeout(() => {
-            if (contentCarousel.length > 0) {
-                for (let i = 0; i < contentCarousel.length; i++) {
-                    contentCarousel[i].style.display = 'flex'
-                }
-            }
-        }, 0);
-    }
-
     useEffect(() => {
         window.scrollTo(0, 0)
         setAllAPI()
-        displayCarousel()
     }, [])
+
+    function RenderParagraph({paragraph}){
+        return(
+            <p dangerouslySetInnerHTML={{__html: paragraph.length > 150 ? paragraph.substr(0, 150) + '...' : paragraph}}></p>
+        )
+    }
 
     function mouseOverCardServices(i) {
         setIdxHoverTitleServices(i)
@@ -116,10 +110,10 @@ function Home() {
         setHoverProcedureCtg(null)
     }
 
-    function RenderParagraph({paragraph}){
-        return(
-            <p dangerouslySetInnerHTML={{__html: paragraph.substr(0, 150) + '...'}}></p>
-        )
+    const history = useHistory()
+
+    function toPage(path){
+        history.push(path)
     }
 
     return (
@@ -277,12 +271,14 @@ function Home() {
                                                 cursorWrapp="pointer"
                                                 heightImg="200px"
                                                 fontSizeTitle="18px"
+                                                clock={e.clock}
                                                 date={e.date}
                                                 totalComment={e.comments.length}
                                                 colorTitle={i == idxHoverRecentBlog ? '#3face4' : '#000'}
                                                 transformImg={i == idxHoverRecentBlog ? 'scale(1.1)' : 'scale(1)'}
                                                 mouseOver={() => mouseOverRecentBlogs(i)}
                                                 mouseLeave={mouseLeaveRecentBlogs}
+                                                clickWrapp={()=>toPage(`blog/blog-details/${e.path}`)}
                                             />
                                         </div>
                                     )
