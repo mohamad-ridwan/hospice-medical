@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Loader, LoaderOptions } from 'google-maps'
+import {Loader, LoaderOptions} from 'google-maps'
 import './Contact.scss';
 import Header from '../../components/header/Header';
 import Input from '../../components/input/Input';
 import Button from '../../components/button/Button';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
+import Loading from '../../components/loading/Loading';
 
 function Contact() {
+    const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [listContact, setListContact] = useState([])
     const [_idFormContact, set_IdFormContact] = useState('')
@@ -20,6 +22,8 @@ function Contact() {
     })
 
     function setAllAPI() {
+        setLoading(true)
+
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -36,7 +40,7 @@ function Contact() {
                 const dataGoogleMaps = respons.filter(e => e.id === "google-maps")[0]
                 dataMaps.lat = dataGoogleMaps.lat
                 dataMaps.lng = dataGoogleMaps.lng
-                dataGoogleMaps.apiKey = dataGoogleMaps.apiKey
+                dataMaps.apiKey = dataGoogleMaps.apiKey
 
                 const contactAddress = respons.filter(e => e.id === "contact-address")
                 setListContact(contactAddress[0].data)
@@ -44,7 +48,13 @@ function Contact() {
                 const formContact = respons.filter(e => e.id === "form-contact-us")
                 set_IdFormContact(formContact[0]._id)
 
-                initMap(dataMaps)
+                if(Object.keys(dataMaps).length > 0){
+                    initMap(dataMaps)
+                }
+                
+                setTimeout(() => {
+                    setLoading(false)
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -61,7 +71,7 @@ function Contact() {
 
             const google = await loader.load();
 
-            const map = new google.maps.Map(document.getElementsByClassName('column-google-maps')[0], {
+            const map = new google.maps.Map(document.getElementById('column-google-maps'), {
                 center: { lat: lat, lng: lng },
                 zoom: 8
             })
@@ -155,7 +165,7 @@ function Contact() {
                 </div>
 
                 <div className="container-content-contact">
-                    <div className="column-google-maps">
+                    <div className="column-google-maps" id="column-google-maps">
 
                     </div>
 
@@ -240,6 +250,8 @@ function Contact() {
                         </div>
                     </div>
                 </div>
+
+                <Loading displayLoadingPage={loading ? 'flex' : 'none'}/>
             </div>
         </>
     )

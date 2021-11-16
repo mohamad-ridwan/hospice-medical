@@ -6,14 +6,17 @@ import AboutMyself from '../../components/aboutmyself/AboutMyself';
 import CarouselCard from '../../components/carouselcard/CarouselCard';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
+import Loading from '../../components/loading/Loading';
 
 function About() {
-
+    const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [dataAboutMyself, setDataAboutMyself] = useState({})
     const [feedback, setFeedback] = useState({})
 
     function setAllAPI() {
+        setLoading(true)
+
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -33,6 +36,10 @@ function About() {
         API.APIGetFeedback()
             .then(res => {
                 setFeedback(res.data[0])
+
+                setTimeout(() => {
+                    setLoading(false)
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -88,6 +95,8 @@ function About() {
                         <div></div>
                     )}
                 </div>
+
+                <Loading displayLoadingPage={loading ? 'flex' : 'none'} />
             </div>
         </>
     )

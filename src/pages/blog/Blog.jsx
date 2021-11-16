@@ -12,6 +12,7 @@ import Loading from '../../components/loading/Loading';
 
 function Blog() {
     const [filterBlog, selectBlogCategory] = useContext(BlogContext)
+    const [loading, setLoading] = useState(false)
     const [getHeaders, setGetHeaders] = useState({})
     const [dataImgKategori, setDataImgKategori] = useState([])
     const [contentBlog, setContentBlog] = useState([])
@@ -28,6 +29,8 @@ function Blog() {
     const paginate = document.getElementsByClassName('number-pagination')
 
     function setAllAPI() {
+        setLoading(true)
+
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -50,6 +53,10 @@ function Blog() {
                 setDataPopularPosts(getFourItems)
 
                 loadFilterBlog(filterBlog)
+
+                setTimeout(() => {
+                    setLoading(false)
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -83,16 +90,18 @@ function Blog() {
                                 setContentBlog(filteringBlog)
                                 clickPaginate(0)
                                 setLoadingBottom(false)
+                                setTimeout(() => {
+                                    loadActivePaginate()
+                                }, 10);
                             } else {
                                 setContentBlog(newData)
                                 clickPaginate(0)
                                 setLoadingBottom(false)
+                                setTimeout(() => {
+                                    loadActivePaginate()
+                                }, 10);
                             }
                         }
-
-                        setTimeout(() => {
-                            loadActivePaginate()
-                        }, 10);
                     }, 0);
                     return getData
                 })
@@ -232,7 +241,7 @@ function Blog() {
                                     mouseLeave={mouseLeaveImg}
                                     clickWrapp={() => {
                                         selectBlogCategory(e.id)
-                                        loadFilterBlog(e.id)
+                                        loadFilterBlog(e.id, true)
                                     }}
                                 />
                             </div>
@@ -318,6 +327,7 @@ function Blog() {
                 </div>
 
                 <Loading
+                    displayLoadingPage={loading ? 'flex' : 'none'}
                     displayLoadingBottom="flex"
                     rightLoadingBottom={loadingBottom ? '40px' : '-1000px'}
                 />

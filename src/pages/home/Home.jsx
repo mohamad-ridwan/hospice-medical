@@ -7,9 +7,10 @@ import CarouselCard from '../../components/carouselcard/CarouselCard';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import { useHistory } from 'react-router';
+import Loading from '../../components/loading/Loading';
 
 function Home() {
-
+    const [loading, setLoading] = useState(false)
     const [bannerHome, setBannerHome] = useState({})
     const [dataProcedureCategory, setDataProcedureCategory] = useState({})
     const [imgProcedure, setImgProcedure] = useState([])
@@ -23,6 +24,8 @@ function Home() {
     const [idxHoverRecentBlog, setIdxHoverRecentBlog] = useState(null)
 
     function setAllAPI() {
+        setLoading(true)
+
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -71,6 +74,10 @@ function Home() {
 
                 const getBlogsHome = respons.filter((e) => e.id === "our-recent-blogs")
                 setOurRecentBlogs(getBlogsHome[0])
+
+                setTimeout(() => {
+                    setLoading(false)
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -289,6 +296,10 @@ function Home() {
                         <div></div>
                     )}
                 </div>
+
+                <Loading
+                displayLoadingPage={loading ? 'flex' : 'none'}
+                />
             </div>
         </>
     )

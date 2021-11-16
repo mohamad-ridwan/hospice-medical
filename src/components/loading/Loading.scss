@@ -1,12 +1,34 @@
 @import '../../utils/variable.scss';
 
-.wrapp-loading{
+.wrapp-loading-page{
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    background-color: $color5;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999999;
+
+    .circle-loading-page{
+        display: flex;
+        position: relative;
+        height: 70px;
+        width: 70px;
+        border-radius: 500px;
+        border: 1px solid $color2;
+        border-top-color: $color5;
+        animation: loading 0.5s ease-in-out infinite;
+    }
+
+    .txt-loading-page{
+        display: flex;
+        position: absolute;
+        font-size: 11px;
+        color: $color1;
+    }
 }
 
 .loading-bottom{

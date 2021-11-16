@@ -4,13 +4,17 @@ import Header from '../../components/header/Header';
 import Card from '../../components/card/Card';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
+import Loading from '../../components/loading/Loading';
 
 function ServicesPage() {
+    const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [offeredServices, setOfferedServices] = useState({})
     const [idxHover, setIdxHover] = useState(null)
 
     function setAllAPI() {
+        setLoading(true)
+
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -22,6 +26,9 @@ function ServicesPage() {
         API.APIGetOurOfferedServices()
             .then(res => {
                 setOfferedServices(res.data[0])
+                setTimeout(() => {
+                    setLoading(false)
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -98,6 +105,8 @@ function ServicesPage() {
                         <div></div>
                     )}
                 </div>
+
+                <Loading displayLoadingPage={loading ? 'flex' : 'none'} />
             </div>
         </>
     )

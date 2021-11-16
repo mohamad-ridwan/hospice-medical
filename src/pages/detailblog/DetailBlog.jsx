@@ -13,9 +13,11 @@ import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import { useHistory } from 'react-router';
 import { BlogContext } from '../../services/context/BlogContext';
+import Loading from '../../components/loading/Loading';
 
 function DetailBlog() {
     const [filterBlog, selectBlogCategory] = useContext(BlogContext)
+    const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [dataDetailBlog, setDataDetailBlog] = useState({})
     const [dataPopularPosts, setDataPopularPosts] = useState([])
@@ -50,6 +52,8 @@ function DetailBlog() {
     const hoverBgImgPaginate = document.getElementsByClassName('hover-paginate-blog-details')
 
     function setAllAPI() {
+        setLoading(true)
+
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -74,6 +78,10 @@ function DetailBlog() {
 
                 const getPostCategory = respons.filter((e) => e.idCategory === "post-categories")
                 setDataPostCategories(getPostCategory)
+
+                setTimeout(() => {
+                    setLoading(false)
+                }, 10);
             })
             .catch(err => console.log(err))
     }
@@ -322,6 +330,8 @@ function DetailBlog() {
                         mouseOver={()=>{}}
                     />
                 </div>
+
+                <Loading displayLoadingPage={loading ? 'flex' : 'none'}/>
             </div>
         </>
     )
