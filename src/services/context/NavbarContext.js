@@ -1,37 +1,54 @@
-import React, {createContext, useEffect, useState} from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
 import API from '../api/index'
 
 export const NavbarContext = createContext()
 
-const NavbarProvider = ({children})=>{
+const NavbarProvider = ({ children }) => {
     const [linkMedsos, setLinkMedsos] = useState([])
     const [contactNav, setContactNav] = useState([])
     const [logoWeb, setLogoWeb] = useState({})
     const [menuPage, setMenuPage] = useState([])
+    const [users, setUsers] = useState({})
 
-    function setAllAPI(){
+    const idUser = Cookies.get('idUser')
+
+    function setAllAPI() {
         API.APIGetNavbar()
-        .then(res=>{
-            const respons = res.data
-            const getLinkMedsos = respons.filter((e)=>e.id === "link-medsos")
-            const getContact = respons.filter((e)=>e.id === "contact")
-            const getLogoWeb = respons.filter((e)=>e.id === "logo-web")
-            const getMenuPage = respons.filter((e)=>e.id === "menu-page")
+            .then(res => {
+                const respons = res.data
+                const getLinkMedsos = respons.filter((e) => e.id === "link-medsos")
+                const getContact = respons.filter((e) => e.id === "contact")
+                const getLogoWeb = respons.filter((e) => e.id === "logo-web")
+                const getMenuPage = respons.filter((e) => e.id === "menu-page")
 
-            setLinkMedsos(getLinkMedsos)
-            setContactNav(getContact)
-            setLogoWeb(getLogoWeb[0])
-            setMenuPage(getMenuPage)
-        })
-        .catch(err=>console.log(err))
+                setLinkMedsos(getLinkMedsos)
+                setContactNav(getContact)
+                setLogoWeb(getLogoWeb[0])
+                setMenuPage(getMenuPage)
+            })
+            .catch(err => console.log(err))
+
+        API.APIGetUsers()
+            .then(res => {
+                const respons = res.data
+                const checkUser = respons.filter(e => e.id === idUser)
+                if (checkUser.length > 0) {
+                    setUsers(checkUser[0])
+                    document.cookie = `idUser=${checkUser[0].id}`
+                } else {
+                    setUsers({})
+                }
+            })
+            .catch(err => console.log(err))
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setAllAPI()
     }, [])
 
-    return(
-        <NavbarContext.Provider value={[linkMedsos, contactNav, logoWeb, menuPage]}>
+    return (
+        <NavbarContext.Provider value={[linkMedsos, contactNav, logoWeb, menuPage, users, setUsers]}>
             {children}
         </NavbarContext.Provider>
     )

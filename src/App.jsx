@@ -11,6 +11,8 @@ import Blog from './pages/blog/Blog';
 import DetailBlog from './pages/detailblog/DetailBlog';
 import Contact from './pages/contact/Contact';
 import IndexContext from './services/context';
+import Register from './pages/register/Register';
+import Login from './pages/login/Login';
 
 function App() {
   return (
@@ -19,6 +21,14 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Switch>
+            <Route path='/login'>
+              <Login />
+            </Route>
+
+            <Route path='/register'>
+              <Register />
+            </Route>
+
             <Route path="/contact">
               <Contact />
             </Route>

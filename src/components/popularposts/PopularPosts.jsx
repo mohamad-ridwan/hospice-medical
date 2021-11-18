@@ -2,16 +2,8 @@ import React from 'react';
 import './PopularPosts.scss';
 import Card from '../card/Card';
 import endpoint from '../../services/api/endpoint';
-import { useHistory } from 'react-router';
 
-function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategories, mouseOver, mouseLeave }) {
-
-    const history = useHistory()
-
-    function toPage(path){
-        history.push(path)
-    }
-
+function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategories, mouseOver, mouseLeave,clickPopularPosts }) {
     return (
         <>
             <div className="column-kanan-content-blog">
@@ -38,8 +30,8 @@ function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategor
                             marginWrapp="0 0 20px 0"
                             cursorTitle="pointer"
                             alignItemsWrapp="center"
-                            clickTitle={()=>toPage(`/blog/blog-details/${e.path}`)}
-                            clickImg={()=>toPage(`/blog/blog-details/${e.path}`)}
+                            clickTitle={()=>clickPopularPosts(e.path)}
+                            clickImg={()=>clickPopularPosts(e.path)}
                         />
                     )
                 }) : (

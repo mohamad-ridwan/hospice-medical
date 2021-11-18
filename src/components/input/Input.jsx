@@ -1,7 +1,7 @@
 import React from 'react';
 import './Input.scss';
 
-function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError }) {
+function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile }) {
     return (
         <>
             <input type={type} className="input-card" placeholder={placeholder} name={nameInput} value={valueInput} style={{
@@ -13,14 +13,14 @@ function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, p
                 padding: paddingInputCard,
                 width: widthInputCard,
                 margin: marginInputCard
-            }} 
-            onChange={changeInput}
+            }}
+                onChange={changeInput}
             />
 
             <button className="btn-input-card" style={{
                 display: displayBtnInput
             }}
-            onClick={clickBtnInput}
+                onClick={clickBtnInput}
             >
                 {nameBtn}
 
@@ -39,9 +39,9 @@ function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, p
                         <li key={i} className="name-disease-type" style={{
                             color: e.jenis.includes('Disease Type') ? '#3face4' : "#777"
                         }}
-                        onMouseOver={()=>mouseOverBtnInput(i)}
-                        onMouseLeave={mouseLeaveBtnInput}
-                        onClick={()=>selectType(e.jenis, i)}
+                            onMouseOver={() => mouseOverBtnInput(i)}
+                            onMouseLeave={mouseLeaveBtnInput}
+                            onClick={() => selectType(e.jenis, i)}
                         >
                             {e.jenis}
                         </li>
@@ -51,13 +51,25 @@ function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, p
                 )}
             </ul>
 
+            <button className="input-card btn-input-file" style={{
+                display: displayInputfile,
+                cursor: 'pointer',
+                backgroundColor: 'transparent'
+            }}
+            onClick={clickInputFile}
+            >
+                {nameBtnInputFile}
+                <input name={nameInputFile} type="file" className="input-file" id={idInputFile} value={valueInputFile} onChange={changeFile}/>
+            </button>
+
             <textarea name={nameTextArea} id="" cols="30" rows="8" className="input-area-card" placeholder={placeholderTxtArea} style={{
                 display: displayTxtArea,
                 resize: resizeTxtArea,
                 width: widthTxtArea,
-                border: borderTxtArea
+                border: borderTxtArea,
+                margin: marginTxtArea
             }}
-            onChange={changeTextArea}
+                onChange={changeTextArea}
             ></textarea>
 
             <p className="error-message" style={{

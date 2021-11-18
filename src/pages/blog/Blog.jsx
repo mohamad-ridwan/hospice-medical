@@ -321,6 +321,7 @@ function Blog() {
                             selectBlogCategory(id)
                             loadFilterBlog(id, true)
                         }}
+                        clickPopularPosts={(path)=>toPage(`/blog/blog-details/${path}`)}
                         mouseOver={(idx) => mouseOverListCategories(idx)}
                         mouseLeave={mouseLeaveListCategories}
                     />

@@ -65,7 +65,7 @@ function Contact() {
     }, [])
 
     async function initMap(dataMaps) {
-        if (dataMaps !== undefined) {
+        if (Object.keys(dataMaps).length > 0) {
             const { lat, lng, apiKey } = dataMaps && { ...dataMaps }
             const loader = new Loader(apiKey, LoaderOptions);
 

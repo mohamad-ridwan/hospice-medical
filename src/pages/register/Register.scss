@@ -1,0 +1,48 @@
+@import '../../utils/variable.scss';
+
+.wrapp-register{
+    display: flex;
+    margin-top: 125px;
+    padding: 100px 10%;
+    align-items: center;
+    justify-content: center;
+    background-color: $color3;
+
+    .form-register{
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        padding: 35px;
+        background-color: #fff;
+
+        .title-register{
+            display: flex;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .or-login-with{
+            display: flex;
+            font-size: 13px;
+            color: $color8;
+            text-align: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .login-google-from-register{
+            justify-content: center;
+            margin: 0 100px;
+        }
+
+        .column-already-account{
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+            justify-content: center;
+        }
+    }
+}

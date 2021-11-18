@@ -1,5 +1,6 @@
 import GetAboutMyself from "./aboutmyself/get"
 import GetBlogs from "./blogs/get"
+import PostComment from "./blogs/postcomment"
 import GetContact from "./contact/get"
 import PostContactForm from "./contact/post"
 import GetDoctors from "./doctors/get"
@@ -12,42 +13,49 @@ import GetOurOfferedServices from "./ourofferedservices/get"
 import GetProcedureCategory from "./procedurecategory/get"
 import GetServicingHours from "./servicinghours/get"
 import PostFormAppointment from "./servicinghours/postform"
+import GetUsers from "./users/get"
+import PostUsers from "./users/post"
 
 // navbar
-const APIGetNavbar = ()=>GetNavbar('v1/navbar/get')
+const APIGetNavbar = () => GetNavbar('v1/navbar/get')
 
 // headerpage
-const APIGetHeaderPage = ()=>GetHeaderPage(`v3/header-page/get`)
+const APIGetHeaderPage = () => GetHeaderPage(`v3/header-page/get`)
 
 // procedure category
-const APIGetProcedureCategory = ()=>GetProcedureCategory('v4/procedure-category/get')
+const APIGetProcedureCategory = () => GetProcedureCategory('v4/procedure-category/get')
 
 // about myself
-const APIGetAboutMyself = ()=>GetAboutMyself('v5/about-myself/get')
+const APIGetAboutMyself = () => GetAboutMyself('v5/about-myself/get')
 
 // feedback
-const APIGetFeedback = ()=> GetFeedback('v6/feedback/get')
+const APIGetFeedback = () => GetFeedback('v6/feedback/get')
 
 // our offered services
-const APIGetOurOfferedServices = ()=>GetOurOfferedServices('v7/our-offered-services/get')
+const APIGetOurOfferedServices = () => GetOurOfferedServices('v7/our-offered-services/get')
 
 // servicing hours
-const APIGetServicingHours = ()=>GetServicingHours('v8/servicing-hours/get')
-const APIPostFormAppointment = (_id, data)=>PostFormAppointment(`v8/servicing-hours/post/book-an-appointment/user-appointment-data/${_id}`, data)
+const APIGetServicingHours = () => GetServicingHours('v8/servicing-hours/get')
+const APIPostFormAppointment = (_id, data) => PostFormAppointment(`v8/servicing-hours/post/book-an-appointment/user-appointment-data/${_id}`, data)
 
 // blogs
-const APIGetBlogs = ()=>GetBlogs('v9/blog/get')
+const APIGetBlogs = () => GetBlogs('v9/blog/get')
+const APIPostComment = (_id, id, data) => PostComment(`v9/blog/post/all-document/data/comments/${_id}/${id}`, data)
 
 // footer
-const APIGetFooter = ()=> GetFooter('v2/footer/get')
-const APIPostNewsletter = (_id, data)=>PostNewsletter(`v2/footer/post/newsletter/users/${_id}`, data)
+const APIGetFooter = () => GetFooter('v2/footer/get')
+const APIPostNewsletter = (_id, data) => PostNewsletter(`v2/footer/post/newsletter/users/${_id}`, data)
 
 // doctors
-const APIGetDoctors = ()=>GetDoctors('v10/doctors/get')
+const APIGetDoctors = () => GetDoctors('v10/doctors/get')
 
 // contact
-const APIGetContact = ()=>GetContact('v11/contact/get/get-all')
-const APIPostContactForm = (_id, data)=>PostContactForm(`v11/contact/post/form-contact-us/data/${_id}`, data)
+const APIGetContact = () => GetContact('v11/contact/get/get-all')
+const APIPostContactForm = (_id, data) => PostContactForm(`v11/contact/post/form-contact-us/data/${_id}`, data)
+
+//users
+const APIGetUsers = () => GetUsers('v12/users/get')
+const APIPostUsers = (data) => PostUsers(`v12/users/post`, data)
 
 const API = {
     APIGetNavbar,
@@ -63,7 +71,10 @@ const API = {
     APIGetDoctors,
     APIGetContact,
     APIPostContactForm,
-    APIPostNewsletter
+    APIPostNewsletter,
+    APIGetUsers,
+    APIPostUsers,
+    APIPostComment,
 }
 
 export default API

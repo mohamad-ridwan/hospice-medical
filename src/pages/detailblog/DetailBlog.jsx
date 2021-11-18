@@ -14,14 +14,25 @@ import endpoint from '../../services/api/endpoint';
 import { useHistory } from 'react-router';
 import { BlogContext } from '../../services/context/BlogContext';
 import Loading from '../../components/loading/Loading';
+import { NavbarContext } from '../../services/context/NavbarContext';
 
 function DetailBlog() {
-    const [filterBlog, selectBlogCategory] = useContext(BlogContext)
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
+    const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
     const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [dataDetailBlog, setDataDetailBlog] = useState({})
     const [dataPopularPosts, setDataPopularPosts] = useState([])
     const [dataPostCategories, setDataPostCategories] = useState([])
+    const [_idDocument, set_IdDocument] = useState('')
+    const [idBlog, setIdBlog] = useState('')
+    const [listUserComments, setListUserComments] = useState([])
+    const [errorMessage, setErrorMessage] = useState({})
+    const [inputComment, setInputComment] = useState({
+        name: '',
+        subject: '',
+        message: '',
+    })
     const [nextAndPrevPosts, setNextAndPrevPosts] = useState([
         {
             img: imgPrevPost,
@@ -51,7 +62,7 @@ function DetailBlog() {
     const history = useHistory()
     const hoverBgImgPaginate = document.getElementsByClassName('hover-paginate-blog-details')
 
-    function setAllAPI() {
+    function setAllAPI(pathLocal) {
         setLoading(true)
 
         API.APIGetHeaderPage()
@@ -67,10 +78,23 @@ function DetailBlog() {
                 const respons = res.data
                 const idLocation = location.split('/')[3]
                 const pathLocation = location.split('blog/blog-details/')[1]
+                const getIdLocal = pathLocal !== undefined ? pathLocal.split('/')[0] : null
 
-                const getDataFromLocation = respons.filter((e) => e.id === idLocation)
-                const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
-                setDataDetailBlog(getDetailData[0])
+                if (pathLocal !== undefined) {
+                    const getDataFromLocation = respons.filter((e) => e.id === getIdLocal)
+                    const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocal)
+                    setDataDetailBlog(getDetailData[0])
+                    set_IdDocument(getDataFromLocation[0]._id)
+                    setIdBlog(getDetailData[0].id)
+                    setListUserComments(getDetailData[0].comments)
+                } else {
+                    const getDataFromLocation = respons.filter((e) => e.id === idLocation)
+                    const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
+                    setDataDetailBlog(getDetailData[0])
+                    set_IdDocument(getDataFromLocation[0]._id)
+                    setIdBlog(getDetailData[0].id)
+                    setListUserComments(getDetailData[0].comments)
+                }
 
                 const getPopularPosts = respons.filter((e) => e.id === 'popular-posts')
                 const getFourItems = getPopularPosts[0].data.filter((e, i) => i < 4)
@@ -135,6 +159,85 @@ function DetailBlog() {
             }
             selectBlogCategory('')
         }
+    }
+
+    function changeInput(e) {
+        setInputComment({
+            ...inputComment,
+            [e.target.name]: e.target.value
+        })
+
+        if (Object.keys(errorMessage).length > 0) {
+            setErrorMessage({
+                ...errorMessage,
+                [e.target.name]: ''
+            })
+        }
+    }
+
+    function postComment(data) {
+        API.APIPostComment(_idDocument, idBlog, data)
+            .then(res => {
+                setAllAPI()
+
+                setInputComment({
+                    name: '',
+                    subject: '',
+                })
+
+                return res
+            })
+            .catch(err => console.log(err))
+    }
+
+    const nameMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    const numMonth = new Date().getMonth()
+    const date = new Date().getDate()
+    const years = new Date().getFullYear()
+    const hours = new Date().getHours()
+    const minute = new Date().getMinutes()
+
+    const getMonth = nameMonth[numMonth + 1]
+    const getHours = hours.toString().length === 1 ? `0${hours}` : hours
+    const getMinutes = minute.toString().length === 1 ? `0${minute}` : minute
+
+    function submitFormComment() {
+        let err = {}
+
+        const dataComment = {
+            id: users && users.id,
+            name: inputComment.name,
+            email: users && users.email,
+            subject: inputComment.subject,
+            message: inputComment.message,
+            image: users && users.image,
+            times: `${getMonth} ${date}, ${years} at ${getHours}:${getMinutes}`
+        }
+
+        if (!inputComment.name) {
+            err.name = 'Must be required!'
+        }
+        if (!inputComment.subject) {
+            err.subject = '!Must be required'
+        }
+        if (!inputComment.message) {
+            err.message = 'Must be required'
+        }
+
+        if (Object.keys(err).length === 0) {
+            if (Object.keys(users).length === 0) {
+                history.push('/login')
+                setRouteLoginFromComment(location)
+            } else {
+                postComment(dataComment)
+            }
+        }
+        setErrorMessage(err)
+    }
+
+    function clickPopularPosts(path) {
+        history.push(`/blog/blog-details/${path}`)
+        setAllAPI(path)
     }
 
     return (
@@ -240,22 +343,23 @@ function DetailBlog() {
 
                                     <div className="column-list-comments-blog-details">
                                         <p className="total-comments">
-                                            05 Comments
+                                            {listUserComments.length} Comments
                                         </p>
 
-                                        {dataComments.map((e) => {
+                                        {listUserComments && listUserComments.length > 0 ? listUserComments.map((e, i) => {
                                             return (
                                                 <Card
+                                                    key={i}
                                                     displayContentCard="flex"
-                                                    img={e.image}
-                                                    heightImg="60px"
+                                                    img={`${endpoint}/${e.image}`}
+                                                    heightImg="35px"
                                                     title={e.name}
-                                                    paragraph={e.date}
-                                                    comments={e.comment}
+                                                    paragraph={e.times}
+                                                    comments={e.message}
                                                     displayTxtComment="flex"
                                                     flexDirectionWrapp="row"
-                                                    widthImg="auto"
-                                                    fontSizeTitle="16px"
+                                                    widthImg="35px"
+                                                    fontSizeTitle="14px"
                                                     fontSizeParagraph="12px"
                                                     marginTitle="0 0 5px 0"
                                                     marginImg="0 15px 0 0"
@@ -264,9 +368,12 @@ function DetailBlog() {
                                                     colorTitle="#000"
                                                     colorParagraph="#ccc"
                                                     cursorImg="default"
+                                                    bdrRadiusImg="500px"
                                                 />
                                             )
-                                        })}
+                                        }) : (
+                                            <div></div>
+                                        )}
                                     </div>
 
                                     <div className="leave-a-reply">
@@ -274,27 +381,26 @@ function DetailBlog() {
                                             Leave a Reply
                                         </p>
 
-                                        <form action="" className="form-leave-a-reply">
-                                            <div className="main-input-leave-a-reply">
-                                                <Input
-                                                    type="text"
-                                                    placeholder="Enter Name"
-                                                    widthInputCard="100%"
-                                                />
-                                            </div>
-                                            <div className="main-input-leave-a-reply">
-                                                <Input
-                                                    type="email"
-                                                    placeholder="Enter email address"
-                                                    widthInputCard="100%"
-                                                />
-                                            </div>
-
+                                        <form onSubmit={(e) => e.preventDefault()} className="form-leave-a-reply">
+                                            <Input
+                                                type="text"
+                                                placeholder="Enter Name"
+                                                widthInputCard="100%"
+                                                nameInput="name"
+                                                displayErrorMsg="flex"
+                                                valueInput={inputComment.name}
+                                                errorMessage={errorMessage && errorMessage.name}
+                                                changeInput={changeInput}
+                                            />
                                             <Input
                                                 type="text"
                                                 placeholder="Subject"
                                                 widthInputCard="100%"
-                                                marginInputCard="0 0 15px 0"
+                                                nameInput="subject"
+                                                displayErrorMsg="flex"
+                                                valueInput={inputComment.subject}
+                                                errorMessage={errorMessage && errorMessage.subject}
+                                                changeInput={changeInput}
                                             />
                                             <Input
                                                 displayTxtInput="none"
@@ -303,12 +409,18 @@ function DetailBlog() {
                                                 placeholderTxtArea="Message"
                                                 resizeTxtArea="none"
                                                 widthTxtArea="100%"
+                                                nameTextArea="message"
+                                                displayErrorMsg="flex"
+                                                marginTxtArea="15px 0 0 0"
+                                                errorMessage={errorMessage && errorMessage.message}
+                                                changeTextArea={changeInput}
                                             />
 
                                             <div className="column-btn-submit-leave-a-reply">
                                                 <Button
                                                     nameBtn="Post Comment"
                                                     padding="12px 40px"
+                                                    click={submitFormComment}
                                                 />
                                             </div>
                                         </form>
@@ -323,15 +435,16 @@ function DetailBlog() {
                     <PopularPosts
                         dataPopularPosts={dataPopularPosts}
                         dataPostCategories={dataPostCategories}
-                        btnListPostCategories={async (id)=>{
+                        btnListPostCategories={async (id) => {
                             toPage('/blog')
                             await selectBlogCategory(id)
                         }}
-                        mouseOver={()=>{}}
+                        clickPopularPosts={(path) => clickPopularPosts(path)}
+                        mouseOver={() => { }}
                     />
                 </div>
 
-                <Loading displayLoadingPage={loading ? 'flex' : 'none'}/>
+                <Loading displayLoadingPage={loading ? 'flex' : 'none'} />
             </div>
         </>
     )

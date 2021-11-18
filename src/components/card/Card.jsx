@@ -3,7 +3,7 @@ import './Card.scss';
 import Button from '../button/Button';
 
 function Card({ img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, heightImg, date, totalComment, displayDate, cursorWrapp, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments, marginHoverImg, opacityHoverImg, paddingHoverImg, fontSizeTitleHoverImg, fontWeightTitleHoverImg, paddingTitleHoverImg, bgColorHoverImg, justifyContentHoverImg, displayListMedsos, paragraphHoverImg, displayParagraphoverImg, borderTitleHoverImg, positionTitleHoverImg, bottomTitleHoverImg,
-    positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard, clickWrapp, dataMedsos, clickTitle, clickBtn, clickImg, clock }) {
+    positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard, clickWrapp, dataMedsos, clickTitle, clickBtn, clickImg, clock, bdrRadiusImg }) {
     return (
         <>
             <div className={`wrapp-card`} style={{
@@ -27,7 +27,8 @@ function Card({ img, titleImgHover, displayContentCard, displayImg, title, parag
                     height: heightImg,
                     width: widthImg,
                     margin: marginImg,
-                    cursor: cursorImg
+                    cursor: cursorImg,
+                    borderRadius: bdrRadiusImg
                 }}
                 onClick={clickImg}
                 >

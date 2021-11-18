@@ -1,13 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './Navbar.scss';
 import { useHistory } from 'react-router';
 import { NavbarContext } from '../../services/context/NavbarContext';
 import endpoint from '../../services/api/endpoint';
 import { BlogContext } from '../../services/context/BlogContext';
+import imgUser from '../../images/user.png'
 
 function Navbar() {
-    const [filterBlog, selectBlogCategory] = useContext(BlogContext)
-    const [linkMedsos, contactNav, logoWeb, menuPage] = useContext(NavbarContext)
+    const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
+    const [onOverProfile, setOnOverProfile] = useState(false)
+    const [positionLogin, setPositionLogin] = useState('0px')
 
     const history = useHistory();
 
@@ -46,8 +49,9 @@ function Navbar() {
     async function toPage(path) {
         const locationBlog = window.location.pathname === "/blog"
         history.push(path)
-        
-        if(locationBlog === false){
+        setRouteLoginFromComment(null)
+
+        if (locationBlog === false) {
             if (filterBlog.length > 0) {
                 const getActiveListPostCtg = document.getElementsByClassName(filterBlog)
                 if (getActiveListPostCtg.length > 0) {
@@ -57,7 +61,7 @@ function Navbar() {
                 selectBlogCategory('')
             }
         }
-        
+
         await window.scrollTo(0, 0)
     }
 
@@ -90,6 +94,34 @@ function Navbar() {
 
             changePositionPageCollapse(index);
         }
+    }
+
+    function changePositionProfileCollapse(){
+        const scrollPosition = Math.floor(window.pageYOffset)
+        const heightNavContact = Math.floor(navContact[0].getBoundingClientRect().height)
+        const heightNavPage = Math.floor(navPage[0].getBoundingClientRect().height)
+        const count = heightNavContact + heightNavPage
+
+        if (scrollPosition < count) {
+            setPositionLogin('125px')
+        } else if (scrollPosition > count) {
+            setPositionLogin(`${heightNavPage}px`)
+        }
+    }
+
+    function mouseOverProfile() {
+        setOnOverProfile(true)
+        changePositionProfileCollapse()
+    }
+
+    function mouseLeaveProfile() {
+        setOnOverProfile(false)
+        changePositionProfileCollapse()
+    }
+
+    function logOut(){
+        document.cookie = 'idUser='
+        setUsers({})
     }
 
     return (
@@ -125,43 +157,100 @@ function Navbar() {
                 <div className="nav-page">
                     <img src={logoWeb && Object.keys(logoWeb).length !== 0 ? `${endpoint}/${logoWeb.image}` : ''} alt="" className="logo-web" onClick={() => toPage('/')} />
 
-                    <ul className="menu-page-navbar">
-                        {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
-                            const pageCollapse = e.menuCollapse
+                    <div className="column-kanan-navbar">
+                        <ul className="menu-page-navbar">
+                            {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
+                                const pageCollapse = e.menuCollapse
 
-                            return (
+                                return (
+                                    <>
+                                        <li key={i} className="page-navbar" onClick={() => {
+                                            if (e.path !== "null") {
+                                                toPage(e.path)
+                                            }
+                                        }}
+                                            onMouseOver={() => mouseOverMenuCollapse(e.menuCollapse, i)}
+                                            onMouseLeave={() => mouseLeaveMenuCollapse(e.menuCollapse, i)}
+                                        >
+                                            {e.name}
+
+                                            <ul className="menu-collapse">
+                                                {pageCollapse && pageCollapse.length > 0 ? pageCollapse.map((e, i) => {
+                                                    return (
+                                                        <li key={i} className="name-menu-collapse" onClick={(p) => {
+                                                            p.stopPropagation()
+                                                            toPage(e.path)
+                                                        }}>
+                                                            {e.name}
+                                                        </li>
+                                                    )
+                                                }) : (
+                                                    <div></div>
+                                                )}
+                                            </ul>
+                                        </li>
+                                    </>
+                                )
+                            }) : (
+                                <div></div>
+                            )}
+                        </ul>
+
+                        <div className="column-profile">
+                            {Object.keys(users).length > 0 ? (
                                 <>
-                                    <li key={i} className="page-navbar" onClick={() => {
-                                        if (e.path !== "null") {
-                                            toPage(e.path)
-                                        }
-                                    }}
-                                        onMouseOver={() => mouseOverMenuCollapse(e.menuCollapse, i)}
-                                        onMouseLeave={() => mouseLeaveMenuCollapse(e.menuCollapse, i)}
+                                    <div className="profile-nav"
+                                        onMouseOver={mouseOverProfile}
+                                        onMouseLeave={mouseLeaveProfile}
                                     >
-                                        {e.name}
+                                        <img src={`${endpoint}/${users.image}`} alt="" className="img-profile" />
+                                        <p className="name-profile">
+                                            {users.name.substr(0, 10) + '...'}
+                                        </p>
 
-                                        <ul className="menu-collapse">
-                                            {pageCollapse && pageCollapse.length > 0 ? pageCollapse.map((e, i) => {
-                                                return (
-                                                    <li key={i} className="name-menu-collapse" onClick={(p) => {
-                                                        p.stopPropagation()
-                                                        toPage(e.path)
-                                                    }}>
-                                                        {e.name}
-                                                    </li>
-                                                )
-                                            }) : (
-                                                <div></div>
-                                            )}
-                                        </ul>
-                                    </li>
+                                        <div className="profile-collapse" style={{
+                                            display: onOverProfile ? 'flex' : 'none',
+                                            top: positionLogin
+                                        }}>
+                                            <li className="menu-register"
+                                            onClick={logOut}
+                                            >
+                                                LOG OUT
+                                            </li>
+                                        </div>
+                                    </div>
                                 </>
-                            )
-                        }) : (
-                            <div></div>
-                        )}
-                    </ul>
+                            ) : (
+                                <>
+                                    <div className="profile-nav"
+                                        onMouseOver={mouseOverProfile}
+                                        onMouseLeave={mouseLeaveProfile}
+                                    >
+                                        <img src={imgUser} alt="" className="img-profile" />
+                                        <p className="name-profile">
+                                            Login/Register
+                                        </p>
+
+                                        <div className="profile-collapse" style={{
+                                            display: onOverProfile ? 'flex' : 'none',
+                                            top: positionLogin
+                                        }}>
+                                            <li className="menu-register"
+                                            onClick={()=>toPage('/login')}
+                                            >
+                                                LOGIN
+                                            </li>
+                                            <li className="menu-register"
+                                            onClick={()=>toPage('/register')}
+                                            >
+                                                REGISTER
+                                            </li>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
