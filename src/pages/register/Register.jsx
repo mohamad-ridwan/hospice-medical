@@ -6,11 +6,13 @@ import Input from '../../components/input/Input'
 import Button from '../../components/button/Button'
 import { NavbarContext } from '../../services/context/NavbarContext'
 import API from '../../services/api';
+import Loading from '../../components/loading/Loading';
 
 function Register() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
     const [nameImg, setNameImg] = useState('Select your image profile')
     const [errMessage, setErrMessage] = useState({})
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [input, setInput] = useState({
         name: '',
         email: '',
@@ -44,12 +46,15 @@ function Register() {
     }
 
     function postForm(data, email) {
+        setLoadingSubmit(true)
+
         API.APIGetUsers()
             .then(res => {
                 const respons = res.data
                 const checkUser = respons.filter(e => e.email === email)
                 if (checkUser.length > 0) {
                     alert('Email sudah terpakai!')
+                    setLoadingSubmit(false)
                 } else {
                     API.APIPostUsers(data)
                         .then(res => {
@@ -62,15 +67,21 @@ function Register() {
                                 image: null,
                             })
                             setNameImg('Select your image profile')
+                            setLoadingSubmit(false)
                             return res;
                         })
                         .catch(err => {
                             alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                            setLoadingSubmit(false)
                             console.log(err)
                         })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
     }
 
     function submitForm() {
@@ -217,6 +228,11 @@ function Register() {
                         </p>
                     </div>
                 </div>
+
+                <Loading
+                    displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
+                    displayBarrier={loadingSubmit ? 'flex' : 'none'}
+                />
             </div>
         </>
     )

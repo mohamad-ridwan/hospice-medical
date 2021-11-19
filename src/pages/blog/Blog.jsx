@@ -52,7 +52,7 @@ function Blog() {
                 const getFourItems = getPopularPosts[0].data.filter((e, i) => i < 4)
                 setDataPopularPosts(getFourItems)
 
-                loadFilterBlog(filterBlog)
+                loadFilterBlog(filterBlog, true)
 
                 setTimeout(() => {
                     setLoading(false)

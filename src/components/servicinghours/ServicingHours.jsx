@@ -3,6 +3,7 @@ import './ServicingHours.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import API from '../../services/api';
+import Loading from '../../components/loading/Loading';
 
 function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bottomBook, marginWrapp }) {
 
@@ -13,6 +14,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     const [topDiseaseType, setTopDiseaseType] = useState(0)
     const [errorMessage, setErrorMessage] = useState({})
     const [_idFormAppointment, set_IdFormBookAppointment] = useState('')
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [formUserAppointment, setFormUserAppointment] = useState({
         patientName: '',
         phone: '',
@@ -106,6 +108,8 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     }
 
     function postUserAppointment(data) {
+        setLoadingSubmit(true)
+
         API.APIPostFormAppointment(_idFormAppointment, data)
             .then(res => {
                 alert('berhasil menjadwalkan pertemuan')
@@ -124,10 +128,12 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         
                 diseaseType[0].style.color = '#3face4'
 
+                setLoadingSubmit(false)
                 return res
             })
             .catch(err => {
                 alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                setLoadingSubmit(false)
                 console.log(err)
             })
     }
@@ -314,6 +320,11 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                         </form>
                     </div>
                 </div>
+
+                <Loading 
+                displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
+                displayBarrier={loadingSubmit ? 'flex' : 'none'}
+                />
 
                 {/* <div className="btn-close-from-body" style={{
                     display: onDiseaseType ? 'flex' : 'none'

@@ -6,11 +6,13 @@ import Button from '../../components/button/Button'
 import { useHistory } from 'react-router'
 import API from '../../services/api'
 import { BlogContext } from '../../services/context/BlogContext'
+import Loading from '../../components/loading/Loading'
 
 function Login() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
     const [errMessage, setErrMessage] = useState({})
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [input, setInput] = useState({
         name: '',
         email: '',
@@ -42,30 +44,37 @@ function Login() {
     }
 
     function login(data) {
-        API.APIGetUsers()
-        .then(res=>{
-            const respons = res.data
-            const checkUser = respons.filter(e=> e.name === data.name && e.email === data.email && e.password === data.password)
-            if(checkUser.length > 0){
-                document.cookie = `idUser=${checkUser[0].id}`
-                setUsers(checkUser[0])
-                if(routeLoginFromComment !== null){
-                    toPage(routeLoginFromComment)
+        setLoadingSubmit(true)
 
-                    setTimeout(() => {
-                        setRouteLoginFromComment(null)
-                    }, 0);
-                }else{
-                    toPage('/')
+        API.APIGetUsers()
+            .then(res => {
+                const respons = res.data
+                const checkUser = respons.filter(e => e.name === data.name && e.email === data.email && e.password === data.password)
+                if (checkUser.length > 0) {
+                    document.cookie = `idUser=${checkUser[0].id}`
+                    setUsers(checkUser[0])
+                    if (routeLoginFromComment !== null) {
+                        setLoadingSubmit(false)
+                        toPage(routeLoginFromComment)
+
+                        setTimeout(() => {
+                            setRouteLoginFromComment(null)
+                            
+                        }, 0);
+                    } else {
+                        setLoadingSubmit(false)
+                        toPage('/')
+                    }
+                } else {
+                    setErrMessage({ password: 'Akun tidak terdaftar!' })
+                    setLoadingSubmit(false)
                 }
-            }else{
-                setErrMessage({password: 'Akun tidak terdaftar!'})
-            }
-        })
-        .catch(err=>{
-            alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
-            console.log(err)
-        })
+            })
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
     }
 
     function submitForm() {
@@ -155,6 +164,11 @@ function Login() {
                         </p>
                     </div>
                 </div>
+
+                <Loading
+                    displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
+                    displayBarrier={loadingSubmit ? 'flex' : 'none'}
+                />
             </div>
         </>
     )

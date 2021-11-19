@@ -4,12 +4,14 @@ import Input from '../input/Input';
 import Button from '../button/Button';
 import API from '../../services/api';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import Loading from '../loading/Loading';
 
 function Footer() {
     const [linkMedsos, contactNav, logoWeb, menuPage] = useContext(NavbarContext)
     const [contactUs, setContactUs] = useState({})
     const [newsletter, setNewsletter] = useState({})
     const [hoverBtnSubmit, setHoverBtnSubmit] = useState(false)
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [inputNewsletter, setInputNewsletter] = useState('')
 
     function mouseOverBtnSubmit() {
@@ -44,6 +46,8 @@ function Footer() {
     }
 
     function submitFormNewsletter(e) {
+        setLoadingSubmit(true)
+
         e.preventDefault()
         if (inputNewsletter.length > 0 && inputNewsletter.includes('@')) {
             const data = {
@@ -55,10 +59,13 @@ function Footer() {
                     .then(res => {
                         alert('Berhasil mengirimkan email Anda\nNantikan berita terbaru dari kami!')
                         setInputNewsletter('')
+
+                        setLoadingSubmit(false)
                         return res
                     })
                     .catch(err => {
                         alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                        setLoadingSubmit(false)
                         console.log(err)
                     })
             }
@@ -160,6 +167,11 @@ function Footer() {
                         )}
                     </ul>
                 </div>
+
+                <Loading
+                    displayLoadingBottom={loadingSubmit ? 'flex': 'none'}
+                    displayBarrier={loadingSubmit ? 'flex': 'none'}
+                />
             </div>
         </>
     )

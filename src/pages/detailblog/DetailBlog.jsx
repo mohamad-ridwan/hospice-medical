@@ -5,8 +5,6 @@ import PopularPosts from '../../components/popularposts/PopularPosts';
 import Card from '../../components/card/Card';
 import imgPrevPost from '../../images/img-prev-post.jpg'
 import imgNextPost from '../../images/img-next-post.jpg'
-import imgComment1 from '../../images/img-comment1.jpg'
-import imgComment2 from '../../images/img-comment2.jpg'
 import Input from '../../components/input/Input';
 import Button from '../../components/button/Button';
 import API from '../../services/api';
@@ -29,7 +27,6 @@ function DetailBlog() {
     const [listUserComments, setListUserComments] = useState([])
     const [errorMessage, setErrorMessage] = useState({})
     const [inputComment, setInputComment] = useState({
-        name: '',
         subject: '',
         message: '',
     })
@@ -41,20 +38,6 @@ function DetailBlog() {
         {
             img: imgNextPost,
             title: 'Telescopes 101',
-        }
-    ])
-    const [dataComments, setDataComments] = useState([
-        {
-            image: imgComment1,
-            name: 'Emilly Blunt',
-            date: 'December 4, 2017 at 3:12 pm',
-            comment: 'Never say goodbye till the end comes!'
-        },
-        {
-            image: imgComment2,
-            name: 'Maria Luna',
-            date: 'December 4, 2017 at 3:12 pm',
-            comment: 'Never say goodbye till the end comes!'
         }
     ])
 
@@ -181,7 +164,6 @@ function DetailBlog() {
                 setAllAPI()
 
                 setInputComment({
-                    name: '',
                     subject: '',
                 })
 
@@ -206,7 +188,7 @@ function DetailBlog() {
 
         const dataComment = {
             id: users && users.id,
-            name: inputComment.name,
+            name: users && users.name,
             email: users && users.email,
             subject: inputComment.subject,
             message: inputComment.message,
@@ -214,11 +196,8 @@ function DetailBlog() {
             times: `${getMonth} ${date}, ${years} at ${getHours}:${getMinutes}`
         }
 
-        if (!inputComment.name) {
-            err.name = 'Must be required!'
-        }
         if (!inputComment.subject) {
-            err.subject = '!Must be required'
+            err.subject = 'Must be required'
         }
         if (!inputComment.message) {
             err.message = 'Must be required'
@@ -238,6 +217,7 @@ function DetailBlog() {
     function clickPopularPosts(path) {
         history.push(`/blog/blog-details/${path}`)
         setAllAPI(path)
+        window.scrollTo(0, 0)
     }
 
     return (
@@ -384,16 +364,6 @@ function DetailBlog() {
                                         <form onSubmit={(e) => e.preventDefault()} className="form-leave-a-reply">
                                             <Input
                                                 type="text"
-                                                placeholder="Enter Name"
-                                                widthInputCard="100%"
-                                                nameInput="name"
-                                                displayErrorMsg="flex"
-                                                valueInput={inputComment.name}
-                                                errorMessage={errorMessage && errorMessage.name}
-                                                changeInput={changeInput}
-                                            />
-                                            <Input
-                                                type="text"
                                                 placeholder="Subject"
                                                 widthInputCard="100%"
                                                 nameInput="subject"
@@ -444,7 +414,9 @@ function DetailBlog() {
                     />
                 </div>
 
-                <Loading displayLoadingPage={loading ? 'flex' : 'none'} />
+                <Loading
+                    displayLoadingPage={loading ? 'flex' : 'none'}
+                />
             </div>
         </>
     )

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Loader, LoaderOptions} from 'google-maps'
+import { Loader, LoaderOptions } from 'google-maps'
 import './Contact.scss';
 import Header from '../../components/header/Header';
 import Input from '../../components/input/Input';
@@ -14,6 +14,7 @@ function Contact() {
     const [listContact, setListContact] = useState([])
     const [_idFormContact, set_IdFormContact] = useState('')
     const [errorMessage, setErrorMessage] = useState({})
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [formInput, setFormInput] = useState({
         name: '',
         email: '',
@@ -48,10 +49,10 @@ function Contact() {
                 const formContact = respons.filter(e => e.id === "form-contact-us")
                 set_IdFormContact(formContact[0]._id)
 
-                if(Object.keys(dataMaps).length > 0){
+                if (Object.keys(dataMaps).length > 0) {
                     initMap(dataMaps)
                 }
-                
+
                 setTimeout(() => {
                     setLoading(false)
                 }, 10);
@@ -95,6 +96,8 @@ function Contact() {
     }
 
     function postForm(data) {
+        setLoadingSubmit(true)
+
         API.APIPostContactForm(_idFormContact, data)
             .then(res => {
                 alert('Anda berhasil mengirimkan pesan kepada kami')
@@ -105,6 +108,7 @@ function Contact() {
                     subject: '',
                     message: ''
                 })
+                setLoadingSubmit(false)
                 return res
             })
             .catch(err => {
@@ -139,7 +143,7 @@ function Contact() {
         }
 
         if (Object.keys(err).length === 0) {
-            if(window.confirm('Ingin mengirim pesan kepada kami?')){
+            if (window.confirm('Ingin mengirim pesan kepada kami?')) {
                 postForm(data)
             }
         }
@@ -251,7 +255,11 @@ function Contact() {
                     </div>
                 </div>
 
-                <Loading displayLoadingPage={loading ? 'flex' : 'none'}/>
+                <Loading
+                    displayLoadingPage={loading ? 'flex' : 'none'}
+                    displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
+                    displayBarrier={loadingSubmit ? 'flex' : 'none'}
+                />
             </div>
         </>
     )

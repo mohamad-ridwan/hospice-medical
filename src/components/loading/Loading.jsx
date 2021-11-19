@@ -1,6 +1,6 @@
 import './Loading.scss'
 
-function Loading({ displayLoadingBottom, rightLoadingBottom, displayLoadingPage }) {
+function Loading({ displayLoadingBottom, rightLoadingBottom, displayLoadingPage, displayBarrier }) {
     return (
         <>
             <div className="wrapp-loading-page" style={{
@@ -22,6 +22,12 @@ function Loading({ displayLoadingBottom, rightLoadingBottom, displayLoadingPage 
                 <p className="txt-loading-bottom">
                     Loading...
                 </p>
+            </div>
+
+            <div className="barrier-loading-bottom" style={{
+                display: displayBarrier
+            }}>
+
             </div>
         </>
     )
