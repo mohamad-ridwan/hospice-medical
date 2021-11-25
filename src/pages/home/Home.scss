@@ -1,5 +1,29 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 569px) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin bigTablet {
+    @media (min-width: 769px) and (max-width: 986px) {
+        @content;
+    }
+}
+
+@mixin semiDesktop {
+    @media (min-width: 769px) and (max-width: 1200px) {
+        @content;
+    }
+}
+
 .wrapp-home{
     display: flex;
     flex-direction: column;
@@ -18,6 +42,10 @@
         background-position: bottom;
         overflow: hidden;
 
+        @include navContactMobile(){
+            height: 400px;
+        }
+
         .title-banner-home{
             display: flex;
             text-align: start;
@@ -27,6 +55,12 @@
             padding: 0 10%;
             width: 500px;
             z-index: 1;
+
+            @include navContactMobile(){
+                padding: 0 5%;
+                width: auto;
+                font-size: 30px;
+            }
         }
 
         .paragraph-banner-home{
@@ -38,6 +72,11 @@
             padding: 0 10%;
             width: 500px;
             z-index: 1;
+
+            @include navContactMobile(){
+                padding: 0 5%;
+                width: auto;
+            }
         }
 
         .img-banner-home{
@@ -55,6 +94,10 @@
         flex-direction: column;
         padding: 100px 0 0 0;
 
+        @include navContactMobile(){
+            padding: 50px 0 0 0;
+        }
+
         .title-procedure{
             display: flex;
             justify-content: center;
@@ -62,6 +105,10 @@
             font-weight: bold;
             font-size: 30px;
             padding: 0 10%;
+
+            @include navContactMobile(){
+                padding: 0 5%;
+            }
         }
 
         .paragraph-procedure{
@@ -73,6 +120,10 @@
             justify-content: center;
             color: $color1;
             padding: 0 25%;
+
+            @include navContactMobile(){
+                padding: 0 10%;
+            }
         }
 
         .container-card-procedure-home{
@@ -81,9 +132,38 @@
             padding: 0 10% 0 10%;
             justify-content: space-between;
 
+            @include navContactMobile(){
+                flex-direction: column;
+                margin-top: 50px;
+                padding: 0 5% 0 5%;
+            }
+
+            @include tablet(){
+                flex-direction: column;
+            }
+
+            @include bigTablet(){
+                flex-direction: column;
+            }
+
             .card-procedure-home{
                 display: flex;
                 width: calc(95%/3);
+
+                @include navContactMobile(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
+
+                @include tablet(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
+                
+                @include bigTablet(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
             }
         }
     }
@@ -94,6 +174,10 @@
         padding: 100px 0% 80px 0%;
         background-color: $color5;
 
+        @include navContactMobile(){
+            padding: 50px 0;
+        }
+
         .title-feedback-home{
             display: flex;
             text-align: center;
@@ -101,6 +185,10 @@
             font-weight: bold;
             padding: 0 10%;
             justify-content: center;
+
+            @include navContactMobile(){
+                padding: 0 5%;
+            }
         }
 
         .paragraph-feedback-home{
@@ -110,6 +198,10 @@
             font-size: 14px;
             color: $color1;
             padding: 20px 25% 0 25%;
+
+            @include navContactMobile(){
+                padding: 20px 10% 0 10%;
+            }
         }
     }
 
@@ -118,12 +210,20 @@
         flex-direction: column;
         padding: 100px 0 80px 0;
 
+        @include navContactMobile(){
+            padding: 50px 0 40px 0;
+        }
+
         .title-offered-services-home{
             display: flex;
             font-size: 30px;
             font-weight: bold;
             justify-content: center;
             text-align: center;
+
+            @include navContactMobile(){
+                padding: 0 5%;
+            }
         }
 
         .paragraph-offered-services-home{
@@ -133,6 +233,10 @@
             padding: 20px 25% 0 25%;
             text-align: center;
             justify-content: center;
+            
+            @include navContactMobile(){
+                padding: 20px 10% 0 10%;
+            }
         }
 
         .column-card-offered-services-home{
@@ -141,9 +245,37 @@
             align-items: center;
             justify-content: space-between;
 
+            @include navContactMobile(){
+                flex-direction: column;
+                padding: 50px 5% 0 5%;
+            }
+
+            @include tablet(){
+                flex-wrap: wrap;
+            }
+
+            @include semiDesktop(){
+                flex-wrap: wrap;
+            }
+
             .card-offered-services-home{
                 display: flex;
                 width: calc(90%/4);
+
+                @include navContactMobile(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
+
+                @include tablet(){
+                    width: calc(90%/2);
+                    margin-bottom: 15px;
+                }
+
+                @include semiDesktop(){
+                    width: calc(90%/2);
+                    margin-bottom: 15px;
+                }
             }
         }
     }
@@ -152,6 +284,10 @@
         display: flex;
         flex-direction: column;
         padding: 80px 0 100px 0;
+
+        @include navContactMobile(){
+            padding: 50px 0 50px 0;
+        }
         
         .title-recent-blogs-home{
             display: flex;
@@ -159,6 +295,10 @@
             font-weight: bold;
             justify-content: center;
             text-align: center;
+            
+            @include navContactMobile(){
+                padding: 0 5%;
+            }
         }
 
         .paragraph-recent-blogs-home{
@@ -168,6 +308,10 @@
             justify-content: center;
             text-align: center;
             padding: 20px 25% 0 25%;
+
+            @include navContactMobile(){
+                padding: 20px 10% 0 10%;
+            }
         }
 
         .column-card-recent-blogs-home{
@@ -176,9 +320,39 @@
             margin-top: 80px;
             padding: 0 10% 0 10%;
 
+            @include navContactMobile(){
+                flex-direction: column;
+                margin-top: 50px;
+                padding: 0 5%;
+            }
+
+            @include tablet(){
+                flex-direction: column;
+                margin-top: 50px;
+            }
+
+            @include bigTablet(){
+                flex-direction: column;
+            }
+
             .card-recent-blogs-home{
                 display: flex;
                 width: calc(95%/3);
+
+                @include navContactMobile(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
+
+                @include tablet(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
+
+                @include bigTablet(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
             }
         }
     }

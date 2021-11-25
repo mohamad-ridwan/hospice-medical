@@ -1,5 +1,23 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 569px) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin semiDesktop {
+    @media (min-width: 769px) and (max-width: 1200px) {
+        @content;
+    }
+}
+
 .wrapp-services-page{
     display: flex;
     flex-direction: column;
@@ -14,6 +32,10 @@
         flex-direction: column;
         padding: 100px 0 20px 0;
 
+        @include navContactMobile(){
+            padding: 50px 0 20px 0;
+        }
+
         .title-offered-service-page{
             display: flex;
             justify-content: center;
@@ -21,6 +43,10 @@
             font-size: 30px;
             font-weight: bold;
             padding: 0 10%;
+
+            @include navContactMobile(){
+                padding: 0 5%;
+            }
         }
 
         .paragraph-offered-service-page{
@@ -30,6 +56,10 @@
             justify-content: center;
             color: $color1;
             padding: 20px 25% 0 25%;
+
+            @include navContactMobile(){
+                padding: 20px 10% 0 10%;
+            }
         }
 
         .column-card-services-page{
@@ -38,10 +68,40 @@
             justify-content: space-between;
             padding: 80px 10% 0 10%;
 
+            @include navContactMobile(){
+                flex-direction: column;
+                padding: 50px 5% 45px 5%;
+            }
+
+            @include tablet(){
+                flex-wrap: wrap;
+                padding: 80px 10% 45px 10%;
+            }
+
+            @include semiDesktop(){
+                flex-wrap: wrap;
+                padding: 80px 10% 15px 10%;
+            }
+
             .card-services-page{
                 display: flex;
                 width: calc(90%/4);
                 margin-bottom: 60px;
+
+                @include navContactMobile(){
+                    width: auto;
+                    margin-bottom: 15px;
+                }
+
+                @include tablet(){
+                    width: calc(90%/2);
+                    margin-bottom: 15px;
+                }
+
+                @include semiDesktop(){
+                    width: calc(90%/2);
+                    margin-bottom: 30px;
+                }
             }
         }
     }

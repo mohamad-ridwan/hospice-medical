@@ -1,19 +1,51 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: $navContactMobile) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin semiDesktop {
+    @media (min-width: 768px) and (max-width: 1200px) {
+        @content;
+    }
+}
+
 .wrapp-footer{
     display: flex;
     flex-direction: column;
     background-color: $color9;
     padding: 100px 10%;
 
+    @include navContactMobile(){
+        padding: 50px 5%;
+    }
+
     .column-contact-us{
         display: flex;
+
+        @include navContactMobile(){
+            flex-direction: column;
+        }
 
         .contact-us{
             display: flex;
             flex-direction: column;
             width: 50%;
             margin-right: 20px;
+
+            @include navContactMobile(){
+                width: auto;
+                margin-right: 0px;
+                margin-bottom: 40px;
+            }
 
             ul{
                 display: flex;
@@ -41,6 +73,10 @@
             display: flex;
             flex-direction: column;
             width: 50%;
+
+            @include navContactMobile(){
+                width: auto;
+            }
         }
 
         .title-contact-us-group{
@@ -62,11 +98,44 @@
             display: flex;
             justify-content: space-between;
 
+            @include navContactMobile(){
+                flex-direction: column;
+            }
+
+            @include tablet(){
+                flex-direction: column;
+            }
+
+            @include semiDesktop(){
+                flex-direction: column;
+            }
+
             .column-btn-submit-newsletter{
                 display: flex;
                 margin-left: 20px;
                 justify-content: flex-end;
                 width: 45%;
+
+                @include navContactMobile(){
+                    width: auto;
+                    margin-left: 0;
+                    margin-top: 10px;
+                    justify-content: flex-start;
+                }
+
+                @include tablet(){
+                    width: auto;
+                    margin-left: 0;
+                    margin-top: 10px;
+                    justify-content: flex-start;
+                }
+
+                @include semiDesktop(){
+                    width: auto;
+                    margin-left: 0;
+                    margin-top: 10px;
+                    justify-content: flex-start;
+                }
             }
         }
     }
@@ -76,6 +145,10 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 40px;
+
+        @include navContactMobile(){
+            flex-direction: column;
+        }
 
         .copy-right{
             display: flex;
@@ -96,6 +169,10 @@
         ul{
             display: flex;
             align-items: center;
+
+            @include navContactMobile(){
+                margin-top: 10px;
+            }
 
             .list-medsos{
                 display: flex;

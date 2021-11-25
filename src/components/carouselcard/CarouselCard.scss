@@ -1,13 +1,43 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: $navContactMobile) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin semiDesktop {
+    @media (min-width: 768px) and (max-width: 1200px) {
+        @content;
+    }
+}
+
 .wrapp-carousel{
     display: flex;
     padding: 0 10%;
     margin-top: 60px;
 
+    @include navContactMobile(){
+        padding: 0 5%;
+    }
+
     .content-carousel-card{
         display: flex;
         cursor: grab;
+
+        @include navContactMobile(){
+            flex-direction: column;
+        }
+
+        @include tablet(){
+            flex-direction: column;
+        }
 
         .img-carousel{
             display: flex;
@@ -16,6 +46,20 @@
             object-fit: cover;
             object-position: center;
             margin-right: 30px;
+
+            @include navContactMobile(){
+                width: auto;
+                margin-right: 0px;
+            }
+
+            @include tablet(){
+                width: auto;
+                margin-right: 0px;
+            }
+
+            @include semiDesktop(){
+                height: 250px;
+            }
         }
 
         .column-txt-carousel{
@@ -23,6 +67,16 @@
             flex-direction: column;
             width: 50%;
             padding-top: 60px;
+
+            @include navContactMobile(){
+                width: auto;
+                padding-top: 20px;
+            }
+
+            @include tablet(){
+                width: auto;
+                padding-top: 40px;
+            }
 
             .title-carousel{
                 display: flex;

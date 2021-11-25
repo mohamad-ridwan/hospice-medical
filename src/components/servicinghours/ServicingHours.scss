@@ -1,7 +1,13 @@
 @import '../../utils/variable.scss';
 
-@mixin mobile {
-    @media (max-width: 768px) {
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: $navContactMobile) and (max-width: 768px) {
         @content;
     }
 }
@@ -20,13 +26,22 @@
         width: 100%;
         overflow: hidden;
 
+        @include navContactMobile(){
+            padding: 0 0 0 5%;
+        }
+
         .servicing-hours{
             display: flex;
             flex-direction: column;
             width: 40%;
             padding: 100px 0 200px 0;
 
-            @include mobile(){
+            @include navContactMobile(){
+                width: 100%;
+                padding: 50px 5% 680px 0;
+            }
+
+            @include tablet(){
                 width: 100%;
                 padding: 100px 10% 680px 0;
             }
@@ -86,7 +101,15 @@
             z-index: 99;
             overflow: hidden;
 
-            @include mobile(){
+            @include navContactMobile(){
+                top: 450px;
+                width: auto;
+                right: 5%;
+                left: 5%;
+                bottom: 20px;
+            }
+
+            @include tablet(){
                 top: 500px;
                 width: auto;
                 right: 10%;

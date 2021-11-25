@@ -1,5 +1,17 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin semiDesktop {
+    @media (min-width: 569px) and (max-width: 986px) {
+        @content;
+    }
+}
+
 .wrapp-contact{
     display: flex;
     flex-direction: column;
@@ -14,6 +26,10 @@
         flex-direction: column;
         padding: 100px 10% 80px 10%;
 
+        @include navContactMobile(){
+            padding: 50px 5%;
+        }
+
         .column-google-maps{
             display: flex;
             height: 400px;
@@ -21,16 +37,36 @@
             margin-bottom: 80px;
             background-size: cover;
             background-position: center;
+
+            @include navContactMobile(){
+                margin-bottom: 50px;
+            }
         }
 
         .column-info-contact-us{
             display: flex;
             justify-content: space-between;
 
+            @include navContactMobile(){
+                flex-direction: column;
+            }
+
+            @include semiDesktop(){
+                flex-direction: column;
+            }
+
             .info-contact-us-group{
                 display: flex;
                 flex-direction: column;
                 width: calc(95%/3);
+
+                @include navContactMobile(){
+                    width: auto;
+                }
+
+                @include semiDesktop(){
+                    width: auto;
+                }
 
                 .column-address-contact{
                     display: flex;

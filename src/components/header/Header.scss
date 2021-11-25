@@ -1,5 +1,23 @@
 @import '../../utils/variable.scss';
 
+@mixin smallMobile {
+    @media (max-width: 368px) {
+        @content;
+    }
+}
+
+@mixin navContactMobile {
+    @media (min-width: 367px) and (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 569px) and (max-width: 768px) {
+        @content;
+    }
+}
+
 .wrapp-header{
     display: flex;
     flex-direction: column;
@@ -7,6 +25,18 @@
     padding: 100px 10%;
     width: 100%;
     overflow: hidden;
+
+    @include smallMobile(){
+        padding: 30px 5%;
+    }
+
+    @include navContactMobile(){
+        padding: 50px 5%;
+    }
+
+    @include tablet(){
+        padding: 80px 10%;
+    }
     
     .img-header{
         display: flex;
@@ -26,6 +56,14 @@
         font-weight: bold;
         color: #fff;
         z-index: 1;
+
+        @include smallMobile(){
+            font-size: 24px;
+        }
+
+        @include navContactMobile(){
+            font-size: 30px;
+        }
     }
 
     ul{

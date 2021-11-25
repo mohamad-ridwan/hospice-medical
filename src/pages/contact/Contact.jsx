@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Loader, LoaderOptions } from 'google-maps'
 import './Contact.scss';
 import Header from '../../components/header/Header';
 import Input from '../../components/input/Input';
@@ -36,22 +35,12 @@ function Contact() {
         API.APIGetContact()
             .then(res => {
                 const respons = res.data
-                let dataMaps = {}
-
-                const dataGoogleMaps = respons.filter(e => e.id === "google-maps")[0]
-                dataMaps.lat = dataGoogleMaps.lat
-                dataMaps.lng = dataGoogleMaps.lng
-                dataMaps.apiKey = dataGoogleMaps.apiKey
 
                 const contactAddress = respons.filter(e => e.id === "contact-address")
                 setListContact(contactAddress[0].data)
 
                 const formContact = respons.filter(e => e.id === "form-contact-us")
                 set_IdFormContact(formContact[0]._id)
-
-                if (Object.keys(dataMaps).length > 0) {
-                    initMap(dataMaps)
-                }
 
                 setTimeout(() => {
                     setLoading(false)
@@ -64,22 +53,6 @@ function Contact() {
         setAllAPI()
         window.scrollTo(0, 0)
     }, [])
-
-    async function initMap(dataMaps) {
-        if (Object.keys(dataMaps).length > 0) {
-            const { lat, lng, apiKey } = dataMaps && { ...dataMaps }
-            const loader = new Loader(apiKey, LoaderOptions);
-
-            const google = await loader.load();
-
-            const map = new google.maps.Map(document.getElementById('column-google-maps'), {
-                center: { lat: lat, lng: lng },
-                zoom: 8
-            })
-
-            return map;
-        }
-    }
 
     function changeInput(e) {
         setFormInput({
@@ -170,7 +143,9 @@ function Contact() {
 
                 <div className="container-content-contact">
                     <div className="column-google-maps" id="column-google-maps">
-
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7928.985849919385!2d106.79462772110102!3d-6.459057920540529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69e9e7ede517f7%3A0xb8953bf5dd0f86f1!2sJl.%20Sunan%20Muria%20IV%2C%20Pabuaran%2C%20Kec.%20Bojong%20Gede%2C%20Bogor%2C%20Jawa%20Barat%2016921!5e0!3m2!1sid!2sid!4v1637844448487!5m2!1sid!2sid" width="100%" style={{
+                            border: '0px'
+                        }} allowfullscreen="" loading="lazy"></iframe>
                     </div>
 
                     <div className="column-info-contact-us">

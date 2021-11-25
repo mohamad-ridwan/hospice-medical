@@ -5,17 +5,23 @@ import { NavbarContext } from '../../services/context/NavbarContext';
 import endpoint from '../../services/api/endpoint';
 import { BlogContext } from '../../services/context/BlogContext';
 import imgUser from '../../images/user.png'
+import NavbarMobile from '../navbarmobile/NavbarMobile';
 
 function Navbar() {
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
     const [onOverProfile, setOnOverProfile] = useState(false)
     const [positionLogin, setPositionLogin] = useState('0px')
+    const [onCollapseNavMobile, setOnCollapseNavMobile] = useState(false)
+    const [heightCollapseNavMobile, setHeightCollapseNavMobile] = useState('0px')
+    const [onCollapseMenu, setOnCollapseMenu] = useState(false)
+    const [onCollapseProfile, setOnCollapseProfile] = useState(false)
 
     const history = useHistory();
 
     const navContact = document.getElementsByClassName('nav-contact')
     const navPage = document.getElementsByClassName('nav-page')
+    const navMobile = document.getElementsByClassName('wrapp-navbar-mobile')
 
     window.addEventListener('scroll', () => {
         const scrollPosition = Math.floor(window.pageYOffset)
@@ -31,6 +37,8 @@ function Navbar() {
                 // nav page
                 navPage[0].style.boxShadow = 'none'
                 navPage[0].style.marginTop = '45px'
+                navMobile[0].style.marginTop = '125px'
+                navMobile[0].style.boxShadow = 'none'
             } else if (scrollPosition > count) {
                 // nav contact
                 navContact[0].style.marginTop = '-45px'
@@ -38,6 +46,8 @@ function Navbar() {
                 // nav page
                 navPage[0].style.marginTop = '0'
                 navPage[0].style.boxShadow = '0 1px 10px -1px rgba(0,0,0,0.2)'
+                navMobile[0].style.marginTop = '80px'
+                navMobile[0].style.boxShadow = '0 8px 8px -1px rgba(0,0,0,0.1)'
             }
         }
     })
@@ -48,6 +58,7 @@ function Navbar() {
 
     async function toPage(path) {
         const locationBlog = window.location.pathname === "/blog"
+
         history.push(path)
         setRouteLoginFromComment(null)
 
@@ -61,6 +72,11 @@ function Navbar() {
                 selectBlogCategory('')
             }
         }
+
+        setOnCollapseNavMobile(false)
+        setOnCollapseMenu(false)
+        setOnCollapseProfile(false)
+        setHeightCollapseNavMobile('0px')
 
         await window.scrollTo(0, 0)
     }
@@ -96,7 +112,7 @@ function Navbar() {
         }
     }
 
-    function changePositionProfileCollapse(){
+    function changePositionProfileCollapse() {
         const scrollPosition = Math.floor(window.pageYOffset)
         const heightNavContact = Math.floor(navContact[0].getBoundingClientRect().height)
         const heightNavPage = Math.floor(navPage[0].getBoundingClientRect().height)
@@ -119,9 +135,43 @@ function Navbar() {
         changePositionProfileCollapse()
     }
 
-    function logOut(){
+    function logOut() {
         document.cookie = 'idUser='
         setUsers({})
+    }
+
+    function toShowNavCollapseMobile() {
+        if (onCollapseNavMobile === false) {
+            setOnCollapseNavMobile(true)
+            setHeightCollapseNavMobile('270px')
+        } else {
+            setOnCollapseNavMobile(false)
+            setOnCollapseMenu(false)
+            setOnCollapseProfile(false)
+            setHeightCollapseNavMobile('0px')
+        }
+    }
+
+    function showCollapse() {
+        setOnCollapseProfile(false)
+        if (onCollapseMenu === false) {
+            setOnCollapseMenu(true)
+            setHeightCollapseNavMobile('365px')
+        } else {
+            setOnCollapseMenu(false)
+            setHeightCollapseNavMobile('270px')
+        }
+    }
+
+    function showProfile(){
+        setOnCollapseMenu(false)
+        if(onCollapseProfile === false){
+            setOnCollapseProfile(true)
+            setHeightCollapseNavMobile('365px')
+        }else{
+            setOnCollapseProfile(false)
+            setHeightCollapseNavMobile('270px')
+        }
     }
 
     return (
@@ -213,7 +263,7 @@ function Navbar() {
                                             top: positionLogin
                                         }}>
                                             <li className="menu-register"
-                                            onClick={logOut}
+                                                onClick={logOut}
                                             >
                                                 LOG OUT
                                             </li>
@@ -236,12 +286,12 @@ function Navbar() {
                                             top: positionLogin
                                         }}>
                                             <li className="menu-register"
-                                            onClick={()=>toPage('/login')}
+                                                onClick={() => toPage('/login')}
                                             >
                                                 LOGIN
                                             </li>
                                             <li className="menu-register"
-                                            onClick={()=>toPage('/register')}
+                                                onClick={() => toPage('/register')}
                                             >
                                                 REGISTER
                                             </li>
@@ -251,7 +301,21 @@ function Navbar() {
                             )}
                         </div>
                     </div>
+
+                    <i className="fas fa-bars btn-collapse-nav"
+                        onClick={toShowNavCollapseMobile}
+                    ></i>
                 </div>
+
+                <NavbarMobile
+                    menuPage={menuPage}
+                    height={heightCollapseNavMobile}
+                    toPage={(path) => toPage(path)}
+                    showCollapse={showCollapse}
+                    onCollapseMenu={onCollapseMenu}
+                    displayCollapseProfile={onCollapseProfile}
+                    clickProfile={showProfile}
+                />
             </div>
         </>
     )

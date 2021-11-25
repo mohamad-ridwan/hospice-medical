@@ -1,5 +1,17 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin navMobile {
+    @media (max-width: $navMobile) {
+        @content;
+    }
+}
+
 .wrapp-navbar{
     display: flex;
     flex-direction: column;
@@ -16,6 +28,11 @@
         box-shadow: 0 1px 2px -1px rgba(0,0,0,0.1);
         z-index: 99999;
         transition: 0.3s ease-in-out;
+
+        @include navContactMobile(){
+            padding: 17px 5%;
+            justify-content: center;
+        }
 
         .column-icon-medsos{
             display: flex;
@@ -42,6 +59,10 @@
         .column-contact{
             display: flex;
             align-items: center;
+
+            @include navContactMobile(){
+                display: none;
+            }
 
             .icon-contact{
                 display: flex;
@@ -82,6 +103,10 @@
         transition: 0.3s ease-in-out;
         padding: 0px 10%;
 
+        @include navContactMobile(){
+            padding: 0 5%;
+        }
+
         .logo-web{
             display: flex;
             object-fit: cover;
@@ -91,6 +116,10 @@
 
         .column-kanan-navbar{
             display: flex;
+
+            @include navMobile(){
+                display: none;
+            }
 
             .menu-page-navbar{
                 display: flex;
@@ -191,6 +220,19 @@
                     }
                 }
             }
-        }   
+        }
+
+        .btn-collapse-nav{
+            display: none;
+            height: 80px;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: $color2;
+
+            @include navMobile(){
+                display: flex;
+            }
+        }
     }
 }

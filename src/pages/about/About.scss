@@ -1,5 +1,17 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 569px) and (max-width: 768px) {
+        @content;
+    }
+}
+
 .wrapp-about{
     display: flex;
     flex-direction: column;
@@ -10,6 +22,14 @@
         display: flex;
         z-index: 1;
         margin-bottom: -40px;
+
+        @include navContactMobile(){
+            margin-bottom: -50px;
+        }
+
+        @include tablet(){
+            margin-bottom: -50px;
+        }
     }
 
     .feedback-about{
@@ -17,6 +37,10 @@
         flex-direction: column;
         padding: 100px 0;
         background-color: $color5;
+
+        @include navContactMobile(){
+            padding: 50px 0;
+        }
 
         .title-feedback-about{
             display: flex;

@@ -45,19 +45,37 @@ function Footer() {
         )
     }
 
-    function submitFormNewsletter(e) {
-        setLoadingSubmit(true)
+    function checkEmailNewsletter(data) {
+        API.APIGetFooter()
+            .then(res => {
+                const respons = res.data
+                const getnewsletter = respons.filter(e => e.id === 'newsletter')
 
-        e.preventDefault()
-        if (inputNewsletter.length > 0 && inputNewsletter.includes('@')) {
-            const data = {
-                email: inputNewsletter
-            }
+                if (getnewsletter.length > 0) {
+                    const checkUser = getnewsletter[0].data.filter(e => e.email === inputNewsletter)
 
-            if (window.confirm('Ingin mengirim email untuk berita ter update kami?')) {
-                API.APIPostNewsletter(newsletter._id, data)
+                    if (checkUser.length === 0) {
+                        API.APIPostNewsletter(newsletter._id, data)
+                            .then(res => {
+                                alert('Berhasil mendaftarkan email Anda\nNantikan berita terbaru dari kami!')
+                                setInputNewsletter('')
+
+                                setLoadingSubmit(false)
+                                return res
+                            })
+                            .catch(err => {
+                                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                                setLoadingSubmit(false)
+                                console.log(err)
+                            })
+                    }else {
+                        alert('Email sudah terdaftar!')
+                        setLoadingSubmit(false)
+                    }
+                }else{
+                    API.APIPostNewsletter(newsletter._id, data)
                     .then(res => {
-                        alert('Berhasil mengirimkan email Anda\nNantikan berita terbaru dari kami!')
+                        alert('Berhasil mendaftarkan email Anda\nNantikan berita terbaru dari kami!')
                         setInputNewsletter('')
 
                         setLoadingSubmit(false)
@@ -68,6 +86,25 @@ function Footer() {
                         setLoadingSubmit(false)
                         console.log(err)
                     })
+                }
+            })
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
+    }
+
+    function submitFormNewsletter(e) {
+        e.preventDefault()
+        if (inputNewsletter.length > 0 && inputNewsletter.includes('@')) {
+            setLoadingSubmit(true)
+            const data = {
+                email: inputNewsletter
+            }
+
+            if (window.confirm('Ingin mengirim email untuk berita ter update kami?')) {
+                checkEmailNewsletter(data)
             }
         }
     }
@@ -169,8 +206,8 @@ function Footer() {
                 </div>
 
                 <Loading
-                    displayLoadingBottom={loadingSubmit ? 'flex': 'none'}
-                    displayBarrier={loadingSubmit ? 'flex': 'none'}
+                    displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
+                    displayBarrier={loadingSubmit ? 'flex' : 'none'}
                 />
             </div>
         </>

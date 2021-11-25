@@ -276,7 +276,7 @@ function Home() {
                                                 title={e.title}
                                                 paragraph={<RenderParagraph paragraph={e.paragraphSatu}/>}
                                                 cursorWrapp="pointer"
-                                                heightImg="200px"
+                                                heightImg="250px"
                                                 fontSizeTitle="18px"
                                                 clock={e.clock}
                                                 date={e.date}

@@ -148,15 +148,17 @@ function Blog() {
         setIdxPaginateActive(idx)
         setCurrentPage(idx + 1)
 
-        for (let i = 0; i < paginate.length; i++) {
-            paginate[i].style.backgroundColor = 'transparent';
-            paginate[i].style.border = '1px solid #eee';
-            paginate[i].style.color = '#777';
+        if(paginate.length > 0){
+            for (let i = 0; i < paginate.length; i++) {
+                paginate[i].style.backgroundColor = 'transparent';
+                paginate[i].style.border = '1px solid #eee';
+                paginate[i].style.color = '#777';
+            }
+    
+            paginate[idx].style.backgroundColor = '#3face4';
+            paginate[idx].style.border = '1px solid #3face4';
+            paginate[idx].style.color = '#fff';
         }
-
-        paginate[idx].style.backgroundColor = '#3face4';
-        paginate[idx].style.border = '1px solid #3face4';
-        paginate[idx].style.color = '#fff';
     }
 
     const elementPostCategories = document.getElementsByClassName('list-post-categories')
