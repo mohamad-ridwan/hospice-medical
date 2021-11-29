@@ -1,5 +1,11 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
 .wrapp-register{
     display: flex;
     margin-top: 125px;
@@ -7,6 +13,10 @@
     align-items: center;
     justify-content: center;
     background-color: $color3;
+
+    @include navContactMobile(){
+        padding: 50px 5%;
+    }
 
     .form-register{
         display: flex;
@@ -43,6 +53,10 @@
             align-items: center;
             margin-top: 40px;
             justify-content: center;
+
+            @include navContactMobile(){
+                flex-direction: column;
+            }
         }
     }
 }

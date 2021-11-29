@@ -18,8 +18,9 @@ function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategor
                             displayContentCard="flex"
                             img={`${endpoint}/${e.image}`}
                             heightImg="60px"
-                            title={e.title.length > 15 ? e.title.substr(0, 15) + '...' : e.title}
+                            title={e.title}
                             paragraph={e.date}
+                            classTitle="title-card-popular-posts"
                             flexDirectionWrapp="row"
                             widthImg="auto"
                             fontSizeTitle="13px"

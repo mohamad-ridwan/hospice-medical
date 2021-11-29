@@ -88,9 +88,10 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     function showDiseaseType() {
         setOnDiseaseType(!onDiseaseType)
 
-        const parent = document.getElementsByClassName('wrapp-card-book-an-appointment')[0].getBoundingClientRect()
+        const parent = document.getElementsByClassName('book-an-appointment')[0].getBoundingClientRect()
         const positionBotton = document.getElementsByClassName('btn-input-card')[4].getBoundingClientRect()
-        setTopDiseaseType(`${positionBotton.top - parent.top + 15}px`)
+        const roundUp = Math.floor(positionBotton.top - parent.top + 35)
+        setTopDiseaseType(`${roundUp}px`)
     }
 
     function changeInput(e) {

@@ -3,7 +3,7 @@ import './Card.scss';
 import Button from '../button/Button';
 
 function Card({ img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, heightImg, date, totalComment, displayDate, cursorWrapp, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments, marginHoverImg, opacityHoverImg, paddingHoverImg, fontSizeTitleHoverImg, fontWeightTitleHoverImg, paddingTitleHoverImg, bgColorHoverImg, justifyContentHoverImg, displayListMedsos, paragraphHoverImg, displayParagraphoverImg, borderTitleHoverImg, positionTitleHoverImg, bottomTitleHoverImg,
-    positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard, clickWrapp, dataMedsos, clickTitle, clickBtn, clickImg, clock, bdrRadiusImg }) {
+    positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard, clickWrapp, dataMedsos, clickTitle, clickBtn, clickImg, clock, bdrRadiusImg, clickParagraph, fontSizeTxtComment, colorTxtComment, marginTopTxtComment, justifyContentTxtComment, textAlignTxtComment }) {
     return (
         <>
             <div className={`wrapp-card`} style={{
@@ -120,12 +120,19 @@ function Card({ img, titleImgHover, displayContentCard, displayImg, title, parag
                         color: colorParagraph,
                         fontWeight: fontWeightParagraph,
                         cursor: cursorParagraph
-                    }}>
+                    }}
+                    onClick={clickParagraph}
+                    >
                         {paragraph}
                     </p>
 
                     <p className="comments-card" style={{
-                        display: displayTxtComment
+                        display: displayTxtComment,
+                        fontSize: fontSizeTxtComment,
+                        color: colorTxtComment,
+                        marginTop: marginTopTxtComment,
+                        justifyContent: justifyContentTxtComment,
+                        textAlign: textAlignTxtComment
                     }}>
                         {comments}
                     </p>

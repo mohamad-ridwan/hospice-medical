@@ -315,6 +315,10 @@ function Navbar() {
                     onCollapseMenu={onCollapseMenu}
                     displayCollapseProfile={onCollapseProfile}
                     clickProfile={showProfile}
+                    users={users}
+                    logOut={logOut}
+                    login={()=>toPage('/login')}
+                    register={()=>toPage('/register')}
                 />
             </div>
         </>

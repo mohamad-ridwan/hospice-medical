@@ -1,5 +1,23 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 569px) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin bigTablet {
+    @media (min-width: 769px) and (max-width: 986px) {
+        @content;
+    }
+}
+
 .column-kanan-content-blog{
     display: flex;
     flex-direction: column;
@@ -7,6 +25,21 @@
     width: 28%;
     border: 1px solid #eee;
     padding: 30px;
+
+    @include navContactMobile(){
+        width: auto;
+        margin-top: 30px;
+    }
+
+    @include tablet(){
+        width: auto;
+        margin-top: 30px;
+    }
+
+    @include bigTablet(){
+        width: auto;
+        margin-top: 30px;
+    }
 
     .title-content-kanan-blog{
         display: flex;

@@ -1,5 +1,17 @@
 @import '../../utils/variable.scss';
 
+@mixin mobile{
+    @media (max-width: 386px) {
+        @content;
+    }
+}
+
+@mixin bigTablet {
+    @media (min-width: 987px) and (max-width: 1300px) {
+        @content;
+    }
+}
+
 .wrapp-card{
     display: flex;
     flex-direction: column;
@@ -113,8 +125,25 @@
             text-align: start;
             margin: 20px 0;
             transition: 0.3s ease-in-out;
+            overflow: hidden;
             &:hover{
                 color: $color2;
+            }
+        }
+
+        .title-card-popular-posts{
+            width: auto;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+
+            @include mobile(){
+                width: 150px;
+            }
+
+            @include bigTablet(){
+                width: 130px;
             }
         }
 

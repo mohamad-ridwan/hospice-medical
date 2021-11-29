@@ -16,7 +16,7 @@ import { NavbarContext } from '../../services/context/NavbarContext';
 
 function DetailBlog() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
-    const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
+    const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment, scrollTopBlog] = useContext(BlogContext)
     const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [dataDetailBlog, setDataDetailBlog] = useState({})
@@ -30,16 +30,7 @@ function DetailBlog() {
         subject: '',
         message: '',
     })
-    const [nextAndPrevPosts, setNextAndPrevPosts] = useState([
-        {
-            img: imgPrevPost,
-            title: 'Space The Final Frontier',
-        },
-        {
-            img: imgNextPost,
-            title: 'Telescopes 101',
-        }
-    ])
+    const [nextAndPrevPosts, setNextAndPrevPosts] = useState([])
 
     const location = window.location.pathname
     const history = useHistory()
@@ -70,13 +61,20 @@ function DetailBlog() {
                     set_IdDocument(getDataFromLocation[0]._id)
                     setIdBlog(getDetailData[0].id)
                     setListUserComments(getDetailData[0].comments)
+
+                    // filter content prev post and next post
+                    nextOrPrevContent(respons, getIdLocal, getDataFromLocation, getDetailData[0].id)
                 } else {
                     const getDataFromLocation = respons.filter((e) => e.id === idLocation)
+
                     const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
                     setDataDetailBlog(getDetailData[0])
                     set_IdDocument(getDataFromLocation[0]._id)
                     setIdBlog(getDetailData[0].id)
                     setListUserComments(getDetailData[0].comments)
+
+                    // filter content prev post and next post
+                    nextOrPrevContent(respons, idLocation, getDataFromLocation, getDetailData[0].id)
                 }
 
                 const getPopularPosts = respons.filter((e) => e.id === 'popular-posts')
@@ -97,6 +95,70 @@ function DetailBlog() {
         setAllAPI()
         window.scrollTo(0, 0)
     }, [])
+
+    async function nextOrPrevContent(data, idLocal, categoryContentInPage, idDetailBlog) {
+        let newArr = []
+        let idxCategoryInPage = null
+        let newIdxDetailBlog = null
+
+        const indexCategoryBlog = data.map((e, i) => e.id === idLocal ? idxCategoryInPage = i : null)
+        const indexDetailBlog = categoryContentInPage[0].data.map((e, i) => e.id === idDetailBlog ? newIdxDetailBlog = i : null)
+
+        const totalBlogInPage = categoryContentInPage[0].data.length
+
+        const getPrevPost = await data.filter((e, i) => i === idxCategoryInPage - 1)
+        const getNextPost = await data.filter((e, i) => i === idxCategoryInPage + 1)
+
+        setTimeout(() => {
+            if (totalBlogInPage === 1) {
+                if (getPrevPost.length === 0) {
+                    const getMainContent = data.filter((e, i) => i === data.length - 1)
+                    newArr.push(getMainContent[0].data[getMainContent[0].data.length - 1], getNextPost[0].data[0])
+                }
+
+                if (getNextPost.length === 0) {
+                    const getMainContent = data.filter((e, i) => i === 0)
+                    newArr.push(getPrevPost[0].data[getPrevPost[0].data.length - 1], getMainContent[0].data[0])
+                }
+
+                if (getPrevPost.length !== 0 && getNextPost.length !== 0) {
+                    newArr.push(getPrevPost[0].data[getPrevPost[0].data.length - 1], getNextPost[0].data[0])
+                }
+
+                setNextAndPrevPosts(newArr)
+            } else if (totalBlogInPage > 1) {
+                const getPrevPostInCtg = categoryContentInPage[0].data.filter((e, i) => i === newIdxDetailBlog - 1)
+                const getNextPostInCtg = categoryContentInPage[0].data.filter((e, i) => i === newIdxDetailBlog + 1)
+
+                if (getPrevPostInCtg.length === 0) {
+                    if (getPrevPost.length === 0) {
+                        const getMainContent = data.filter((e, i) => i === data.length - 1)
+                        newArr.push(getMainContent[0].data[getMainContent[0].data.length - 1], getNextPostInCtg[0])
+                    } else {
+                        newArr.push(getPrevPost[0].data[getPrevPost[0].data.length - 1], getNextPostInCtg[0])
+                    }
+                }
+
+                if (getNextPostInCtg.length === 0) {
+                    if (getNextPost.length === 0) {
+                        const getMainContent = data.filter((e, i) => i === 0)
+                        newArr.push(getPrevPostInCtg[0], getMainContent[0].data[0])
+                    }
+                    else {
+                        newArr.push(getPrevPostInCtg[0], getNextPost[0].data[0])
+                    }
+                }
+
+                if (getPrevPostInCtg.length !== 0 && getNextPostInCtg.length !== 0) {
+                    newArr.push(getPrevPostInCtg[0], getNextPostInCtg[0])
+                }
+
+                setNextAndPrevPosts(newArr)
+            }
+        }, 0)
+
+        return { indexCategoryBlog, indexDetailBlog }
+    }
 
     function RenderParagraphSatu({ paragraphSatu }) {
         return (
@@ -285,14 +347,16 @@ function DetailBlog() {
 
                                 <div className="container-comments-blog-details">
                                     <div className="paginate-next-posts">
-                                        {nextAndPrevPosts.map((e, i) => {
+                                        {nextAndPrevPosts && nextAndPrevPosts.length > 0 ? nextAndPrevPosts.map((e, i) => {
                                             return (
                                                 <div className="card-prev-next-blog-details">
                                                     <Card
                                                         displayContentCard="flex"
-                                                        img={e.img}
+                                                        img={`${endpoint}/${e.image}`}
                                                         heightImg="60px"
                                                         title={i === 0 ? 'Prev Post' : 'Next Post'}
+                                                        displayTxtComment="flex"
+                                                        comments={`Category, ${e.category}`}
                                                         iconHoverImg={i === 0 ? 'fas fa-long-arrow-alt-left' : 'fas fa-long-arrow-alt-right'}
                                                         paragraph={e.title}
                                                         flexDirectionWrapp={i === 0 ? 'row' : 'row-reverse'}
@@ -300,9 +364,14 @@ function DetailBlog() {
                                                         textAlignTitle={i === 0 ? 'start' : 'end'}
                                                         justifyContentParagraph={i === 0 ? 'flex-start' : 'flex-end'}
                                                         textAlignParagraph={i === 0 ? 'start' : 'end'}
+                                                        justifyContentTxtComment={i === 0 ? 'flex-start' : 'flex-end'}
+                                                        textAlignTxtComment={i === 0 ? 'start' : 'end'}
                                                         widthImg="auto"
-                                                        fontSizeTitle="14px"
-                                                        fontSizeParagraph="18px"
+                                                        fontSizeTitle="12px"
+                                                        fontSizeParagraph="14px"
+                                                        fontSizeTxtComment="12px"
+                                                        colorTxtComment="#3face4"
+                                                        marginTopTxtComment="5px"
                                                         marginTitle="0 0 5px 0"
                                                         bgColorWrapp="transparent"
                                                         marginImg={i === 0 ? '0 15px 0 0' : '0 0 0 15px'}
@@ -315,10 +384,14 @@ function DetailBlog() {
                                                         classHoverBgImg="hover-paginate-blog-details"
                                                         mouseOver={() => mouseOverPaginate(i)}
                                                         mouseLeave={mouseLeavePaginate}
+                                                        clickImg={() => clickPopularPosts(e.path)}
+                                                        clickParagraph={() => clickPopularPosts(e.path)}
                                                     />
                                                 </div>
                                             )
-                                        })}
+                                        }) : (
+                                            <div></div>
+                                        )}
                                     </div>
 
                                     <div className="column-list-comments-blog-details">
@@ -407,7 +480,7 @@ function DetailBlog() {
                         dataPostCategories={dataPostCategories}
                         btnListPostCategories={async (id) => {
                             toPage('/blog')
-                            await selectBlogCategory(id)
+                            await selectBlogCategory(id, true)
                         }}
                         clickPopularPosts={(path) => clickPopularPosts(path)}
                         mouseOver={() => { }}

@@ -38,6 +38,11 @@
             display: flex;
             align-items: center;
 
+            @include navContactMobile(){
+                justify-content: space-between;
+                width: 70px;
+            }
+
             .icon-medsos{
                 display: flex;
                 list-style: none;
@@ -45,6 +50,10 @@
                 font-size: 12px;
                 color: $color1;
                 overflow: hidden;
+
+                @include navContactMobile(){
+                    margin-right: 0;
+                }
 
                 i{
                     cursor: pointer;

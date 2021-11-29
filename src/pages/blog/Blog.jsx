@@ -11,7 +11,7 @@ import { BlogContext } from '../../services/context/BlogContext';
 import Loading from '../../components/loading/Loading';
 
 function Blog() {
-    const [filterBlog, selectBlogCategory] = useContext(BlogContext)
+    const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment, scrollTopBlog] = useContext(BlogContext)
     const [loading, setLoading] = useState(false)
     const [getHeaders, setGetHeaders] = useState({})
     const [dataImgKategori, setDataImgKategori] = useState([])
@@ -52,7 +52,7 @@ function Blog() {
                 const getFourItems = getPopularPosts[0].data.filter((e, i) => i < 4)
                 setDataPopularPosts(getFourItems)
 
-                loadFilterBlog(filterBlog, true)
+                loadFilterBlog(filterBlog, true, scrollTopBlog)
 
                 setTimeout(() => {
                     setLoading(false)
@@ -66,8 +66,8 @@ function Blog() {
         window.scrollTo(0, 0)
     }, [])
 
-    function loadFilterBlog(id, loadBtm) {
-        if(loadBtm){
+    function loadFilterBlog(id, loadBtm, condition) {
+        if (loadBtm) {
             setLoadingBottom(true)
         }
 
@@ -90,16 +90,42 @@ function Blog() {
                                 setContentBlog(filteringBlog)
                                 clickPaginate(0)
                                 setLoadingBottom(false)
+
                                 setTimeout(() => {
                                     loadActivePaginate()
                                 }, 10);
+
+                                setTimeout(() => {
+                                    if (condition) {
+                                        const elementContentBlog = document.getElementById('container-content-blog')
+                                        const parentBlog = document.getElementById('parent-blog')
+                                        if (elementContentBlog) {
+                                            const positionTopBlog = Math.floor(elementContentBlog.getBoundingClientRect().top - parentBlog.getBoundingClientRect().top)
+
+                                            window.scrollTo(0, positionTopBlog)
+                                        }
+                                    }
+                                }, 100);
                             } else {
                                 setContentBlog(newData)
                                 clickPaginate(0)
                                 setLoadingBottom(false)
+
                                 setTimeout(() => {
                                     loadActivePaginate()
                                 }, 10);
+
+                                setTimeout(() => {
+                                    if (condition) {
+                                        const elementContentBlog = document.getElementById('container-content-blog')
+                                        const parentBlog = document.getElementById('parent-blog')
+                                        if (elementContentBlog) {
+                                            const positionTopBlog = Math.floor(elementContentBlog.getBoundingClientRect().top - parentBlog.getBoundingClientRect().top)
+
+                                            window.scrollTo(0, positionTopBlog)
+                                        }
+                                    }
+                                }, 100);
                             }
                         }
                     }, 0);
@@ -148,13 +174,13 @@ function Blog() {
         setIdxPaginateActive(idx)
         setCurrentPage(idx + 1)
 
-        if(paginate.length > 0){
+        if (paginate.length > 0) {
             for (let i = 0; i < paginate.length; i++) {
                 paginate[i].style.backgroundColor = 'transparent';
                 paginate[i].style.border = '1px solid #eee';
                 paginate[i].style.color = '#777';
             }
-    
+
             paginate[idx].style.backgroundColor = '#3face4';
             paginate[idx].style.border = '1px solid #3face4';
             paginate[idx].style.color = '#fff';
@@ -202,7 +228,7 @@ function Blog() {
 
     return (
         <>
-            <div className="wrapp-blog">
+            <div className="wrapp-blog" id="parent-blog">
                 <div className="container-header">
                     {Object.keys(getHeaders).length > 0 ? (
                         <Header
@@ -225,7 +251,7 @@ function Blog() {
                                     img={`${endpoint}/${e.image}`}
                                     titleImgHover={e.title.toUpperCase()}
                                     paragraphHoverImg={e.deskripsi}
-                                    heightImg="200px"
+                                    heightImg="100%"
                                     opacityHoverImg="1"
                                     marginHoverImg="20px"
                                     fontSizeTitleHoverImg="16px"
@@ -243,7 +269,7 @@ function Blog() {
                                     mouseLeave={mouseLeaveImg}
                                     clickWrapp={() => {
                                         selectBlogCategory(e.id)
-                                        loadFilterBlog(e.id, true)
+                                        loadFilterBlog(e.id, true, true)
                                     }}
                                 />
                             </div>
@@ -253,7 +279,7 @@ function Blog() {
                     )}
                 </div>
 
-                <div className="container-content-blog">
+                <div className="container-content-blog" id="container-content-blog">
                     <div className="column-kiri-content-blog">
                         {currentList && currentList.length > 0 ? currentList.map((e, i) => {
                             return (
@@ -321,9 +347,9 @@ function Blog() {
                         dataPostCategories={dataPostCategories}
                         btnListPostCategories={(id) => {
                             selectBlogCategory(id)
-                            loadFilterBlog(id, true)
+                            loadFilterBlog(id, true, true)
                         }}
-                        clickPopularPosts={(path)=>toPage(`/blog/blog-details/${path}`)}
+                        clickPopularPosts={(path) => toPage(`/blog/blog-details/${path}`)}
                         mouseOver={(idx) => mouseOverListCategories(idx)}
                         mouseLeave={mouseLeaveListCategories}
                     />

@@ -1,5 +1,35 @@
 @import '../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: 569px) and (max-width: 768px) {
+        @content;
+    }
+}
+
+@mixin bigTablet {
+    @media (min-width: 769px) and (max-width: 986px) {
+        @content;
+    }
+}
+
+@mixin semiDesktop {
+    @media (min-width: 967px) and (max-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 1300px) {
+        @content;
+    }
+}
+
 .wrapp-detail-blog{
     display: flex;
     flex-direction: column;
@@ -14,11 +44,39 @@
         display: flex;
         padding: 100px 10% 80px 10%;
 
+        @include navContactMobile(){
+            flex-direction: column;
+            padding: 50px 5% 50px 5%;
+        }
+
+        @include tablet(){
+            flex-direction: column;
+        }
+
+        @include bigTablet(){
+            flex-direction: column;
+        }
+
         .column-kiri-content-blog-details{
             display: flex;
             flex-direction: column;
             width: 72%;
             margin-right: 30px;
+
+            @include navContactMobile(){
+                width: auto;
+                margin-right: 0;
+            }
+
+            @include tablet(){
+                width: auto;
+                margin-right: 0;
+            }
+
+            @include bigTablet(){
+                width: auto;
+                margin-right: 0;
+            }
 
             .img-content-blog-details{
                 display: flex;
@@ -30,12 +88,29 @@
             .main-content-blog-details{
                 display: flex;
                 margin-top: 30px;
+
+                @include navContactMobile(){
+                    flex-direction: column;
+                }
                 
                 .column-category-blog-details{
                     display: flex;
                     flex-direction: column;
                     width: 20%;
                     margin-right: 20px;
+
+                    @include navContactMobile(){
+                        width: auto;
+                        margin-right: 0;
+                    }
+
+                    @include tablet(){
+                        width: auto;
+                    }
+
+                    @include semiDesktop(){
+                        width: auto;
+                    }
 
                     .date-group-blog-details{
                         display: flex;
@@ -48,6 +123,10 @@
                         justify-content: space-between;
                         &:hover{
                             color: $color2;
+                        }
+
+                        @include navContactMobile(){
+                            justify-content: flex-start;
                         }
 
                         i{
@@ -65,6 +144,10 @@
                     display: flex;
                     flex-direction: column;
                     width: 80%;
+
+                    @include navContactMobile(){
+                        width: auto;
+                    }
 
                     .title-main-content{
                         display: flex;
@@ -113,14 +196,33 @@
                 margin-top: 80px;
 
                 .paginate-next-posts{
-                    display: flex;
                     flex-wrap: wrap;
                     justify-content: space-between;
                     align-items: center;
                     padding-top: 30px;
+
+                    @include navContactMobile(){
+                        display: block;
+                    }
+
+                    @include tablet(){
+                        display: block;
+                    }
+
+                    @include desktop(){
+                        display: flex;
+                    }
                     
                     .card-prev-next-blog-details{
                         display: flex;
+
+                        @include navContactMobile(){
+                            margin-bottom: 10px;
+                        }
+    
+                        @include tablet(){
+                            margin-bottom: 10px;
+                        }
                     }
                 }
 

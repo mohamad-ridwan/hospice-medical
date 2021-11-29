@@ -111,6 +111,13 @@ function Register() {
         }
         if (input.image === null) {
             err.image = 'Must be required!'
+        } else if (input.image !== null) {
+            const getTypeFile = input.image.type.split('/')[1]
+
+            if (getTypeFile.toLowerCase() === 'jpg' || getTypeFile.toLowerCase() === 'jpeg' || getTypeFile.toLowerCase() === 'png') {
+            }else {
+                err.image = 'Must be jpg/jpeg/png'
+            }
         }
         if (input.password.length > 0 && input.confirmPassword.length > 0) {
             if (input.password !== input.confirmPassword) {

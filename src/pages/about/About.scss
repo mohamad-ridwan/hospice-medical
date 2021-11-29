@@ -58,6 +58,10 @@
             justify-content: center;
             text-align: center;
             padding: 20px 25% 0 25%;
+
+            @include navContactMobile(){
+                padding: 20px 10% 0 10%;
+            }
         }
 
         .column-carousel-feedback-about{

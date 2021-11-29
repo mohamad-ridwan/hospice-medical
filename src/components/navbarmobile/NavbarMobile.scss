@@ -41,6 +41,7 @@
         font-weight: bold;
         justify-content: flex-start;
         overflow: hidden;
+        cursor: pointer;
         
         .img-profile-nav-mobile{
             display: flex;
@@ -55,6 +56,7 @@
         .name-profile-nav-mobile{
             color: $color1;
             font-weight: normal;
+            text-align: start;
         }
 
         .collapse-nav-mobile{
@@ -66,7 +68,6 @@
                 padding: 10px 20px;
                 transition: 0.3s ease-in-out;
                 overflow: hidden;
-                margin-top: 10px;
 
                 &:hover{
                     background-color: $color2;
