@@ -3,7 +3,7 @@ import './NavbarMobile.scss'
 import imgUser from '../../images/user.png'
 import endpoint from '../../services/api/endpoint'
 
-function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollapseMenu, displayCollapseProfile, clickProfile, users, logOut, login, register }) {
+function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollapseMenu, displayCollapseProfile, clickProfile, users, logOut, login, register, activePathNavMobile, pathActiveNav, mouseOver, mouseLeave }) {
     return (
         <>
             <div className="wrapp-navbar-mobile" style={{
@@ -12,7 +12,7 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
             }}>
                 <ul className="column-navbar-mobile">
                     {users && Object.keys(users).length > 0 ? (
-                        <li className="menu-nav-mobile login-nav-mobile">
+                        <li className="login-nav-mobile">
                             <div className="column-profile-nav-mobile" onClick={clickProfile}>
                                 <img src={`${endpoint}/${users.image}`} alt="" className="img-profile-nav-mobile" />
                                 <p className="name-profile-nav-mobile">
@@ -32,11 +32,11 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                             </ul>
                         </li>
                     ):(
-                        <li className="menu-nav-mobile login-nav-mobile">
+                        <li className="login-nav-mobile">
                             <div className="column-profile-nav-mobile" onClick={clickProfile}>
                                 <img src={imgUser} alt="" className="img-profile-nav-mobile" />
                                 <p className="name-profile-nav-mobile">
-                                    Login/Register
+                                    Login
                                 </p>
                             </div>
 
@@ -59,15 +59,20 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                     {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
                         const pageCollapse = e.menuCollapse
                         return (
-                            <li key={i} className="menu-nav-mobile"
+                            <li key={i} className="menu-nav-mobile" style={{
+                                color: pathActiveNav === i ? '#3face4' : '#000'
+                            }}
                                 onClick={() => {
                                     if (e.path !== 'null') {
                                         toPage(e.path)
+                                        activePathNavMobile(i)
                                     }
                                     if (pageCollapse.length > 0) {
                                         showCollapse()
                                     }
                                 }}
+                                onMouseOver={()=>mouseOver(i)}
+                                onMouseLeave={()=>mouseLeave()}
                             >
                                 {e.name}
 

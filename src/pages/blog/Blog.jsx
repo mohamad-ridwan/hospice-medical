@@ -9,8 +9,10 @@ import endpoint from '../../services/api/endpoint';
 import { useHistory } from 'react-router';
 import { BlogContext } from '../../services/context/BlogContext';
 import Loading from '../../components/loading/Loading';
+import { NavbarContext } from '../../services/context/NavbarContext';
 
 function Blog() {
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment, scrollTopBlog] = useContext(BlogContext)
     const [loading, setLoading] = useState(false)
     const [getHeaders, setGetHeaders] = useState({})
@@ -29,8 +31,6 @@ function Blog() {
     const paginate = document.getElementsByClassName('number-pagination')
 
     function setAllAPI() {
-        setLoading(true)
-
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -62,8 +62,13 @@ function Blog() {
     }
 
     useEffect(() => {
-        setAllAPI()
+        setLoading(true)
+        setPathActiveMenuNav(4)
         window.scrollTo(0, 0)
+
+        setTimeout(() => {
+            setAllAPI()
+        }, 0)
     }, [])
 
     function loadFilterBlog(id, loadBtm, condition) {

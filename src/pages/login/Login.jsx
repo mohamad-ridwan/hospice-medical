@@ -9,7 +9,7 @@ import { BlogContext } from '../../services/context/BlogContext'
 import Loading from '../../components/loading/Loading'
 
 function Login() {
-    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
     const [errMessage, setErrMessage] = useState({})
     const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -26,6 +26,7 @@ function Login() {
     }
 
     useEffect(() => {
+        setPathActiveMenuNav(null)
         window.scrollTo(0, 0)
     }, [])
 

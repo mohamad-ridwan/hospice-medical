@@ -15,7 +15,7 @@ import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
 
 function DetailBlog() {
-    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment, scrollTopBlog] = useContext(BlogContext)
     const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
@@ -37,8 +37,6 @@ function DetailBlog() {
     const hoverBgImgPaginate = document.getElementsByClassName('hover-paginate-blog-details')
 
     function setAllAPI(pathLocal) {
-        setLoading(true)
-
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -92,8 +90,13 @@ function DetailBlog() {
     }
 
     useEffect(() => {
-        setAllAPI()
+        setLoading(true)
+        setPathActiveMenuNav(null)
         window.scrollTo(0, 0)
+
+        setTimeout(() => {
+            setAllAPI()
+        }, 0)
     }, [])
 
     async function nextOrPrevContent(data, idLocal, categoryContentInPage, idDetailBlog) {

@@ -6,30 +6,14 @@
     }
 }
 
-@mixin navContactMobile {
-    @media (max-width: $navContactMobile) {
-        @content;
-    }
-}
-
 .wrapp-navbar-mobile{
     display: none;
     flex-direction: column;
-    position: fixed;
     background-color: $color3;
-    margin-top: 125px;
-    z-index: 99999;
-    left: 0;
-    right: 0;
-    padding: 0 10%;
     transition: 0.2s ease-in-out;
 
     @include navMobile(){
         display: flex;
-    }
-
-    @include navContactMobile(){
-        padding: 0 5%;
     }
 
     .menu-nav-mobile{
@@ -42,6 +26,7 @@
         justify-content: flex-start;
         overflow: hidden;
         cursor: pointer;
+        transition: 0.3s ease-in-out;
         
         .img-profile-nav-mobile{
             display: flex;
@@ -68,6 +53,7 @@
                 padding: 10px 20px;
                 transition: 0.3s ease-in-out;
                 overflow: hidden;
+                color: #000;
 
                 &:hover{
                     background-color: $color2;
@@ -78,11 +64,54 @@
     }
 
     .login-nav-mobile{
+        display: flex;
+        flex-direction: column;
+        font-size: 13px;
+        align-items: flex-start;
+        padding-bottom: 20px;
+        font-weight: bold;
+        justify-content: flex-start;
+        overflow: hidden;
+        cursor: pointer;
+
         .column-profile-nav-mobile{
             display: flex;
             flex-direction: row;
             align-items: center;
             overflow: hidden;
+
+            .img-profile-nav-mobile{
+                display: flex;
+                height: 30px;
+                width: 30px;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 500px;
+                margin-right: 5px;
+            }
+    
+            .name-profile-nav-mobile{
+                color: $color1;
+                font-weight: normal;
+                text-align: start;
+            }
+        }
+
+        .collapse-nav-mobile{
+            display: none;
+            flex-direction: column;
+            text-align: start;
+
+            .name-menu-collapse-mobile{
+                padding: 10px 20px;
+                transition: 0.3s ease-in-out;
+                overflow: hidden;
+
+                &:hover{
+                    background-color: $color2;
+                    color: #fff;
+                }
+            }
         }
     }
 }

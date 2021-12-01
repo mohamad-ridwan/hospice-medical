@@ -9,7 +9,7 @@ import API from '../../services/api';
 import Loading from '../../components/loading/Loading';
 
 function Register() {
-    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [nameImg, setNameImg] = useState('Select your image profile')
     const [errMessage, setErrMessage] = useState({})
     const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -24,6 +24,7 @@ function Register() {
     const history = useHistory()
 
     useEffect(() => {
+        setPathActiveMenuNav(null)
         window.scrollTo(0, 0)
     }, [])
 

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import API from '../api/index'
 
@@ -10,6 +10,7 @@ const NavbarProvider = ({ children }) => {
     const [logoWeb, setLogoWeb] = useState({})
     const [menuPage, setMenuPage] = useState([])
     const [users, setUsers] = useState({})
+    const [pathActiveMenuNav, setPathActiveMenuNav] = useState(null)
 
     const idUser = Cookies.get('idUser')
 
@@ -48,7 +49,7 @@ const NavbarProvider = ({ children }) => {
     }, [])
 
     return (
-        <NavbarContext.Provider value={[linkMedsos, contactNav, logoWeb, menuPage, users, setUsers]}>
+        <NavbarContext.Provider value={[linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav]}>
             {children}
         </NavbarContext.Provider>
     )

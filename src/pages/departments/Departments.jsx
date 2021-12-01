@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Departments.scss';
 import Header from '../../components/header/Header';
 import Card from '../../components/card/Card';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import Loading from '../../components/loading/Loading';
+import { NavbarContext } from '../../services/context/NavbarContext';
 
 function Departments() {
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [dataProcedure, setDataProcedure] = useState({})
     const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
 
     function setAllAPI() {
-        setLoading(true)
-
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -36,8 +36,13 @@ function Departments() {
     }
 
     useEffect(() => {
-        setAllAPI()
+        setLoading(true)
+        setPathActiveMenuNav(1)
         window.scrollTo(0, 0)
+
+        setTimeout(() => {
+            setAllAPI()
+        }, 0)
     }, [])
 
     function mouseOverProcedureCtg(i) {

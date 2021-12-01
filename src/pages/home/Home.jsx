@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Home.scss';
 import Card from '../../components/card/Card';
 import AboutMyself from '../../components/aboutmyself/AboutMyself';
@@ -8,8 +8,10 @@ import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import { useHistory } from 'react-router';
 import Loading from '../../components/loading/Loading';
+import { NavbarContext } from '../../services/context/NavbarContext';
 
 function Home() {
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [loading, setLoading] = useState(false)
     const [bannerHome, setBannerHome] = useState({})
     const [dataProcedureCategory, setDataProcedureCategory] = useState({})
@@ -24,8 +26,6 @@ function Home() {
     const [idxHoverRecentBlog, setIdxHoverRecentBlog] = useState(null)
 
     function setAllAPI() {
-        setLoading(true)
-
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -83,8 +83,13 @@ function Home() {
     }
 
     useEffect(() => {
+        setLoading(true)
+        setPathActiveMenuNav(0)
         window.scrollTo(0, 0)
-        setAllAPI()
+
+        setTimeout(() => {
+            setAllAPI()
+        }, 0)
     }, [])
 
     function RenderParagraph({paragraph}){

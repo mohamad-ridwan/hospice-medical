@@ -9,7 +9,7 @@ import NavbarMobile from '../navbarmobile/NavbarMobile';
 
 function Navbar() {
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
-    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers] = useContext(NavbarContext)
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [onOverProfile, setOnOverProfile] = useState(false)
     const [positionLogin, setPositionLogin] = useState('0px')
     const [onCollapseNavMobile, setOnCollapseNavMobile] = useState(false)
@@ -17,11 +17,10 @@ function Navbar() {
     const [onCollapseMenu, setOnCollapseMenu] = useState(false)
     const [onCollapseProfile, setOnCollapseProfile] = useState(false)
 
-    const history = useHistory();
+    const history = useHistory()
 
     const navContact = document.getElementsByClassName('nav-contact')
     const navPage = document.getElementsByClassName('nav-page')
-    const navMobile = document.getElementsByClassName('wrapp-navbar-mobile')
 
     window.addEventListener('scroll', () => {
         const scrollPosition = Math.floor(window.pageYOffset)
@@ -37,8 +36,6 @@ function Navbar() {
                 // nav page
                 navPage[0].style.boxShadow = 'none'
                 navPage[0].style.marginTop = '45px'
-                navMobile[0].style.marginTop = '125px'
-                navMobile[0].style.boxShadow = 'none'
             } else if (scrollPosition > count) {
                 // nav contact
                 navContact[0].style.marginTop = '-45px'
@@ -46,8 +43,6 @@ function Navbar() {
                 // nav page
                 navPage[0].style.marginTop = '0'
                 navPage[0].style.boxShadow = '0 1px 10px -1px rgba(0,0,0,0.2)'
-                navMobile[0].style.marginTop = '80px'
-                navMobile[0].style.boxShadow = '0 8px 8px -1px rgba(0,0,0,0.1)'
             }
         }
     })
@@ -100,16 +95,20 @@ function Navbar() {
         if (dataCollapse.length > 0) {
             elementMenuCollapse[index].style.display = 'flex'
 
-            changePositionPageCollapse(index);
+            changePositionPageCollapse(index)
         }
+
+        mouseOverNavMenu(index)
     }
 
     function mouseLeaveMenuCollapse(dataCollapse, index) {
         if (dataCollapse.length > 0) {
             elementMenuCollapse[index].style.display = 'none'
 
-            changePositionPageCollapse(index);
+            changePositionPageCollapse(index)
         }
+
+        mouseLeaveNavMenu()
     }
 
     function changePositionProfileCollapse() {
@@ -163,14 +162,110 @@ function Navbar() {
         }
     }
 
-    function showProfile(){
+    function showProfile() {
         setOnCollapseMenu(false)
-        if(onCollapseProfile === false){
+        if (onCollapseProfile === false) {
             setOnCollapseProfile(true)
             setHeightCollapseNavMobile('365px')
-        }else{
+        } else {
             setOnCollapseProfile(false)
             setHeightCollapseNavMobile('270px')
+        }
+    }
+
+    function mouseOverNavMenu(idx) {
+        const pageNav = document.getElementsByClassName('page-navbar')
+
+        if (pageNav.length > 0) {
+            for (let i = 0; i < pageNav.length; i++) {
+                pageNav[i].style.color = '#000'
+            }
+
+            if (pathActiveMenuNav !== null) {
+                pageNav[pathActiveMenuNav].style.color = '#3face4'
+            }
+            pageNav[idx].style.color = '#3face4'
+        }
+    }
+
+    function mouseLeaveNavMenu() {
+        const pageNav = document.getElementsByClassName('page-navbar')
+
+        if (pageNav.length > 0) {
+            for (let i = 0; i < pageNav.length; i++) {
+                pageNav[i].style.color = '#000'
+            }
+
+            if (pathActiveMenuNav !== null) {
+                pageNav[pathActiveMenuNav].style.color = '#3face4'
+            }
+        }
+    }
+
+    function clickActiveNavDesktop(idx) {
+        const pageNav = document.getElementsByClassName('page-navbar')
+
+        if (pageNav.length > 0) {
+            if (idx !== null) {
+                for (let i = 0; i < pageNav.length; i++) {
+                    pageNav[i].style.color = '#000'
+                }
+
+                if (pathActiveMenuNav !== null) {
+                    pageNav[pathActiveMenuNav].style.color = '#3face4'
+                }
+                setPathActiveMenuNav(idx)
+                pageNav[idx].style.color = '#3face4'
+            } else if (idx === null) {
+                for (let i = 0; i < pageNav.length; i++) {
+                    pageNav[i].style.color = '#000'
+                }
+            }
+        }
+    }
+
+    function clickActiveNavMobile(idx) {
+        const pageNav = document.getElementsByClassName('menu-nav-mobile')
+
+        if (pageNav.length > 0) {
+            for (let i = 0; i < pageNav.length; i++) {
+                pageNav[i].style.color = '#000'
+            }
+
+            if (pathActiveMenuNav !== null) {
+                pageNav[pathActiveMenuNav].style.color = '#3face4'
+            }
+            setPathActiveMenuNav(idx)
+            pageNav[idx].style.color = '#3face4'
+        }
+    }
+
+    function mouseOverNavMenuMobile(idx) {
+        const pageNav = document.getElementsByClassName('menu-nav-mobile')
+
+        if (pageNav.length > 0) {
+            for (let i = 0; i < pageNav.length; i++) {
+                pageNav[i].style.color = '#000'
+            }
+
+            if (pathActiveMenuNav !== null) {
+                pageNav[pathActiveMenuNav].style.color = '#3face4'
+            }
+            pageNav[idx].style.color = '#3face4'
+        }
+    }
+
+    function mouseLeaveNavMenuMobile() {
+        const pageNav = document.getElementsByClassName('menu-nav-mobile')
+
+        if (pageNav.length > 0) {
+            for (let i = 0; i < pageNav.length; i++) {
+                pageNav[i].style.color = '#000'
+            }
+
+            if (pathActiveMenuNav !== null) {
+                pageNav[pathActiveMenuNav].style.color = '#3face4'
+            }
         }
     }
 
@@ -205,121 +300,130 @@ function Navbar() {
                 </div>
 
                 <div className="nav-page">
-                    <img src={logoWeb && Object.keys(logoWeb).length !== 0 ? `${endpoint}/${logoWeb.image}` : ''} alt="" className="logo-web" onClick={() => toPage('/')} />
+                    <div className="column-atas-nav-page">
+                        <img src={logoWeb && Object.keys(logoWeb).length !== 0 ? `${endpoint}/${logoWeb.image}` : ''} alt="" className="logo-web" onClick={() => toPage('/')} />
 
-                    <div className="column-kanan-navbar">
-                        <ul className="menu-page-navbar">
-                            {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
-                                const pageCollapse = e.menuCollapse
+                        <div className="column-kanan-navbar">
+                            <ul className="menu-page-navbar">
+                                {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
+                                    const pageCollapse = e.menuCollapse
+                                    return (
+                                        <>
+                                            <li key={i} className="page-navbar" style={{
+                                                color: pathActiveMenuNav === i ? '#3face4' : '#000'
+                                            }}
+                                                onClick={() => {
+                                                    if (e.path !== "null") {
+                                                        toPage(e.path)
+                                                        clickActiveNavDesktop(i)
+                                                    }
+                                                }}
+                                                onMouseOver={() => mouseOverMenuCollapse(e.menuCollapse, i)}
+                                                onMouseLeave={() => mouseLeaveMenuCollapse(e.menuCollapse, i)}
+                                            >
+                                                {e.name}
 
-                                return (
+                                                <ul className="menu-collapse">
+                                                    {pageCollapse && pageCollapse.length > 0 ? pageCollapse.map((e, i) => {
+                                                        return (
+                                                            <li key={i} className="name-menu-collapse" onClick={(p) => {
+                                                                p.stopPropagation()
+                                                                toPage(e.path)
+                                                            }}>
+                                                                {e.name}
+                                                            </li>
+                                                        )
+                                                    }) : (
+                                                        <div></div>
+                                                    )}
+                                                </ul>
+                                            </li>
+                                        </>
+                                    )
+                                }) : (
+                                    <div></div>
+                                )}
+                            </ul>
+
+                            <div className="column-profile">
+                                {Object.keys(users).length > 0 ? (
                                     <>
-                                        <li key={i} className="page-navbar" onClick={() => {
-                                            if (e.path !== "null") {
-                                                toPage(e.path)
-                                            }
-                                        }}
-                                            onMouseOver={() => mouseOverMenuCollapse(e.menuCollapse, i)}
-                                            onMouseLeave={() => mouseLeaveMenuCollapse(e.menuCollapse, i)}
+                                        <div className="profile-nav"
+                                            onMouseOver={mouseOverProfile}
+                                            onMouseLeave={mouseLeaveProfile}
                                         >
-                                            {e.name}
+                                            <img src={`${endpoint}/${users.image}`} alt="" className="img-profile" />
+                                            <p className="name-profile">
+                                                {users.name.substr(0, 10) + '...'}
+                                            </p>
 
-                                            <ul className="menu-collapse">
-                                                {pageCollapse && pageCollapse.length > 0 ? pageCollapse.map((e, i) => {
-                                                    return (
-                                                        <li key={i} className="name-menu-collapse" onClick={(p) => {
-                                                            p.stopPropagation()
-                                                            toPage(e.path)
-                                                        }}>
-                                                            {e.name}
-                                                        </li>
-                                                    )
-                                                }) : (
-                                                    <div></div>
-                                                )}
-                                            </ul>
-                                        </li>
+                                            <div className="profile-collapse" style={{
+                                                display: onOverProfile ? 'flex' : 'none',
+                                                top: positionLogin
+                                            }}>
+                                                <li className="menu-register"
+                                                    onClick={logOut}
+                                                >
+                                                    LOG OUT
+                                                </li>
+                                            </div>
+                                        </div>
                                     </>
-                                )
-                            }) : (
-                                <div></div>
-                            )}
-                        </ul>
+                                ) : (
+                                    <>
+                                        <div className="profile-nav"
+                                            onMouseOver={mouseOverProfile}
+                                            onMouseLeave={mouseLeaveProfile}
+                                        >
+                                            <img src={imgUser} alt="" className="img-profile" />
+                                            <p className="name-profile">
+                                                Login
+                                            </p>
 
-                        <div className="column-profile">
-                            {Object.keys(users).length > 0 ? (
-                                <>
-                                    <div className="profile-nav"
-                                        onMouseOver={mouseOverProfile}
-                                        onMouseLeave={mouseLeaveProfile}
-                                    >
-                                        <img src={`${endpoint}/${users.image}`} alt="" className="img-profile" />
-                                        <p className="name-profile">
-                                            {users.name.substr(0, 10) + '...'}
-                                        </p>
-
-                                        <div className="profile-collapse" style={{
-                                            display: onOverProfile ? 'flex' : 'none',
-                                            top: positionLogin
-                                        }}>
-                                            <li className="menu-register"
-                                                onClick={logOut}
-                                            >
-                                                LOG OUT
-                                            </li>
+                                            <div className="profile-collapse" style={{
+                                                display: onOverProfile ? 'flex' : 'none',
+                                                top: positionLogin
+                                            }}>
+                                                <li className="menu-register"
+                                                    onClick={() => toPage('/login')}
+                                                >
+                                                    LOGIN
+                                                </li>
+                                                <li className="menu-register"
+                                                    onClick={() => toPage('/register')}
+                                                >
+                                                    REGISTER
+                                                </li>
+                                            </div>
                                         </div>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="profile-nav"
-                                        onMouseOver={mouseOverProfile}
-                                        onMouseLeave={mouseLeaveProfile}
-                                    >
-                                        <img src={imgUser} alt="" className="img-profile" />
-                                        <p className="name-profile">
-                                            Login/Register
-                                        </p>
-
-                                        <div className="profile-collapse" style={{
-                                            display: onOverProfile ? 'flex' : 'none',
-                                            top: positionLogin
-                                        }}>
-                                            <li className="menu-register"
-                                                onClick={() => toPage('/login')}
-                                            >
-                                                LOGIN
-                                            </li>
-                                            <li className="menu-register"
-                                                onClick={() => toPage('/register')}
-                                            >
-                                                REGISTER
-                                            </li>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
+                                    </>
+                                )}
+                            </div>
                         </div>
+
+                        <i className="fas fa-bars btn-collapse-nav"
+                            onClick={toShowNavCollapseMobile}
+                        ></i>
                     </div>
 
-                    <i className="fas fa-bars btn-collapse-nav"
-                        onClick={toShowNavCollapseMobile}
-                    ></i>
+                    <NavbarMobile
+                        menuPage={menuPage}
+                        height={heightCollapseNavMobile}
+                        toPage={(path) => toPage(path)}
+                        showCollapse={showCollapse}
+                        onCollapseMenu={onCollapseMenu}
+                        displayCollapseProfile={onCollapseProfile}
+                        clickProfile={showProfile}
+                        users={users}
+                        logOut={logOut}
+                        login={() => toPage('/login')}
+                        register={() => toPage('/register')}
+                        activePathNavMobile={(idx) => clickActiveNavMobile(idx)}
+                        pathActiveNav={pathActiveMenuNav}
+                        mouseOver={(idx) => mouseOverNavMenuMobile(idx)}
+                        mouseLeave={mouseLeaveNavMenuMobile}
+                    />
                 </div>
-
-                <NavbarMobile
-                    menuPage={menuPage}
-                    height={heightCollapseNavMobile}
-                    toPage={(path) => toPage(path)}
-                    showCollapse={showCollapse}
-                    onCollapseMenu={onCollapseMenu}
-                    displayCollapseProfile={onCollapseProfile}
-                    clickProfile={showProfile}
-                    users={users}
-                    logOut={logOut}
-                    login={()=>toPage('/login')}
-                    register={()=>toPage('/register')}
-                />
             </div>
         </>
     )

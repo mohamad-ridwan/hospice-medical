@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './About.scss';
 import Header from '../../components/header/Header';
 import ServicingHours from '../../components/servicinghours/ServicingHours';
@@ -7,16 +7,16 @@ import CarouselCard from '../../components/carouselcard/CarouselCard';
 import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import Loading from '../../components/loading/Loading';
+import { NavbarContext } from '../../services/context/NavbarContext';
 
 function About() {
+    const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [loading, setLoading] = useState(false)
     const [dataHeaders, setDataHeaders] = useState({})
     const [dataAboutMyself, setDataAboutMyself] = useState({})
     const [feedback, setFeedback] = useState({})
 
     function setAllAPI() {
-        setLoading(true)
-
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -45,8 +45,13 @@ function About() {
     }
 
     useEffect(() => {
-        setAllAPI()
+        setLoading(true)
+        setPathActiveMenuNav(3)
         window.scrollTo(0, 0)
+
+        setTimeout(() => {
+            setAllAPI()
+        }, 0)
     }, [])
 
     return (
