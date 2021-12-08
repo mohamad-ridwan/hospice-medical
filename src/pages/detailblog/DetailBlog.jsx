@@ -169,6 +169,12 @@ function DetailBlog() {
         )
     }
 
+    function RenderParagraphBeforeHighlight({text}){
+        return(
+            <p className="paragraph-before-highlight" dangerouslySetInnerHTML={{__html: text}}></p>
+        )
+    }
+
     function RenderParagraphHighlight({ paragraphHighlight }) {
         return (
             <p className="paragraph-highlight" dangerouslySetInnerHTML={{ __html: paragraphHighlight }}></p>
@@ -342,7 +348,17 @@ function DetailBlog() {
                                     </div>
                                 </div>
 
-                                <RenderParagraphHighlight paragraphHighlight={dataDetailBlog.paragraphHighlight} />
+                                {dataDetailBlog && dataDetailBlog.paragraphBeforeHighlight ? (
+                                    <RenderParagraphBeforeHighlight text={dataDetailBlog.paragraphBeforeHighlight}/>
+                                ):(
+                                    <div></div>
+                                )}
+
+                                {dataDetailBlog.paragraphHighlight !== 'null' ? (
+                                    <RenderParagraphHighlight paragraphHighlight={dataDetailBlog.paragraphHighlight} />
+                                ):(
+                                    <div></div>
+                                )}
 
                                 <img src={`${endpoint}/${dataDetailBlog.imageDetailContent && dataDetailBlog.imageDetailContent.image}`} alt="" className="img-content-blog-details img-body-content" />
 
@@ -361,7 +377,7 @@ function DetailBlog() {
                                                         displayTxtComment="flex"
                                                         comments={`Category, ${e.category}`}
                                                         iconHoverImg={i === 0 ? 'fas fa-long-arrow-alt-left' : 'fas fa-long-arrow-alt-right'}
-                                                        paragraph={e.title}
+                                                        paragraph={e.title.length > 30 ? `${e.title.substr(0, 30)}...` : e.title}
                                                         flexDirectionWrapp={i === 0 ? 'row' : 'row-reverse'}
                                                         justifyContentTitle={i === 0 ? 'flex-start' : 'flex-end'}
                                                         textAlignTitle={i === 0 ? 'start' : 'end'}

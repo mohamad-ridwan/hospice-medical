@@ -95,11 +95,12 @@ function Departments() {
                                                 displayTitleHoverImg="flex"
                                                 fontWeightTitleHoverImg="bold"
                                                 paddingTitleHoverImg="10px 0"
-                                                widthTitleHoverImg="100%"
+                                                widthTitleHoverImg="auto"
                                                 opacityHoverImg={i === hoverProcedureCtg ? '1' : '0'}
                                                 mouseOver={() => mouseOverProcedureCtg(i)}
                                                 mouseLeave={mouseLeaveProcedureCtg}
                                                 cursorImg="default"
+                                                justifyContentTitleHoverImg="center"
                                             />
                                         </div>
                                     )

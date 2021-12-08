@@ -116,14 +116,10 @@
                         display: flex;
                         font-size: 14px;
                         color: $color1;
-                        transition: 0.3s ease-in-out;
                         text-align: start;
                         margin-bottom: 10px;
                         align-items: center;
                         justify-content: space-between;
-                        &:hover{
-                            color: $color2;
-                        }
 
                         @include navContactMobile(){
                             justify-content: flex-start;
@@ -158,16 +154,29 @@
                     }
                     
                     .paragraph-main-content{
-                        display: flex;
                         font-size: 14px;
                         color: $color1;
                         text-align: start;
+
+                        strong{
+                            color: #000;
+                        }
                     }
                 }
             }
 
+            .paragraph-before-highlight{
+                font-size: 14px;
+                color: $color1;
+                text-align: start;
+                margin-top: 40px;
+
+                strong{
+                    color: #000;
+                }
+            }
+
             .paragraph-highlight{
-                display: flex;
                 text-align: start;
                 padding: 30px;
                 background-color: #fff;
@@ -175,18 +184,30 @@
                 color: $color1;
                 margin-top: 40px;
                 font-style: italic;
+
+                strong{
+                    color: #000;
+                }
             }
 
             .img-body-content{
                 margin-top: 30px;
+                width: 80%;
+
+                @include navContactMobile(){
+                    width: auto;
+                }
             }
 
             .paragraph-body-content{
-                display: flex;
                 font-size: 14px;
                 color: $color1;
                 text-align: start;
                 margin-top: 30px;
+
+                strong{
+                    color: #000;
+                }
             }
 
             .container-comments-blog-details{

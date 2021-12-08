@@ -61,7 +61,7 @@ function Doctors() {
                             title={dataHeaders.title}
                             img={`${endpoint}/${dataHeaders.image}`}
                             displayIcon2="none"
-                            page1="Consultants"
+                            page1="Doctors"
                             displayIcon3="none"
                         /> 
                     ) : (

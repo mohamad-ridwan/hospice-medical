@@ -168,7 +168,13 @@ function Contact() {
                                         <div className="list-address-contact">
                                             <a href={toContact} className="title-address-contact" style={{
                                                 cursor: i !== 0 ? 'pointer' : 'input'
-                                            }}>
+                                            }}
+                                            onClick={(o)=>{
+                                                if(toContact === "#"){
+                                                    o.preventDefault()
+                                                }
+                                            }}
+                                            >
                                                 {e.title}
                                             </a>
                                             <p className="paragraph-address-contact">
