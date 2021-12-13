@@ -20,9 +20,10 @@ function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategor
                             heightImg="60px"
                             title={e.title}
                             paragraph={e.date}
+                            widthContentCard="80%"
                             classTitle="title-card-popular-posts"
                             flexDirectionWrapp="row"
-                            widthImg="auto"
+                            widthImg="100px"
                             fontSizeTitle="13px"
                             fontSizeParagraph="11px"
                             marginTitle="0 0 8px 0"

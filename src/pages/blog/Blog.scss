@@ -149,14 +149,10 @@
                         display: flex;
                         font-size: 14px;
                         color: $color1;
-                        transition: 0.3s ease-in-out;
                         text-align: start;
                         margin-bottom: 10px;
                         align-items: center;
                         justify-content: space-between;
-                        &:hover{
-                            color: $color2;
-                        }
 
                         @include navContactMobile(){
                             justify-content: flex-start;

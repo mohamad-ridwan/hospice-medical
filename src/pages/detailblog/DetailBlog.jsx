@@ -31,12 +31,13 @@ function DetailBlog() {
         message: '',
     })
     const [nextAndPrevPosts, setNextAndPrevPosts] = useState([])
+    const [loadingBottom, setLoadingBottom] = useState(false)
 
     const location = window.location.pathname
     const history = useHistory()
     const hoverBgImgPaginate = document.getElementsByClassName('hover-paginate-blog-details')
 
-    function setAllAPI(pathLocal) {
+    function setAllAPI(pathLocal, loadingPaginate) {
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -85,6 +86,11 @@ function DetailBlog() {
                 setTimeout(() => {
                     setLoading(false)
                 }, 10);
+
+                if (loadingPaginate) {
+                    setLoadingBottom(false)
+                    window.scrollTo(0, 0)
+                }
             })
             .catch(err => console.log(err))
     }
@@ -169,9 +175,9 @@ function DetailBlog() {
         )
     }
 
-    function RenderParagraphBeforeHighlight({text}){
-        return(
-            <p className="paragraph-before-highlight" dangerouslySetInnerHTML={{__html: text}}></p>
+    function RenderParagraphBeforeHighlight({ text }) {
+        return (
+            <p className="paragraph-before-highlight" dangerouslySetInnerHTML={{ __html: text }}></p>
         )
     }
 
@@ -286,9 +292,9 @@ function DetailBlog() {
     }
 
     function clickPopularPosts(path) {
+        setLoadingBottom(true)
         history.push(`/blog/blog-details/${path}`)
-        setAllAPI(path)
-        window.scrollTo(0, 0)
+        setAllAPI(path, true)
     }
 
     return (
@@ -349,20 +355,24 @@ function DetailBlog() {
                                 </div>
 
                                 {dataDetailBlog && dataDetailBlog.paragraphBeforeHighlight ? (
-                                    <RenderParagraphBeforeHighlight text={dataDetailBlog.paragraphBeforeHighlight}/>
-                                ):(
+                                    <RenderParagraphBeforeHighlight text={dataDetailBlog.paragraphBeforeHighlight} />
+                                ) : (
                                     <div></div>
                                 )}
 
                                 {dataDetailBlog.paragraphHighlight !== 'null' ? (
                                     <RenderParagraphHighlight paragraphHighlight={dataDetailBlog.paragraphHighlight} />
-                                ):(
+                                ) : (
                                     <div></div>
                                 )}
 
                                 <img src={`${endpoint}/${dataDetailBlog.imageDetailContent && dataDetailBlog.imageDetailContent.image}`} alt="" className="img-content-blog-details img-body-content" />
 
-                                <RenderParagraphDua paragraphDua={dataDetailBlog.paragraphDua} />
+                                {dataDetailBlog.paragraphDua !== 'null' ? (
+                                    <RenderParagraphDua paragraphDua={dataDetailBlog.paragraphDua} />
+                                ) : (
+                                    <div></div>
+                                )}
 
                                 <div className="container-comments-blog-details">
                                     <div className="paginate-next-posts">
@@ -508,6 +518,8 @@ function DetailBlog() {
 
                 <Loading
                     displayLoadingPage={loading ? 'flex' : 'none'}
+                    displayLoadingBottom="flex"
+                    rightLoadingBottom={loadingBottom ? '40px' : '-1000px'}
                 />
             </div>
         </>
