@@ -3,8 +3,6 @@ import './DetailBlog.scss';
 import Header from '../../components/header/Header';
 import PopularPosts from '../../components/popularposts/PopularPosts';
 import Card from '../../components/card/Card';
-import imgPrevPost from '../../images/img-prev-post.jpg'
-import imgNextPost from '../../images/img-next-post.jpg'
 import Input from '../../components/input/Input';
 import Button from '../../components/button/Button';
 import API from '../../services/api';
@@ -25,6 +23,7 @@ function DetailBlog() {
     const [_idDocument, set_IdDocument] = useState('')
     const [idBlog, setIdBlog] = useState('')
     const [listUserComments, setListUserComments] = useState([])
+    const [loadingPost, setLoadingPost] = useState(false)
     const [errorMessage, setErrorMessage] = useState({})
     const [inputComment, setInputComment] = useState({
         subject: '',
@@ -37,7 +36,7 @@ function DetailBlog() {
     const history = useHistory()
     const hoverBgImgPaginate = document.getElementsByClassName('hover-paginate-blog-details')
 
-    function setAllAPI(pathLocal, loadingPaginate) {
+    function setAllAPI(pathLocal, loadingPaginate, onSuccessComments) {
         API.APIGetHeaderPage()
             .then(res => {
                 const respons = res.data
@@ -63,6 +62,10 @@ function DetailBlog() {
 
                     // filter content prev post and next post
                     nextOrPrevContent(respons, getIdLocal, getDataFromLocation, getDetailData[0].id)
+
+                    if (onSuccessComments) {
+                        successComments()
+                    }
                 } else {
                     const getDataFromLocation = respons.filter((e) => e.id === idLocation)
 
@@ -74,6 +77,10 @@ function DetailBlog() {
 
                     // filter content prev post and next post
                     nextOrPrevContent(respons, idLocation, getDataFromLocation, getDetailData[0].id)
+
+                    if (onSuccessComments) {
+                        successComments()
+                    }
                 }
 
                 const getPopularPosts = respons.filter((e) => e.id === 'popular-posts')
@@ -93,6 +100,21 @@ function DetailBlog() {
                 }
             })
             .catch(err => console.log(err))
+    }
+
+    function successComments() {
+        setTimeout(() => {
+            setInputComment({
+                subject: '',
+            })
+
+            const parentPosition = document.getElementById('wrapp').getBoundingClientRect()
+            const commentPosition = document.getElementById('total-comments').getBoundingClientRect()
+            const roundUp = Math.floor(commentPosition.top - parentPosition.top)
+
+            setLoadingPost(false)
+            window.scrollTo(0, roundUp)
+        }, 10);
     }
 
     useEffect(() => {
@@ -238,15 +260,14 @@ function DetailBlog() {
     function postComment(data) {
         API.APIPostComment(_idDocument, idBlog, data)
             .then(res => {
-                setAllAPI()
-
-                setInputComment({
-                    subject: '',
-                })
-
+                setAllAPI(undefined, undefined, true)
                 return res
             })
-            .catch(err => console.log(err))
+            .catch(err =>{
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                console.log(err)
+                setLoadingPost(false)
+            })
     }
 
     const nameMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -256,7 +277,7 @@ function DetailBlog() {
     const hours = new Date().getHours()
     const minute = new Date().getMinutes()
 
-    const getMonth = nameMonth[numMonth + 1]
+    const getMonth = nameMonth[numMonth]
     const getHours = hours.toString().length === 1 ? `0${hours}` : hours
     const getMinutes = minute.toString().length === 1 ? `0${minute}` : minute
 
@@ -285,6 +306,7 @@ function DetailBlog() {
                 history.push('/login')
                 setRouteLoginFromComment(location)
             } else {
+                setLoadingPost(true)
                 postComment(dataComment)
             }
         }
@@ -299,7 +321,7 @@ function DetailBlog() {
 
     return (
         <>
-            <div className="wrapp-detail-blog">
+            <div className="wrapp-detail-blog" id="wrapp">
                 <div className="container-header">
                     {Object.keys(dataHeaders).length > 0 ? (
                         <Header
@@ -424,7 +446,7 @@ function DetailBlog() {
                                     </div>
 
                                     <div className="column-list-comments-blog-details">
-                                        <p className="total-comments">
+                                        <p className="total-comments" id="total-comments">
                                             {listUserComments.length} Comments
                                         </p>
 
@@ -520,6 +542,11 @@ function DetailBlog() {
                     displayLoadingPage={loading ? 'flex' : 'none'}
                     displayLoadingBottom="flex"
                     rightLoadingBottom={loadingBottom ? '40px' : '-1000px'}
+                />
+                <Loading
+                    displayLoadingBottom="flex"
+                    rightLoadingBottom={loadingPost ? '40px' : '-1000px'}
+                    displayBarrier={loadingPost ? 'flex' : 'none'}
                 />
             </div>
         </>

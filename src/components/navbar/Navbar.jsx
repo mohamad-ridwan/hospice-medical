@@ -137,6 +137,9 @@ function Navbar() {
     function logOut() {
         document.cookie = 'idUser='
         setUsers({})
+        setTimeout(() => {
+            window.location.reload()
+        }, 20);
     }
 
     function toShowNavCollapseMobile() {
@@ -354,7 +357,7 @@ function Navbar() {
                                         >
                                             <img src={`${endpoint}/${users.image}`} alt="" className="img-profile" />
                                             <p className="name-profile">
-                                                {users.name.substr(0, 10) + '...'}
+                                                {users.name.length > 10 ? users.name.substr(0, 10) + '...' : users.name}
                                             </p>
 
                                             <div className="profile-collapse" style={{

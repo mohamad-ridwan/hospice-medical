@@ -21,6 +21,7 @@ function Home() {
     const [ourOfferedServices, setOurOfferedServices] = useState({})
     const [cardOurOfferedServices, setCardOurOfferedServices] = useState([])
     const [ourRecentBlogs, setOurRecentBlogs] = useState({})
+    const [contentRecentBlogs, setContentRecentBlog] = useState([])
     const [hoverProcedureCtg, setHoverProcedureCtg] = useState(null)
     const [idxHoverTitleSerivices, setIdxHoverTitleServices] = useState(null)
     const [idxHoverRecentBlog, setIdxHoverRecentBlog] = useState(null)
@@ -73,7 +74,9 @@ function Home() {
                 const respons = res.data
 
                 const getBlogsHome = respons.filter((e) => e.id === "our-recent-blogs")
+                const getThreeItems = getBlogsHome[0].data.filter((e, i) => i < 3)
                 setOurRecentBlogs(getBlogsHome[0])
+                setContentRecentBlog(getThreeItems)
 
                 setTimeout(() => {
                     setLoading(false)
@@ -92,9 +95,9 @@ function Home() {
         }, 0)
     }, [])
 
-    function RenderParagraph({paragraph}){
-        return(
-            <p dangerouslySetInnerHTML={{__html: paragraph.length > 150 ? paragraph.substr(0, 150) + '...' : paragraph}}></p>
+    function RenderParagraph({ paragraph }) {
+        return (
+            <p dangerouslySetInnerHTML={{ __html: paragraph.length > 150 ? paragraph.substr(0, 150) + '...' : paragraph }}></p>
         )
     }
 
@@ -124,7 +127,7 @@ function Home() {
 
     const history = useHistory()
 
-    function toPage(path){
+    function toPage(path) {
         history.push(path)
     }
 
@@ -271,15 +274,15 @@ function Home() {
                             </p>
 
                             <div className="column-card-recent-blogs-home">
-                                {ourRecentBlogs.data.map((e, i) => {
+                                {contentRecentBlogs && contentRecentBlogs.length > 0 ? contentRecentBlogs.map((e, i) => {
                                     return (
-                                        <div className="card-recent-blogs-home">
+                                        <div className="card-recent-blogs-home" key={i}>
                                             <Card
                                                 displayContentCard="flex"
                                                 displayDate="flex"
                                                 img={`${endpoint}/${e.image}`}
                                                 title={e.title}
-                                                paragraph={<RenderParagraph paragraph={e.paragraphSatu}/>}
+                                                paragraph={<RenderParagraph paragraph={e.paragraphSatu} />}
                                                 cursorWrapp="pointer"
                                                 heightImg="250px"
                                                 fontSizeTitle="18px"
@@ -290,11 +293,13 @@ function Home() {
                                                 transformImg={i == idxHoverRecentBlog ? 'scale(1.1)' : 'scale(1)'}
                                                 mouseOver={() => mouseOverRecentBlogs(i)}
                                                 mouseLeave={mouseLeaveRecentBlogs}
-                                                clickWrapp={()=>toPage(`blog/blog-details/${e.path}`)}
+                                                clickWrapp={() => toPage(`blog/blog-details/${e.path}`)}
                                             />
                                         </div>
                                     )
-                                })}
+                                }) : (
+                                    <div></div>
+                                )}
                             </div>
                         </>
                     ) : (
@@ -303,7 +308,7 @@ function Home() {
                 </div>
 
                 <Loading
-                displayLoadingPage={loading ? 'flex' : 'none'}
+                    displayLoadingPage={loading ? 'flex' : 'none'}
                 />
             </div>
         </>
