@@ -181,10 +181,6 @@
                 background-color: $color11;
                 transition: 0.3s ease-in-out;
                 margin-left: 5px;
-                width: 35px;
-                justify-content: center;
-                align-items: center;
-                padding: 10px 0;
                 &:hover{
                     background-color: $color2;
                 }
@@ -194,6 +190,10 @@
                     text-decoration: none;
                     color: #fff;
                     font-size: 14px;
+                    width: 35px;
+                    padding: 10px 0;
+                    justify-content: center;
+                    align-items: center;
 
                     i{
                         overflow: hidden;
