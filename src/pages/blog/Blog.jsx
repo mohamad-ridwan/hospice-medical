@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 import { BlogContext } from '../../services/context/BlogContext';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function Blog() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -231,6 +232,11 @@ function Blog() {
 
     return (
         <>
+            <HelmetWindow
+                title={getHeaders && getHeaders.title ? `${getHeaders.title} | Hospice Medical` : 'Hospice Medical'}
+                description="Mengenai blog artikel kesehatan Kami"
+            />
+
             <div className="wrapp-blog" id="parent-blog">
                 <div className="container-header">
                     {Object.keys(getHeaders).length > 0 ? (

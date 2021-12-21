@@ -6,6 +6,7 @@ import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function ServicesPage() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -53,6 +54,11 @@ function ServicesPage() {
 
     return (
         <>
+            <HelmetWindow
+                title={dataHeaders && dataHeaders.title ? `${dataHeaders.title} | Hospice Medical` : 'Hospice Medical'}
+                description="Layanan yang Kami tawarkan"
+            />
+
             <div className="wrapp-services-page">
                 <div className="container-header">
                     {Object.keys(dataHeaders).length > 0 ? (

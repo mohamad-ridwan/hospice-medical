@@ -9,6 +9,7 @@ import endpoint from '../../services/api/endpoint';
 import { useHistory } from 'react-router';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function Home() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -133,6 +134,11 @@ function Home() {
 
     return (
         <>
+            <HelmetWindow
+                title="Hospice Medical"
+                description="Hospice Medical adalah Website konsultasi dengan ahli medis, dan penyedia blog informasi ter-update untuk kesehatan"
+            />
+
             <div className="wrapp-home" id="home">
                 <div className="banner-home">
                     {Object.keys(bannerHome).length > 0 ? (

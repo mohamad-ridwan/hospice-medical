@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { BlogContext } from '../../services/context/BlogContext';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function DetailBlog() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -263,7 +264,7 @@ function DetailBlog() {
                 setAllAPI(undefined, undefined, true)
                 return res
             })
-            .catch(err =>{
+            .catch(err => {
                 alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
                 console.log(err)
                 setLoadingPost(false)
@@ -321,6 +322,11 @@ function DetailBlog() {
 
     return (
         <>
+            <HelmetWindow
+                title={dataHeaders && dataHeaders.title ? `${dataHeaders.title} | Hospice Medical` : 'Hospice Medical'}
+                description="Detail Informasi dari artikel Kami"
+            />
+
             <div className="wrapp-detail-blog" id="wrapp">
                 <div className="container-header">
                     {Object.keys(dataHeaders).length > 0 ? (

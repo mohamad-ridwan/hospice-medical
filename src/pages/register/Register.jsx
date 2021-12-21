@@ -7,6 +7,7 @@ import Button from '../../components/button/Button'
 import { NavbarContext } from '../../services/context/NavbarContext'
 import API from '../../services/api';
 import Loading from '../../components/loading/Loading';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function Register() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -158,6 +159,11 @@ function Register() {
 
     return (
         <>
+            <HelmetWindow
+                title="Register | Hospice Medical"
+                description="Silahkan daftarkan diri anda untuk menjadi User"
+            />
+
             <div className="wrapp-register">
                 <div className="form-register">
                     <p className="title-register">

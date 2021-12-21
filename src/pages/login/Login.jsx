@@ -7,6 +7,7 @@ import { useHistory } from 'react-router'
 import API from '../../services/api'
 import { BlogContext } from '../../services/context/BlogContext'
 import Loading from '../../components/loading/Loading'
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow'
 
 function Login() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -107,6 +108,11 @@ function Login() {
 
     return (
         <>
+            <HelmetWindow
+                title="Login | Hospice Medical"
+                description="Silahkan login untuk masuk sebagai User"
+            />
+
             <div className="wrapp-login">
                 <div className="form-login">
                     <p className="title-login">

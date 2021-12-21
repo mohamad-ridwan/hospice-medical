@@ -7,6 +7,7 @@ import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function Contact() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -131,6 +132,11 @@ function Contact() {
 
     return (
         <>
+            <HelmetWindow
+                title={dataHeaders && dataHeaders.title ? `${dataHeaders.title} | Hospice Medical` : 'Hospice Medical'}
+                description="Alamat Kami dan pesan kontak kepada customer Kami"
+            />
+        
             <div className="wrapp-contact">
                 <div className="container-header">
                     {Object.keys(dataHeaders).length > 0 ? (

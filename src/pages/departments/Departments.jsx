@@ -6,6 +6,7 @@ import API from '../../services/api';
 import endpoint from '../../services/api/endpoint';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
 
 function Departments() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -55,6 +56,11 @@ function Departments() {
 
     return (
         <>
+            <HelmetWindow
+                title={dataHeaders && dataHeaders.title ? `${dataHeaders.title} | Hospice Medical` : 'Hospice Medical'}
+                description="Prosedur medis kami dalam menjalankan tugas"
+            />
+
             <div className="wrapp-departments">
                 <div className="container-header">
                     {Object.keys(dataHeaders).length > 0 ? (
