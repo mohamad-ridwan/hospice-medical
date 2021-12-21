@@ -102,13 +102,7 @@ function Blog() {
 
                                 setTimeout(() => {
                                     if (condition) {
-                                        const elementContentBlog = document.getElementById('container-content-blog')
-                                        const parentBlog = document.getElementById('parent-blog')
-                                        if (elementContentBlog) {
-                                            const positionTopBlog = Math.floor(elementContentBlog.getBoundingClientRect().top - parentBlog.getBoundingClientRect().top)
-
-                                            window.scrollTo(0, positionTopBlog)
-                                        }
+                                        scrollToMainBlog()
                                     }
                                 }, 100);
                             } else {
@@ -122,13 +116,7 @@ function Blog() {
 
                                 setTimeout(() => {
                                     if (condition) {
-                                        const elementContentBlog = document.getElementById('container-content-blog')
-                                        const parentBlog = document.getElementById('parent-blog')
-                                        if (elementContentBlog) {
-                                            const positionTopBlog = Math.floor(elementContentBlog.getBoundingClientRect().top - parentBlog.getBoundingClientRect().top)
-
-                                            window.scrollTo(0, positionTopBlog)
-                                        }
+                                        scrollToMainBlog()
                                     }
                                 }, 100);
                             }
@@ -139,6 +127,16 @@ function Blog() {
                 return combine
             })
             .catch(err => console.log(err))
+    }
+
+    function scrollToMainBlog() {
+        const elementContentBlog = document.getElementById('container-content-blog')
+        const parentBlog = document.getElementById('parent-blog')
+        if (elementContentBlog) {
+            const positionTopBlog = Math.floor(elementContentBlog.getBoundingClientRect().top - parentBlog.getBoundingClientRect().top)
+
+            window.scrollTo(0, positionTopBlog)
+        }
     }
 
     const indexOfLastPage = currentPage * perPage;
@@ -343,7 +341,10 @@ function Blog() {
                             perPage={perPage}
                             totalData={contentBlog.length}
                             idxPaginateActive={idxPaginateActive}
-                            click={(i) => clickPaginate(i)}
+                            click={async (i) => {
+                                clickPaginate(i)
+                                await scrollToMainBlog()
+                            }}
                         />
                     </div>
 
