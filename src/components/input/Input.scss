@@ -1,4 +1,5 @@
 @import '../../utils/variable.scss';
+@import 'rc-calendar/assets/index.css';
 
 .input-card{
     display: flex;
@@ -74,6 +75,14 @@
         padding: 5px 0;
         transition: 0.3s ease-in-out;
     }
+}
+
+.container-widgets-calendar{
+    position: absolute;
+    display: none;
+    left: 35px;
+    right: 35px;
+    z-index: 99999999;
 }
 
 .input-area-card{

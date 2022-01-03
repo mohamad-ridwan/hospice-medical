@@ -10,11 +10,16 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     const [servicing, setServicing] = useState({})
     const [dataDiseaseType, setDataDiseaseType] = useState([])
     const [selectJenis, setSelectJenis] = useState('Disease Type')
+    const [selectDateOfBirth, setSelectDateOfBirth] = useState('Date of Birth')
+    const [selectAppointmentDate, setSelectAppointmentDate] = useState('Appointment Date')
+    const [displayWidgetDateOfBirth, setDisplayWidgetDateOfBirth] = useState(false)
     const [onDiseaseType, setOnDiseaseType] = useState(false)
+    const [displayWidgetsAppointmentDate, setDisplayWidgetsAppointmentDate] = useState(false)
     const [topDiseaseType, setTopDiseaseType] = useState(0)
     const [errorMessage, setErrorMessage] = useState({})
     const [_idFormAppointment, set_IdFormBookAppointment] = useState('')
     const [loadingSubmit, setLoadingSubmit] = useState(false)
+    const [idxSelect, setIdxSelect] = useState(null)
     const [formUserAppointment, setFormUserAppointment] = useState({
         patientName: '',
         phone: '',
@@ -41,8 +46,6 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     useEffect(() => {
         getDataServicing()
     }, [])
-
-    const [idxSelect, setIdxSelect] = useState(null)
 
     const diseaseType = document.getElementsByClassName("name-disease-type")
 
@@ -85,11 +88,23 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         setOnDiseaseType(!onDiseaseType)
     }
 
-    function showDiseaseType() {
-        setOnDiseaseType(!onDiseaseType)
+    function showDiseaseType(show, idxBtn) {
+        if (show === 'dateOfBirth') {
+            setDisplayWidgetDateOfBirth(!displayWidgetDateOfBirth)
+            setOnDiseaseType(false)
+            setDisplayWidgetsAppointmentDate(false)
+        } else if (show === "diseaseType") {
+            setOnDiseaseType(!onDiseaseType)
+            setDisplayWidgetDateOfBirth(false)
+            setDisplayWidgetsAppointmentDate(false)
+        }else if(show === "appointmentDate"){
+            setDisplayWidgetsAppointmentDate(!displayWidgetsAppointmentDate)
+            setDisplayWidgetDateOfBirth(false)
+            setOnDiseaseType(false)
+        }
 
         const parent = document.getElementsByClassName('book-an-appointment')[0].getBoundingClientRect()
-        const positionBotton = document.getElementsByClassName('btn-input-card')[4].getBoundingClientRect()
+        const positionBotton = document.getElementsByClassName('btn-input-card')[idxBtn].getBoundingClientRect()
         const roundUp = Math.floor(positionBotton.top - parent.top + 35)
         setTopDiseaseType(`${roundUp}px`)
     }
@@ -105,7 +120,50 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                 ...errorMessage,
                 [e.target.name]: ''
             })
+
+            if(formUserAppointment.dateOfBirth.length > 1){
+                setErrorMessage({
+                    ...errorMessage,
+                    dateOfBirth : ''
+                })
+            }
+            
+            if(formUserAppointment.appointmentDate.length > 1){
+                setErrorMessage({
+                    ...errorMessage,
+                    appointmentDate : ''
+                })
+            }
         }
+    }
+
+    function changeCalendar(e, nameInput) {
+        const valueCalendar = e._d
+        let newDate = ''
+        const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        const getDate = valueCalendar.toString().split(' ')[2]
+        const getMonth = valueCalendar.toString().split(' ')[1]
+        const getYears = valueCalendar.toString().split(' ')[3]
+        const searchMonth = month.map((e, i) => {
+            if (e === getMonth) {
+                const numMonth = i.toString().length === 1 && i < 9 ? `0${i + 1}` : i + 1
+                newDate = `${numMonth}/${getDate}/${getYears}`
+            }
+        })
+
+        if(nameInput === "dateOfBirth"){
+            setSelectDateOfBirth(newDate)
+            setFormUserAppointment({...formUserAppointment,
+                dateOfBirth : newDate
+            })
+        }else if(nameInput === "appointmentDate"){
+            setSelectAppointmentDate(newDate)
+            setFormUserAppointment({...formUserAppointment,
+                appointmentDate : newDate
+            })
+        }
+
+        return searchMonth
     }
 
     function postUserAppointment(data) {
@@ -122,11 +180,14 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                     appointmentDate: '',
                     message: ''
                 })
+                setSelectDateOfBirth('Date of Birth')
                 setSelectJenis('Disease Type')
+                setSelectAppointmentDate('Appointment Date')
+                
                 for (let i = 0; i < diseaseType.length; i++) {
                     diseaseType[i].style.color = '#777'
                 }
-        
+
                 diseaseType[0].style.color = '#3face4'
 
                 setLoadingSubmit(false)
@@ -140,6 +201,10 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     }
 
     function submitForm() {
+        setDisplayWidgetsAppointmentDate(false)
+        setOnDiseaseType(false)
+        setDisplayWidgetDateOfBirth(false)
+    
         const data = {
             patientName: formUserAppointment.patientName,
             phone: formUserAppointment.phone,
@@ -268,18 +333,23 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                                 changeInput={changeInput}
                             />
                             <Input
-                                type="text"
-                                placeholder="Date of Birth"
-                                nameInput="dateOfBirth"
+                                displayTxtInput="none"
+                                displayBtnInput="flex"
+                                displayIconBtn="none"
+                                displayWidgets={displayWidgetDateOfBirth ? 'flex' : 'none'}
+                                colorIconCalendar={displayWidgetDateOfBirth ? '#3face4' : '#495057'}
+                                nameBtn={selectDateOfBirth}
                                 displayErrorMsg="flex"
                                 errorMessage={errorMessage && errorMessage.dateOfBirth}
                                 marginBottomError={errorMessage && errorMessage.dateOfBirth ? '5px' : '0'}
-                                valueInput={formUserAppointment.dateOfBirth}
-                                changeInput={changeInput}
+                                clickBtnInput={() => showDiseaseType('dateOfBirth', 3)}
+                                topCalendar={topDiseaseType}
+                                changeCalendar={(e)=>changeCalendar(e, 'dateOfBirth')}
                             />
                             <Input
                                 displayTxtInput="none"
                                 displayBtnInput="flex"
+                                displayIconCalendar="none"
                                 nameBtn={selectJenis}
                                 displayDiseaseType={onDiseaseType ? 'flex' : 'none'}
                                 transformIconBtnInput={onDiseaseType ? 'rotate(180deg)' : 'rotate(0)'}
@@ -287,18 +357,22 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                                 mouseOverBtnInput={(i) => mouseOver(i)}
                                 mouseLeaveBtnInput={mouseLeave}
                                 selectType={(jenis, idx) => selectType(jenis, idx)}
-                                clickBtnInput={showDiseaseType}
+                                clickBtnInput={() => showDiseaseType('diseaseType', 4)}
                                 topDiseaseType={topDiseaseType}
                             />
                             <Input
-                                type="text"
-                                placeholder="Appointment Date"
-                                nameInput="appointmentDate"
+                                displayTxtInput="none"
+                                displayBtnInput="flex"
+                                displayIconBtn="none"
+                                displayWidgets={displayWidgetsAppointmentDate ? 'flex' : 'none'}
+                                colorIconCalendar={displayWidgetsAppointmentDate ? '#3face4' : '#495057'}
+                                nameBtn={selectAppointmentDate}
                                 displayErrorMsg="flex"
                                 errorMessage={errorMessage && errorMessage.appointmentDate}
                                 marginBottomError={errorMessage && errorMessage.appointmentDate ? '5px' : '0'}
-                                valueInput={formUserAppointment.appointmentDate}
-                                changeInput={changeInput}
+                                topCalendar={topDiseaseType}
+                                clickBtnInput={()=> showDiseaseType('appointmentDate', 5)}
+                                changeCalendar={(e)=>changeCalendar(e, 'appointmentDate')}
                             />
                             <Input
                                 displayTxtInput="none"
@@ -322,9 +396,9 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                     </div>
                 </div>
 
-                <Loading 
-                displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
-                displayBarrier={loadingSubmit ? 'flex' : 'none'}
+                <Loading
+                    displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
+                    displayBarrier={loadingSubmit ? 'flex' : 'none'}
                 />
 
                 {/* <div className="btn-close-from-body" style={{

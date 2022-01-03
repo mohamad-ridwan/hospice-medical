@@ -141,6 +141,12 @@
         }
     }
 
+    .container-calendar-widgets{
+        display: flex;
+        position: absolute;
+        bottom: 0;
+    }
+
     // .btn-close-from-body{
     //     display: none;
     //     position: fixed;
