@@ -355,7 +355,7 @@ function Navbar() {
                                             onMouseOver={mouseOverProfile}
                                             onMouseLeave={mouseLeaveProfile}
                                         >
-                                            <img src={`${endpoint}/${users.image}`} alt="" className="img-profile" />
+                                            <img src={users.image} alt="" className="img-profile" />
                                             <p className="name-profile">
                                                 {users.name.length > 10 ? users.name.substr(0, 10) + '...' : users.name}
                                             </p>

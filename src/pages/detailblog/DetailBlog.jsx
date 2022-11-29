@@ -461,7 +461,7 @@ function DetailBlog() {
                                                 <Card
                                                     key={i}
                                                     displayContentCard="flex"
-                                                    img={`${endpoint}/${e.image}`}
+                                                    img={e.image}
                                                     heightImg="35px"
                                                     title={e.name}
                                                     paragraph={e.times}
@@ -469,6 +469,7 @@ function DetailBlog() {
                                                     displayTxtComment="flex"
                                                     flexDirectionWrapp="row"
                                                     widthImg="35px"
+                                                    widthContentCard="70%"
                                                     fontSizeTitle="14px"
                                                     fontSizeParagraph="12px"
                                                     marginTitle="0 0 5px 0"

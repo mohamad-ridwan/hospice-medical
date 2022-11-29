@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import endpoint from '../../services/api/endpoint'
 import { useHistory } from 'react-router';
+import { ref, uploadBytes } from 'firebase/storage'
+import { v4 } from 'uuid'
 import './Register.scss'
+import { storage } from '../../services/firebase/firebase';
 import Input from '../../components/input/Input'
 import Button from '../../components/button/Button'
 import { NavbarContext } from '../../services/context/NavbarContext'
@@ -48,8 +50,6 @@ function Register() {
     }
 
     function postForm(data, email) {
-        setLoadingSubmit(true)
-
         API.APIGetUsers()
             .then(res => {
                 const respons = res.data
@@ -86,16 +86,42 @@ function Register() {
             })
     }
 
+    const apiFirebaseStorage = 'https://firebasestorage.googleapis.com/v0/b/hospice-medical.appspot.com/o/images%2F'
+
+    async function uploadImgToFirebaseStorage() {
+        return await new Promise((resolve, reject) => {
+            const imageRef = ref(storage, `images/${nameImg + v4()}`)
+            uploadBytes(imageRef, input.image).then((res) => {
+                const nameImg = res && res.metadata.name
+
+                getAccessTokenImgUpload(nameImg)
+                    .then(res => resolve({ tokensImg: res, nameImg: nameImg }))
+                    .catch(err => reject(err))
+            })
+                .catch(err => reject({ message: 'Oops! terjadi kesalahan server.\nMohon coba beberapa saat lagi!', error: 'error', jenisError: 'gagal upload image ke firebase storage' }))
+        })
+    }
+
+    async function getAccessTokenImgUpload(nameImg) {
+        return await new Promise((resolve, reject) => {
+            fetch(`${apiFirebaseStorage}${nameImg}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then(res => res.json())
+                .then(res => {
+                    const getAccessToken = res && res.downloadTokens
+                    resolve(getAccessToken)
+                })
+                .catch(err => reject({ message: 'Oops! terjadi kesalahan server.\nMohon coba beberapa saat lagi!', error: 'error', jenisError: 'gagal mendapatkan tokens image' }))
+        })
+    }
+
     function submitForm() {
         let err = {}
-
-        const email = input.email
-
-        const data = new FormData()
-        data.append('name', input.name)
-        data.append('email', input.email)
-        data.append('password', input.password)
-        data.append('image', input.image)
 
         if (!input.name) {
             err.name = 'Must be required!'
@@ -117,7 +143,7 @@ function Register() {
             const getTypeFile = input.image.type.split('/')[1]
 
             if (getTypeFile.toLowerCase() === 'jpg' || getTypeFile.toLowerCase() === 'jpeg' || getTypeFile.toLowerCase() === 'png') {
-            }else {
+            } else {
                 err.image = 'Must be jpg/jpeg/png'
             }
         }
@@ -129,7 +155,31 @@ function Register() {
 
         if (Object.keys(err).length === 0) {
             if (window.confirm('Ingin mendaftarkan akun?')) {
-                postForm(data, email)
+                setLoadingSubmit(true)
+
+                uploadImgToFirebaseStorage()
+                    .then((res) => {
+                        if (res && res.tokensImg) {
+                            const tokenImg = res.tokensImg
+                            const nameImg = res.nameImg
+
+                            const email = input.email
+
+                            const data = {
+                                name: input.name,
+                                email: input.email,
+                                password: input.password,
+                                image: `${apiFirebaseStorage}${nameImg}?alt=media&token=${tokenImg}`
+                            }
+
+                            postForm(data, email)
+                        }
+                    })
+                    .catch(err => {
+                        setLoadingSubmit(false)
+                        alert(err.message)
+                        console.log(err)
+                    })
             }
         }
         setErrMessage(err)
@@ -212,6 +262,7 @@ function Register() {
                         nameBtnInputFile={nameImg}
                         clickInputFile={openFile}
                         changeFile={changeInputFile}
+                        acceptFile="image/png, image/jpg, image/jpeg"
                         nameInputFile="image"
                         idInputFile="input-file"
                         displayErrorMsg="flex"

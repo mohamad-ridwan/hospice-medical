@@ -1,7 +1,6 @@
 import React from 'react'
 import './NavbarMobile.scss'
 import imgUser from '../../images/user.png'
-import endpoint from '../../services/api/endpoint'
 
 function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollapseMenu, displayCollapseProfile, clickProfile, users, logOut, login, register, activePathNavMobile, pathActiveNav, mouseOver, mouseLeave }) {
     return (
@@ -14,7 +13,7 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                     {users && Object.keys(users).length > 0 ? (
                         <li className="login-nav-mobile">
                             <div className="column-profile-nav-mobile" onClick={clickProfile}>
-                                <img src={`${endpoint}/${users.image}`} alt="" className="img-profile-nav-mobile" />
+                                <img src={users.image} alt="" className="img-profile-nav-mobile" />
                                 <p className="name-profile-nav-mobile">
                                     {users.name}
                                 </p>

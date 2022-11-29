@@ -83,6 +83,21 @@
     left: 35px;
     right: 35px;
     z-index: 99999999;
+
+    // header calendar
+    .rc-calendar-header{
+        overflow: hidden;
+    }
+
+    // header panel
+    .rc-calendar-year-panel-header{
+        overflow: hidden;
+    }
+
+    // number / date calendar
+    .rc-calendar-date{
+        overflow: hidden;
+    }
 }
 
 .input-area-card{

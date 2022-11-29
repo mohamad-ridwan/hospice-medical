@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
+    "firebase": "^9.14.0",
     "js-cookie": "^3.0.1",
     "node-sass": "5.0.0",
     "rc-calendar": "^9.15.11",
@@ -16,6 +17,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
+    "uuid": "^9.0.0",
     "web-vitals": "^1.0.1",
     "yarn": "^1.22.17"
   },
