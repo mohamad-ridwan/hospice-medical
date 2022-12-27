@@ -23,6 +23,7 @@ function DetailBlog() {
     const [dataPostCategories, setDataPostCategories] = useState([])
     const [_idDocument, set_IdDocument] = useState('')
     const [idBlog, setIdBlog] = useState('')
+    const [indexDetailBlog, setIndexDetailBlog] = useState(null)
     const [listUserComments, setListUserComments] = useState([])
     const [loadingPost, setLoadingPost] = useState(false)
     const [errorMessage, setErrorMessage] = useState({})
@@ -67,10 +68,15 @@ function DetailBlog() {
                     if (onSuccessComments) {
                         successComments()
                     }
+
+                    if (getDataFromLocation.length > 0) {
+                        getDataFromLocation[0].data.filter((e, i) => e.path === pathLocal ? setIndexDetailBlog(i) : null)
+                    }
                 } else {
                     const getDataFromLocation = respons.filter((e) => e.id === idLocation)
 
                     const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
+
                     setDataDetailBlog(getDetailData[0])
                     set_IdDocument(getDataFromLocation[0]._id)
                     setIdBlog(getDetailData[0].id)
@@ -81,6 +87,10 @@ function DetailBlog() {
 
                     if (onSuccessComments) {
                         successComments()
+                    }
+
+                    if (getDataFromLocation.length > 0) {
+                        getDataFromLocation[0].data.filter((e, i) => e.path === pathLocation ? setIndexDetailBlog(i) : null)
                     }
                 }
 
@@ -285,8 +295,11 @@ function DetailBlog() {
     function submitFormComment() {
         let err = {}
 
+        const times = new Date().getTime()
+
         const dataComment = {
             id: users && users.id,
+            idUserComment: `${times}`,
             name: users && users.name,
             email: users && users.email,
             subject: inputComment.subject,
@@ -312,6 +325,41 @@ function DetailBlog() {
             }
         }
         setErrorMessage(err)
+    }
+
+    function deleteComment(id, idUserComment) {
+        if (users && users.id === id && window.confirm('Hapus pesan Anda?')) {
+            setLoading(true)
+
+            API.APIDeleteComment(_idDocument, idUserComment, indexDetailBlog)
+                .then(res => {
+                    API.APIGetBlogs()
+                        .then(res => {
+                            const respons = res.data
+                            const idLocation = location.split('/')[3]
+                            const pathLocation = location.split('blog/blog-details/')[1]
+
+                            const getDataFromLocation = respons.filter((e) => e.id === idLocation)
+
+                            const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
+                            setListUserComments(getDetailData[0].comments)
+
+                            setTimeout(() => {
+                                setLoading(false)
+                            }, 50)
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                            alert('Oops!, telah terjadi kesalahan server.')
+                            window.location.reload()
+                        })
+                })
+                .catch(err => {
+                    console.log(err)
+                    alert('Oops!, telah terjadi kesalahan server.\nMohon coba beberapa saat lagi.')
+                    setLoading(false)
+                })
+        }
     }
 
     function clickPopularPosts(path) {
@@ -466,6 +514,8 @@ function DetailBlog() {
                                                     title={e.name}
                                                     paragraph={e.times}
                                                     comments={e.message}
+                                                    displayDeleteComment={users && users.id === e.id ? 'flex' : 'none'}
+                                                    clickDeleteComment={() => deleteComment(e.id, e.idUserComment)}
                                                     displayTxtComment="flex"
                                                     flexDirectionWrapp="row"
                                                     widthImg="35px"

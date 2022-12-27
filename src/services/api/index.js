@@ -1,4 +1,5 @@
 import GetAboutMyself from "./aboutmyself/get"
+import DeleteComment from "./blogs/deletecomment"
 import GetBlogs from "./blogs/get"
 import PostComment from "./blogs/postcomment"
 import GetContact from "./contact/get"
@@ -41,6 +42,7 @@ const APIPostFormAppointment = (_id, data) => PostFormAppointment(`v8/servicing-
 // blogs
 const APIGetBlogs = () => GetBlogs('v9/blog/get')
 const APIPostComment = (_id, id, data) => PostComment(`v9/blog/post/all-document/data/comments/${_id}/${id}`, data)
+const APIDeleteComment = (_idblog, iduser, index) => DeleteComment(`v9/blog/delete/blog/data/comments/${_idblog}/${iduser}/${index}`)
 
 // footer
 const APIGetFooter = () => GetFooter('v2/footer/get')
@@ -75,6 +77,7 @@ const API = {
     APIGetUsers,
     APIPostUsers,
     APIPostComment,
+    APIDeleteComment
 }
 
 export default API

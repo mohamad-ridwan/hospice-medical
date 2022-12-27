@@ -163,6 +163,28 @@
         }
     }
 
+    // delete user comment
+    .btn-delete-comment{
+        display: none;
+        height: 25px;
+        width: 25px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: #e60000;
+        transition: 0.2s ease-in-out;
+        cursor: pointer;
+        &:hover{
+            color: #b30000;
+        }
+
+        i{
+            font-size: 14px;
+        }
+    }
+
     .column-date-content-card{
         display: none;
         align-items: center;

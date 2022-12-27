@@ -3,7 +3,7 @@ import './Card.scss';
 import Button from '../button/Button';
 
 function Card({ img, titleImgHover, displayContentCard, displayImg, title, paragraph, icon, borderWrapp, shadowWrapp, paddingWrapp, bdrRadiusWrapp, mouseOver, mouseLeave, fontSizeTitle, justifyContentParagraph, textAlignParagraph, justifyContentTitle, textAlignTitle, fontSizeIcon, justifyContentIcon, heightImg, date, totalComment, displayDate, cursorWrapp, marginWrapp, colorTitle, cursorTitle, nameBtn, displayBtn, marginBtn, paddingBtn, bgColorWrapp, mouseOverBtn, mouseLeaveBtn, flexDirectionWrapp, widthImg, widthWrapp, fontSizeParagraph, marginTitle, marginImg, alignItemsWrapp, cursorImg, fontWeightTitle, colorParagraph, fontWeightParagraph, cursorParagraph, displayTitleHoverImg, iconHoverImg, classHoverBgImg, displayTxtComment, comments, marginHoverImg, opacityHoverImg, paddingHoverImg, fontSizeTitleHoverImg, fontWeightTitleHoverImg, paddingTitleHoverImg, bgColorHoverImg, justifyContentHoverImg, displayListMedsos, paragraphHoverImg, displayParagraphoverImg, borderTitleHoverImg, positionTitleHoverImg, bottomTitleHoverImg,
-    positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard, clickWrapp, dataMedsos, clickTitle, clickBtn, clickImg, clock, bdrRadiusImg, clickParagraph, fontSizeTxtComment, colorTxtComment, marginTopTxtComment, justifyContentTxtComment, textAlignTxtComment }) {
+    positionParagraphHoverImg, bottomParagraphHoverImg, widthTitleHoverImg, justifyContentTitleHoverImg, marginParagraphHoverImg, borderTopParagraphHoverImg, paddingParagraphHoverImg, transformImg, bgColorBtn, borderBtn, colorBtn, classTitle, idTitle, widthContentCard, clickWrapp, dataMedsos, clickTitle, clickBtn, clickImg, clock, bdrRadiusImg, clickParagraph, fontSizeTxtComment, colorTxtComment, marginTopTxtComment, justifyContentTxtComment, textAlignTxtComment, displayDeleteComment, clickDeleteComment }) {
     return (
         <>
             <div className={`wrapp-card`} style={{
@@ -30,7 +30,7 @@ function Card({ img, titleImgHover, displayContentCard, displayImg, title, parag
                     cursor: cursorImg,
                     borderRadius: bdrRadiusImg
                 }}
-                onClick={clickImg}
+                    onClick={clickImg}
                 >
                     <img src={img} alt="" className="img-card" style={{
                         transform: transformImg
@@ -108,7 +108,7 @@ function Card({ img, titleImgHover, displayContentCard, displayImg, title, parag
                         margin: marginTitle,
                         fontWeight: fontWeightTitle
                     }}
-                    onClick={clickTitle}
+                        onClick={clickTitle}
                     >
                         {title}
                     </p>
@@ -121,7 +121,7 @@ function Card({ img, titleImgHover, displayContentCard, displayImg, title, parag
                         fontWeight: fontWeightParagraph,
                         cursor: cursorParagraph
                     }}
-                    onClick={clickParagraph}
+                        onClick={clickParagraph}
                     >
                         {paragraph}
                     </p>
@@ -137,6 +137,15 @@ function Card({ img, titleImgHover, displayContentCard, displayImg, title, parag
                         {comments}
                     </p>
                 </div>
+
+                {/* delete user comment */}
+                <button className="btn-delete-comment" style={{
+                    display: displayDeleteComment
+                }}
+                onClick={clickDeleteComment}
+                >
+                    <i class="fas fa-trash"></i>
+                </button>
 
                 <ul className="column-date-content-card" style={{
                     display: displayDate
