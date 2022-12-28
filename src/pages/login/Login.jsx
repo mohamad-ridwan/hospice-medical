@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { NavbarContext } from '../../services/context/NavbarContext'
+import { useHistory } from 'react-router'
+import Cookies from 'js-cookie'
 import './Login.scss'
+import API from '../../services/api'
+import { NavbarContext } from '../../services/context/NavbarContext'
+import { BlogContext } from '../../services/context/BlogContext'
 import Input from '../../components/input/Input'
 import Button from '../../components/button/Button'
-import { useHistory } from 'react-router'
-import API from '../../services/api'
-import { BlogContext } from '../../services/context/BlogContext'
 import Loading from '../../components/loading/Loading'
 import HelmetWindow from '../../components/helmetwindow/HelmetWindow'
 
@@ -13,6 +14,7 @@ function Login() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
     const [errMessage, setErrMessage] = useState({})
+    const [loadingPage, setLoadingPage] = useState(true)
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [input, setInput] = useState({
         name: '',
@@ -22,12 +24,34 @@ function Login() {
 
     const history = useHistory()
 
+    const getCookies = Cookies.get('idUser')
+
     function toPage(path) {
         history.push(path)
     }
 
     useEffect(() => {
         setPathActiveMenuNav(null)
+        if (getCookies && getCookies.length > 0) {
+            API.APIGetUsers()
+                .then(res => {
+                    const respons = res.data
+
+                    const checkUsers = respons.filter(e => e.id === getCookies)
+
+                    if (checkUsers.length > 0) {
+                        history.push('/')
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    alert('Oops!, telah terjadi kesalahan server.')
+                })
+        }else{
+            setTimeout(() => {
+                setLoadingPage(false)
+            }, 1000)
+        }
         window.scrollTo(0, 0)
     }, [])
 
@@ -53,7 +77,7 @@ function Login() {
                 const respons = res.data
                 const checkUser = respons.filter(e => e.name === data.name && e.email === data.email && e.password === data.password)
                 if (checkUser.length > 0) {
-                    document.cookie = `idUser=${checkUser[0].id}`
+                    Cookies.set('idUser', `${checkUser[0].id}`)
                     setUsers(checkUser[0])
                     if (routeLoginFromComment !== null) {
                         setLoadingSubmit(false)
@@ -61,7 +85,7 @@ function Login() {
 
                         setTimeout(() => {
                             setRouteLoginFromComment(null)
-                            
+
                         }, 0);
                     } else {
                         setLoadingSubmit(false)
@@ -173,6 +197,7 @@ function Login() {
                 </div>
 
                 <Loading
+                    displayLoadingPage={loadingPage ? 'flex' : 'none'}
                     displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
                     displayBarrier={loadingSubmit ? 'flex' : 'none'}
                 />

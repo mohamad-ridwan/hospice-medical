@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
-import './Navbar.scss';
 import { useHistory } from 'react-router';
-import { NavbarContext } from '../../services/context/NavbarContext';
+import Cookies from 'js-cookie'
+import './Navbar.scss';
 import endpoint from '../../services/api/endpoint';
+import { NavbarContext } from '../../services/context/NavbarContext';
 import { BlogContext } from '../../services/context/BlogContext';
 import imgUser from '../../images/user.png'
 import NavbarMobile from '../navbarmobile/NavbarMobile';
@@ -135,7 +136,7 @@ function Navbar() {
     }
 
     function logOut() {
-        document.cookie = 'idUser='
+        Cookies.set('idUser', '')
         setUsers({})
         setTimeout(() => {
             window.location.reload()
@@ -387,12 +388,12 @@ function Navbar() {
                                                 display: onOverProfile ? 'flex' : 'none',
                                                 top: positionLogin
                                             }}>
-                                                <li className="menu-register"
+                                                <li className={`menu-register ${history && history.location.pathname === '/login' ? 'menu-register-active' : ''}`}
                                                     onClick={() => toPage('/login')}
                                                 >
                                                     LOGIN
                                                 </li>
-                                                <li className="menu-register"
+                                                <li className={`menu-register ${history && history.location.pathname === '/register' ? 'menu-register-active' : ''}`}
                                                     onClick={() => toPage('/register')}
                                                 >
                                                     REGISTER

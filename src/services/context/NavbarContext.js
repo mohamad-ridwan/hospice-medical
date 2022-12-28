@@ -36,7 +36,7 @@ const NavbarProvider = ({ children }) => {
                 const checkUser = respons.filter(e => e.id === idUser)
                 if (checkUser.length > 0) {
                     setUsers(checkUser[0])
-                    document.cookie = `idUser=${checkUser[0].id}`
+                    Cookies.set('idUser', `${checkUser[0].id}`)
                 } else {
                     setUsers({})
                 }

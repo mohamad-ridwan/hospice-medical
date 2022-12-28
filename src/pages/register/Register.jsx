@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router';
+import Cookies from 'js-cookie'
 import { ref, uploadBytes } from 'firebase/storage'
 import { v4 } from 'uuid'
 import './Register.scss'
@@ -15,6 +16,7 @@ function Register() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
     const [nameImg, setNameImg] = useState('Select your image profile')
     const [errMessage, setErrMessage] = useState({})
+    const [loadingPage, setLoadingPage] = useState(true)
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [input, setInput] = useState({
         name: '',
@@ -26,8 +28,30 @@ function Register() {
 
     const history = useHistory()
 
+    const getCookies = Cookies.get('idUser')
+
     useEffect(() => {
         setPathActiveMenuNav(null)
+        if (getCookies && getCookies.length > 0) {
+            API.APIGetUsers()
+                .then(res => {
+                    const respons = res.data
+
+                    const checkUsers = respons.filter(e => e.id === getCookies)
+
+                    if (checkUsers.length > 0) {
+                        history.push('/')
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    alert('Oops!, telah terjadi kesalahan server.')
+                })
+        }else{
+            setTimeout(() => {
+                setLoadingPage(false)
+            }, 1000)
+        }
         window.scrollTo(0, 0)
     }, [])
 
@@ -295,6 +319,7 @@ function Register() {
                 </div>
 
                 <Loading
+                    displayLoadingPage={loadingPage ? 'flex' : 'none'}
                     displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
                     displayBarrier={loadingSubmit ? 'flex' : 'none'}
                 />

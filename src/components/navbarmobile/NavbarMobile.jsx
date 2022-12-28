@@ -1,8 +1,12 @@
 import React from 'react'
+import { useHistory } from 'react-router';
 import './NavbarMobile.scss'
 import imgUser from '../../images/user.png'
 
 function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollapseMenu, displayCollapseProfile, clickProfile, users, logOut, login, register, activePathNavMobile, pathActiveNav, mouseOver, mouseLeave }) {
+
+    const history = useHistory()
+
     return (
         <>
             <div className="wrapp-navbar-mobile" style={{
@@ -43,12 +47,10 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                                 display: displayCollapseProfile ? 'flex' : 'none',
                                 marginTop: '10px'
                             }}>
-                                <p className="name-menu-collapse-mobile" style={{
-                                    borderBottom: '1px solid #eee'
-                                }} onClick={login}>
+                                <p className={`name-menu-collapse-mobile ${history && history.location.pathname === '/login' ? 'name-menu-collapse-mobile-active' : ''}`} onClick={login}>
                                     LOGIN
                                 </p>
-                                <p className="name-menu-collapse-mobile" onClick={register}>
+                                <p className={`name-menu-collapse-mobile ${history && history.location.pathname === '/register' ? 'name-menu-collapse-mobile-active' : ''}`} onClick={register}>
                                     REGISTER
                                 </p>
                             </ul>
