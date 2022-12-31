@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import addMonths from 'addmonths'
 import './ServicingHours.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
@@ -10,11 +11,11 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     const [servicing, setServicing] = useState({})
     const [dataDiseaseType, setDataDiseaseType] = useState([])
     const [selectJenis, setSelectJenis] = useState('Disease Type')
-    const [selectDateOfBirth, setSelectDateOfBirth] = useState('Date of Birth')
-    const [selectAppointmentDate, setSelectAppointmentDate] = useState('Appointment Date')
-    const [displayWidgetDateOfBirth, setDisplayWidgetDateOfBirth] = useState(false)
+    const [starDateOfBirth, setStarDateOfBirth] = useState(new Date())
+    const [starAppointmentDate, setStarAppointmentDate] = useState(new Date())
+    const [minAppointmentDate, setMinAppointmentDate] = useState(new Date())
+    const [maxAppointmentDate, setMaxAppointmentDate] = useState(new Date())
     const [onDiseaseType, setOnDiseaseType] = useState(false)
-    const [displayWidgetsAppointmentDate, setDisplayWidgetsAppointmentDate] = useState(false)
     const [topDiseaseType, setTopDiseaseType] = useState(0)
     const [errorMessage, setErrorMessage] = useState({})
     const [_idFormAppointment, set_IdFormBookAppointment] = useState('')
@@ -24,8 +25,6 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         patientName: '',
         phone: '',
         emailAddress: '',
-        dateOfBirth: '',
-        appointmentDate: '',
         message: ''
     })
 
@@ -37,6 +36,9 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                 const getServicing = respons.length > 0 ? respons.filter((e) => e.id === "servicing-hours") : []
                 const getFormBookAnAppointment = respons.length > 0 ? respons.filter((e) => e.id === "book-an-appointment") : []
                 setServicing(getServicing[0])
+                setStarAppointmentDate(new Date(getServicing[0].minDate))
+                setMinAppointmentDate(getServicing[0].minDate)
+                setMaxAppointmentDate(getServicing[0].maxDate)
                 setDataDiseaseType(getFormBookAnAppointment.length > 0 ? getFormBookAnAppointment[0].diseaseType : [])
                 set_IdFormBookAppointment(getFormBookAnAppointment.length > 0 ? getFormBookAnAppointment[0]._id : '')
             })
@@ -90,23 +92,20 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
 
     function showDiseaseType(show, idxBtn) {
         if (show === 'dateOfBirth') {
-            setDisplayWidgetDateOfBirth(!displayWidgetDateOfBirth)
             setOnDiseaseType(false)
-            setDisplayWidgetsAppointmentDate(false)
         } else if (show === "diseaseType") {
             setOnDiseaseType(!onDiseaseType)
-            setDisplayWidgetDateOfBirth(false)
-            setDisplayWidgetsAppointmentDate(false)
-        }else if(show === "appointmentDate"){
-            setDisplayWidgetsAppointmentDate(!displayWidgetsAppointmentDate)
-            setDisplayWidgetDateOfBirth(false)
+        } else if (show === "appointmentDate") {
             setOnDiseaseType(false)
         }
 
         const parent = document.getElementsByClassName('book-an-appointment')[0].getBoundingClientRect()
-        const positionBotton = document.getElementsByClassName('btn-input-card')[idxBtn].getBoundingClientRect()
-        const roundUp = Math.floor(positionBotton.top - parent.top + 35)
-        setTopDiseaseType(`${roundUp}px`)
+
+        if (idxBtn !== undefined) {
+            const positionBotton = document.getElementsByClassName('btn-input-card')[idxBtn].getBoundingClientRect()
+            const roundUp = Math.floor(positionBotton.top - parent.top + 35)
+            setTopDiseaseType(`${roundUp}px`)
+        }
     }
 
     function changeInput(e) {
@@ -120,50 +119,15 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                 ...errorMessage,
                 [e.target.name]: ''
             })
-
-            if(formUserAppointment.dateOfBirth.length > 1){
-                setErrorMessage({
-                    ...errorMessage,
-                    dateOfBirth : ''
-                })
-            }
-            
-            if(formUserAppointment.appointmentDate.length > 1){
-                setErrorMessage({
-                    ...errorMessage,
-                    appointmentDate : ''
-                })
-            }
         }
     }
 
-    function changeCalendar(e, nameInput) {
-        const valueCalendar = e._d
-        let newDate = ''
-        const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        const getDate = valueCalendar.toString().split(' ')[2]
-        const getMonth = valueCalendar.toString().split(' ')[1]
-        const getYears = valueCalendar.toString().split(' ')[3]
-        const searchMonth = month.map((e, i) => {
-            if (e === getMonth) {
-                const numMonth = i.toString().length === 1 && i < 9 ? `0${i + 1}` : i + 1
-                newDate = `${numMonth}/${getDate}/${getYears}`
-            }
-        })
-
-        if(nameInput === "dateOfBirth"){
-            setSelectDateOfBirth(newDate)
-            setFormUserAppointment({...formUserAppointment,
-                dateOfBirth : newDate
-            })
-        }else if(nameInput === "appointmentDate"){
-            setSelectAppointmentDate(newDate)
-            setFormUserAppointment({...formUserAppointment,
-                appointmentDate : newDate
-            })
+    function changeCalendar(date, nameInput) {
+        if (nameInput === "dateOfBirth") {
+            setStarDateOfBirth(date)
+        } else if (nameInput === "appointmentDate") {
+            setStarAppointmentDate(date)
         }
-
-        return searchMonth
     }
 
     function postUserAppointment(data) {
@@ -171,27 +135,37 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
 
         API.APIPostFormAppointment(_idFormAppointment, data)
             .then(res => {
-                alert('berhasil menjadwalkan pertemuan')
-                setFormUserAppointment({
-                    patientName: '',
-                    phone: '',
-                    emailAddress: '',
-                    dateOfBirth: '',
-                    appointmentDate: '',
-                    message: ''
-                })
-                setSelectDateOfBirth('Date of Birth')
-                setSelectJenis('Disease Type')
-                setSelectAppointmentDate('Appointment Date')
-                
-                for (let i = 0; i < diseaseType.length; i++) {
-                    diseaseType[i].style.color = '#777'
-                }
+                API.APIGetServicingHours()
+                    .then(res => {
+                        const respons = res.data
 
-                diseaseType[0].style.color = '#3face4'
+                        const getServicing = respons.length > 0 ? respons.filter((e) => e.id === "servicing-hours") : []
+                        setStarAppointmentDate(new Date(getServicing[0].minDate))
+                        setMinAppointmentDate(getServicing[0].minDate)
+                        setMaxAppointmentDate(getServicing[0].maxDate)
 
-                setLoadingSubmit(false)
-                return res
+                        alert('berhasil menjadwalkan pertemuan')
+                        setFormUserAppointment({
+                            patientName: '',
+                            phone: '',
+                            emailAddress: '',
+                            message: ''
+                        })
+                        setSelectJenis('Disease Type')
+
+                        for (let i = 0; i < diseaseType.length; i++) {
+                            diseaseType[i].style.color = '#777'
+                        }
+
+                        diseaseType[0].style.color = '#3face4'
+
+                        setLoadingSubmit(false)
+                    })
+                    .catch(err => {
+                        alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                        window.location.reload()
+                        console.log(err)
+                    })
             })
             .catch(err => {
                 alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
@@ -201,17 +175,17 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     }
 
     function submitForm() {
-        setDisplayWidgetsAppointmentDate(false)
+        const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
         setOnDiseaseType(false)
-        setDisplayWidgetDateOfBirth(false)
-    
+
         const data = {
             patientName: formUserAppointment.patientName,
             phone: formUserAppointment.phone,
             emailAddress: formUserAppointment.emailAddress,
-            dateOfBirth: formUserAppointment.dateOfBirth,
+            dateOfBirth: document.getElementById('date-of-birth').value,
             jenisPenyakit: selectJenis,
-            appointmentDate: formUserAppointment.appointmentDate,
+            appointmentDate: document.getElementById('appointment-date').value,
             message: formUserAppointment.message
         }
 
@@ -225,14 +199,8 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         }
         if (!formUserAppointment.emailAddress) {
             err.emailAddress = 'Must be required!'
-        } else if (!formUserAppointment.emailAddress.includes('@')) {
-            err.emailAddress = 'Must be required @!'
-        }
-        if (!formUserAppointment.dateOfBirth) {
-            err.dateOfBirth = 'Must be required!'
-        }
-        if (!formUserAppointment.appointmentDate) {
-            err.appointmentDate = 'Must be required!'
+        } else if (!formUserAppointment.emailAddress.match(regexEmail)) {
+            err.emailAddress = 'Invalid email address!'
         }
         if (!formUserAppointment.message) {
             err.message = 'Must be required!'
@@ -240,7 +208,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
             err.message = 'Minimum 6 letters!'
         }
 
-        if (Object.keys(err).length === 0) {
+        if (Object.keys(err).length === 0 && loadingSubmit === false) {
             if (window.confirm('Ingin Mendaftarkan Pertemuan?')) {
                 postUserAppointment(data)
             }
@@ -334,17 +302,12 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                             />
                             <Input
                                 displayTxtInput="none"
-                                displayBtnInput="flex"
-                                displayIconBtn="none"
-                                displayWidgets={displayWidgetDateOfBirth ? 'flex' : 'none'}
-                                colorIconCalendar={displayWidgetDateOfBirth ? '#3face4' : '#495057'}
-                                nameBtn={selectDateOfBirth}
-                                displayErrorMsg="flex"
-                                errorMessage={errorMessage && errorMessage.dateOfBirth}
-                                marginBottomError={errorMessage && errorMessage.dateOfBirth ? '5px' : '0'}
-                                clickBtnInput={() => showDiseaseType('dateOfBirth', 3)}
-                                topCalendar={topDiseaseType}
-                                changeCalendar={(e)=>changeCalendar(e, 'dateOfBirth')}
+                                displayWidgets="flex"
+                                idInputCalendar="date-of-birth"
+                                clickWidgets={() => showDiseaseType('dateOfBirth')}
+                                changeCalendar={(date) => changeCalendar(date, 'dateOfBirth')}
+                                txtInputCalendar="Date Of Birth"
+                                starDate={starDateOfBirth}
                             />
                             <Input
                                 displayTxtInput="none"
@@ -362,17 +325,14 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                             />
                             <Input
                                 displayTxtInput="none"
-                                displayBtnInput="flex"
-                                displayIconBtn="none"
-                                displayWidgets={displayWidgetsAppointmentDate ? 'flex' : 'none'}
-                                colorIconCalendar={displayWidgetsAppointmentDate ? '#3face4' : '#495057'}
-                                nameBtn={selectAppointmentDate}
-                                displayErrorMsg="flex"
-                                errorMessage={errorMessage && errorMessage.appointmentDate}
-                                marginBottomError={errorMessage && errorMessage.appointmentDate ? '5px' : '0'}
-                                topCalendar={topDiseaseType}
-                                clickBtnInput={()=> showDiseaseType('appointmentDate', 5)}
-                                changeCalendar={(e)=>changeCalendar(e, 'appointmentDate')}
+                                displayWidgets="flex"
+                                idInputCalendar="appointment-date"
+                                txtInputCalendar="Appointment Date"
+                                clickWidgets={() => showDiseaseType('appointmentDate')}
+                                changeCalendar={(date) => changeCalendar(date, 'appointmentDate')}
+                                minDate={new Date(minAppointmentDate)}
+                                maxDate={addMonths(new Date(maxAppointmentDate), 0)}
+                                starDate={starAppointmentDate}
                             />
                             <Input
                                 displayTxtInput="none"
@@ -383,6 +343,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                                 displayErrorMsg="flex"
                                 errorMessage={errorMessage && errorMessage.message}
                                 marginBottomError={errorMessage && errorMessage.message ? '5px' : '0'}
+                                valueInput={formUserAppointment.message}
                                 changeTextArea={changeInput}
                             />
 
@@ -400,14 +361,6 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                     displayLoadingBottom={loadingSubmit ? 'flex' : 'none'}
                     displayBarrier={loadingSubmit ? 'flex' : 'none'}
                 />
-
-                {/* <div className="btn-close-from-body" style={{
-                    display: onDiseaseType ? 'flex' : 'none'
-                }}
-                onClick={()=>setOnDiseaseType(false)}
-                >
-
-                </div> */}
             </div>
         </>
     )

@@ -78,25 +78,78 @@
 }
 
 .container-widgets-calendar{
-    position: absolute;
     display: none;
-    left: 35px;
-    right: 35px;
-    z-index: 99999999;
+    flex-direction: column;
+    background-color: transparent;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+    cursor: default;
+    overflow: hidden;
 
-    // header calendar
-    .rc-calendar-header{
+    .txt-input-calendar{
+        font-size: 11px;
+        font-family: 'Mulish', sans-serif;
+        color: $color8;
+        margin: 5px 0 0 12px;
         overflow: hidden;
     }
 
-    // header panel
-    .rc-calendar-year-panel-header{
+    .react-datepicker-wrapper{
         overflow: hidden;
+        .react-datepicker__input-container{
+            display: flex;
+
+            #date-of-birth{
+                outline: none;
+                border: none;
+                color: $color8;
+                font-size: 13px;
+                font-family: 'Mulish', sans-serif;
+                padding: 5px 12px 10px 30px;
+                width: 100%;
+            }
+            #date-of-birth::placeholder{
+                color: $color8;
+                font-size: 13px;
+            }
+
+            #appointment-date{
+                outline: none;
+                border: none;
+                color: $color8;
+                font-size: 13px;
+                font-family: 'Mulish', sans-serif;
+                padding: 5px 12px 10px 30px;
+                width: 100%;
+            }
+            #appointment-date::placeholder{
+                color: $color8;
+                font-size: 13px;
+            }
+        }
     }
 
-    // number / date calendar
-    .rc-calendar-date{
-        overflow: hidden;
+    .react-datepicker__navigation--next{
+        background: url('../../images/right-arrow.png');
+        height: 15px;
+        width: 15px;
+        margin: 7px;
+    }
+    .react-datepicker__navigation--previous{
+        background: url('../../images/left-arrow.png');
+        height: 15px;
+        width: 15px;
+        margin: 7px;
+    }
+
+    i{
+        position: absolute;
+        color: $color8;
+        font-size: 13px;
+        margin-bottom: 3.5px;
+        margin-top: 17px;
+        padding: 2px;
+        right: 45px;
     }
 }
 
