@@ -4,7 +4,7 @@ import './Input.scss';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile, displayWidgets, displayIconBtn, topCalendar, changeCalendar, displayIconCalendar, colorIconCalendar, acceptFile, starDate, clickWidgets, txtInputCalendar, idInputCalendar, minDate, maxDate }) {
+function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile, displayWidgets, displayIconBtn, topCalendar, changeCalendar, displayIconCalendar, colorIconCalendar, acceptFile, starDate, clickWidgets, txtInputCalendar, idInputCalendar, minDate, maxDate, renderCustomHeader }) {
     return (
         <>
             <input type={type} className="input-card" placeholder={placeholder} name={nameInput} value={valueInput} style={{
@@ -66,7 +66,7 @@ function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, p
                 <p className="txt-input-calendar">
                     {txtInputCalendar}
                 </p>
-                <DatePicker id={idInputCalendar} selected={starDate} onChange={changeCalendar} minDate={minDate} maxDate={maxDate} onInputClick={clickWidgets}/>
+                <DatePicker id={idInputCalendar} renderCustomHeader={renderCustomHeader} selected={starDate} onChange={changeCalendar} minDate={minDate} maxDate={maxDate} onInputClick={clickWidgets}/>
                 <i class="far fa-calendar-alt" style={{
                     display: displayIconCalendar,
                     color: colorIconCalendar

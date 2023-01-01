@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import addMonths from 'addmonths'
+import { range } from 'lodash'
+import getYear from 'date-fns/getYear'
+import getMonth from 'date-fns/getMonth'
 import './ServicingHours.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
@@ -7,7 +10,6 @@ import API from '../../services/api';
 import Loading from '../../components/loading/Loading';
 
 function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bottomBook, marginWrapp }) {
-
     const [servicing, setServicing] = useState({})
     const [dataDiseaseType, setDataDiseaseType] = useState([])
     const [selectJenis, setSelectJenis] = useState('Disease Type')
@@ -48,6 +50,22 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     useEffect(() => {
         getDataServicing()
     }, [])
+
+    const yearsCalendar = range(1900, getYear(new Date()) + 1, 1)
+    const monthsCalendar = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ]
 
     const diseaseType = document.getElementsByClassName("name-disease-type")
 
@@ -125,6 +143,12 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     function changeCalendar(date, nameInput) {
         if (nameInput === "dateOfBirth") {
             setStarDateOfBirth(date)
+            if(errorMessage && errorMessage.dateOfBirth){
+                setErrorMessage({
+                    ...errorMessage,
+                    dateOfBirth : ''
+                })
+            }
         } else if (nameInput === "appointmentDate") {
             setStarAppointmentDate(date)
         }
@@ -143,6 +167,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                         setStarAppointmentDate(new Date(getServicing[0].minDate))
                         setMinAppointmentDate(getServicing[0].minDate)
                         setMaxAppointmentDate(getServicing[0].maxDate)
+                        setStarDateOfBirth(new Date())
 
                         alert('berhasil menjadwalkan pertemuan')
                         setFormUserAppointment({
@@ -151,6 +176,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                             emailAddress: '',
                             message: ''
                         })
+                        setErrorMessage({})
                         setSelectJenis('Disease Type')
 
                         for (let i = 0; i < diseaseType.length; i++) {
@@ -179,13 +205,17 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
 
         setOnDiseaseType(false)
 
+        const valueOfBirth = document.getElementById('date-of-birth').value
+        const valueOfAppointmentDate = document.getElementById('appointment-date').value
+        const getNowYear = new Date().getFullYear().toString()
+
         const data = {
             patientName: formUserAppointment.patientName,
             phone: formUserAppointment.phone,
             emailAddress: formUserAppointment.emailAddress,
-            dateOfBirth: document.getElementById('date-of-birth').value,
+            dateOfBirth: valueOfBirth,
             jenisPenyakit: selectJenis,
-            appointmentDate: document.getElementById('appointment-date').value,
+            appointmentDate: valueOfAppointmentDate,
             message: formUserAppointment.message
         }
 
@@ -201,6 +231,9 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
             err.emailAddress = 'Must be required!'
         } else if (!formUserAppointment.emailAddress.match(regexEmail)) {
             err.emailAddress = 'Invalid email address!'
+        }
+        if(valueOfBirth.split('/')[2] === getNowYear){
+            err.dateOfBirth = 'Must be required!'
         }
         if (!formUserAppointment.message) {
             err.message = 'Must be required!'
@@ -301,8 +334,63 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                                 changeInput={changeInput}
                             />
                             <Input
+                                renderCustomHeader={({
+                                    date,
+                                    changeYear,
+                                    changeMonth,
+                                    decreaseMonth,
+                                    increaseMonth,
+                                    prevMonthButtonDisabled,
+                                    nextMonthButtonDisabled,
+                                }) => (
+                                    <div
+                                        style={{
+                                            margin: 10,
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} style={{
+                                            width: '30px',
+                                        }}>
+                                            {"<"}
+                                        </button>
+                                        <select
+                                            value={getYear(date)}
+                                            onChange={({ target: { value } }) => changeYear(value)}
+                                        >
+                                            {yearsCalendar.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        <select
+                                            value={monthsCalendar[getMonth(date)]}
+                                            onChange={({ target: { value } }) =>
+                                                changeMonth(monthsCalendar.indexOf(value))
+                                            }
+                                        >
+                                            {monthsCalendar.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} style={{
+                                            width: '30px',
+                                        }}>
+                                            {">"}
+                                        </button>
+                                    </div>
+                                )}
                                 displayTxtInput="none"
+                                displayErrorMsg="flex"
                                 displayWidgets="flex"
+                                errorMessage={errorMessage && errorMessage.dateOfBirth}
+                                marginBottomError={errorMessage && errorMessage.dateOfBirth ? '5px' : '0'}
                                 idInputCalendar="date-of-birth"
                                 clickWidgets={() => showDiseaseType('dateOfBirth')}
                                 changeCalendar={(date) => changeCalendar(date, 'dateOfBirth')}
