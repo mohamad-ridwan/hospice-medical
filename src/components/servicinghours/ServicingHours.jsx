@@ -35,11 +35,12 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
             .then(res => {
                 const respons = res.data
 
+                const getNumDate = new Date().getDate()
+
                 const getServicing = respons.length > 0 ? respons.filter((e) => e.id === "servicing-hours") : []
                 const getFormBookAnAppointment = respons.length > 0 ? respons.filter((e) => e.id === "book-an-appointment") : []
                 setServicing(getServicing[0])
-                setStarAppointmentDate(new Date(getServicing[0].minDate))
-                setMinAppointmentDate(getServicing[0].minDate)
+                setMinAppointmentDate(`${getServicing[0].minDate}-${getNumDate}`)
                 setMaxAppointmentDate(getServicing[0].maxDate)
                 setDataDiseaseType(getFormBookAnAppointment.length > 0 ? getFormBookAnAppointment[0].diseaseType : [])
                 set_IdFormBookAppointment(getFormBookAnAppointment.length > 0 ? getFormBookAnAppointment[0]._id : '')
@@ -163,9 +164,11 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                     .then(res => {
                         const respons = res.data
 
+                        const getNumDate = new Date().getDate()
+
                         const getServicing = respons.length > 0 ? respons.filter((e) => e.id === "servicing-hours") : []
-                        setStarAppointmentDate(new Date(getServicing[0].minDate))
-                        setMinAppointmentDate(getServicing[0].minDate)
+                        setStarAppointmentDate(new Date())
+                        setMinAppointmentDate(`${getServicing[0].minDate}-${getNumDate}`)
                         setMaxAppointmentDate(getServicing[0].maxDate)
                         setStarDateOfBirth(new Date())
 
