@@ -1,7 +1,3 @@
-// const endpoint = 'https://hospice-medical.herokuapp.com'
-// const endpoint = 'http://localhost:6500'
-
-// from cyclic.sh
-const endpoint = 'https://tame-teal-vulture-tie.cyclic.app'
+const endpoint = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_API : process.env.REACT_APP_PUBLIC_API
 
 export default endpoint

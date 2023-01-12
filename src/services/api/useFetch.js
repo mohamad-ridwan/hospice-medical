@@ -1,9 +1,9 @@
-import endpoint from "../endpoint"
+import endpoint from "./endpoint"
 
-const PostContactForm = (path, data)=>{
-    return new Promise((resolve, reject)=>{
+async function useFetch(path, method, data){
+    return await new Promise((resolve, reject)=>{
         fetch(`${endpoint}/${path}`, {
-            method: 'POST',
+            method,
             mode: 'cors',
             headers: {
                 "Content-Type": "application/json"
@@ -16,4 +16,4 @@ const PostContactForm = (path, data)=>{
     })
 }
 
-export default PostContactForm
+export default useFetch

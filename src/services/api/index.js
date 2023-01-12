@@ -1,63 +1,46 @@
-import GetAboutMyself from "./aboutmyself/get"
-import DeleteComment from "./blogs/deletecomment"
-import GetBlogs from "./blogs/get"
-import PostComment from "./blogs/postcomment"
-import GetContact from "./contact/get"
-import PostContactForm from "./contact/post"
-import GetDoctors from "./doctors/get"
-import GetFeedback from "./feedback/get"
-import GetFooter from "./footer/get"
-import PostNewsletter from "./footer/postnewsletter"
-import GetHeaderPage from "./headerpage/get"
-import GetNavbar from "./navbar/get"
-import GetOurOfferedServices from "./ourofferedservices/get"
-import GetProcedureCategory from "./procedurecategory/get"
-import GetServicingHours from "./servicinghours/get"
-import PostFormAppointment from "./servicinghours/postform"
-import GetUsers from "./users/get"
-import PostUsers from "./users/post"
+import useFetch from "./useFetch"
 
 // navbar
-const APIGetNavbar = () => GetNavbar('v1/navbar/get')
+const APIGetNavbar = () => useFetch('v1/navbar/get', 'GET')
 
 // headerpage
-const APIGetHeaderPage = () => GetHeaderPage(`v3/header-page/get`)
+const APIGetHeaderPage = () => useFetch('v3/header-page/get', 'GET')
 
 // procedure category
-const APIGetProcedureCategory = () => GetProcedureCategory('v4/procedure-category/get')
+const APIGetProcedureCategory = () => useFetch('v4/procedure-category/get', 'GET')
 
 // about myself
-const APIGetAboutMyself = () => GetAboutMyself('v5/about-myself/get')
+const APIGetAboutMyself = () => useFetch('v5/about-myself/get', 'GET')
 
 // feedback
-const APIGetFeedback = () => GetFeedback('v6/feedback/get')
+const APIGetFeedback = () => useFetch('v6/feedback/get', 'GET')
 
 // our offered services
-const APIGetOurOfferedServices = () => GetOurOfferedServices('v7/our-offered-services/get')
+const APIGetOurOfferedServices = () => useFetch('v7/our-offered-services/get', 'GET')
 
 // servicing hours
-const APIGetServicingHours = () => GetServicingHours('v8/servicing-hours/get')
-const APIPostFormAppointment = (_id, data) => PostFormAppointment(`v8/servicing-hours/post/book-an-appointment/user-appointment-data/${_id}`, data)
+const APIGetServicingHours = () => useFetch('v8/servicing-hours/get', 'GET')
+const APIPostFormAppointment = (_id, data) => useFetch(`v8/servicing-hours/post/book-an-appointment/user-appointment-data/${_id}`, 'POST', data)
 
 // blogs
-const APIGetBlogs = () => GetBlogs('v9/blog/get')
-const APIPostComment = (_id, id, data) => PostComment(`v9/blog/post/all-document/data/comments/${_id}/${id}`, data)
-const APIDeleteComment = (_idblog, iduser, index) => DeleteComment(`v9/blog/delete/blog/data/comments/${_idblog}/${iduser}/${index}`)
+const APIGetBlogs = () => useFetch('v9/blog/get', 'GET')
+const APIPostComment = (_id, id, data) => useFetch(`v9/blog/post/all-document/data/comments/${_id}/${id}`, 'POST', data)
+const APIDeleteComment = (_idblog, iduser, index) => useFetch(`v9/blog/delete/blog/data/comments/${_idblog}/${iduser}/${index}`, 'DELETE')
 
 // footer
-const APIGetFooter = () => GetFooter('v2/footer/get')
-const APIPostNewsletter = (_id, data) => PostNewsletter(`v2/footer/post/newsletter/users/${_id}`, data)
+const APIGetFooter = () => useFetch('v2/footer/get', 'GET')
+const APIPostNewsletter = (_id, data) => useFetch(`v2/footer/post/newsletter/users/${_id}`, 'POST', data)
 
 // doctors
-const APIGetDoctors = () => GetDoctors('v10/doctors/get')
+const APIGetDoctors = () => useFetch('v10/doctors/get', 'GET')
 
 // contact
-const APIGetContact = () => GetContact('v11/contact/get/get-all')
-const APIPostContactForm = (_id, data) => PostContactForm(`v11/contact/post/form-contact-us/data/${_id}`, data)
+const APIGetContact = () => useFetch('v11/contact/get/get-all', 'GET')
+const APIPostContactForm = (_id, data) => useFetch(`v11/contact/post/form-contact-us/data/${_id}`, 'POST', data)
 
 //users
-const APIGetUsers = () => GetUsers('v12/users/get')
-const APIPostUsers = (data) => PostUsers(`v12/users/post`, data)
+const APIGetUsers = () => useFetch('v12/users/get', 'GET')
+const APIPostUsers = (data) => useFetch(`v12/users/post`, 'POST', data)
 
 const API = {
     APIGetNavbar,
