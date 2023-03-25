@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import './Footer.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
@@ -13,6 +14,21 @@ function Footer() {
     const [hoverBtnSubmit, setHoverBtnSubmit] = useState(false)
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [inputNewsletter, setInputNewsletter] = useState('')
+    const [onNavbar, setOnNavbar] = useState(true)
+
+    const pathname = window.location.pathname
+    const params = useParams()
+
+    useEffect(() => {
+        const lengthOfParams = pathname.split('/')
+        const paramsOfVerification = lengthOfParams.length === 3 && lengthOfParams[1] === 'verification' ? lengthOfParams[2].length : 0
+
+        if (paramsOfVerification > 0) {
+            setOnNavbar(false)
+        } else {
+            setOnNavbar(true)
+        }
+    }, [params])
 
     function mouseOverBtnSubmit() {
         setHoverBtnSubmit(true)
@@ -113,7 +129,9 @@ function Footer() {
 
     return (
         <>
-            <div className="wrapp-footer">
+            <div className="wrapp-footer" style={{
+                display: onNavbar ? 'flex' : 'none'
+            }}>
                 <div className="column-contact-us">
                     <div className="contact-us">
                         <p className="title-contact-us-group">

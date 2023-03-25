@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router';
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
 import Cookies from 'js-cookie'
 import './Navbar.scss';
 import endpoint from '../../services/api/endpoint';
@@ -17,8 +17,23 @@ function Navbar() {
     const [heightCollapseNavMobile, setHeightCollapseNavMobile] = useState('0px')
     const [onCollapseMenu, setOnCollapseMenu] = useState(false)
     const [onCollapseProfile, setOnCollapseProfile] = useState(false)
+    const [onNavbar, setOnNavbar] = useState(true)
 
     const history = useHistory()
+
+    const pathname = window.location.pathname
+    const params = useParams()
+
+    useEffect(() => {
+        const lengthOfParams = pathname.split('/')
+        const paramsOfVerification = lengthOfParams.length === 3 && lengthOfParams[1] === 'verification' ? lengthOfParams[2].length : 0
+
+        if (paramsOfVerification > 0) {
+            setOnNavbar(false)
+        } else {
+            setOnNavbar(true)
+        }
+    }, [params])
 
     const navContact = document.getElementsByClassName('nav-contact')
     const navPage = document.getElementsByClassName('nav-page')
@@ -52,7 +67,7 @@ function Navbar() {
         window.open(path)
     }
 
-    async function toPage(path) {
+    function toPage(path) {
         const locationBlog = window.location.pathname === "/blog"
 
         history.push(path)
@@ -74,7 +89,7 @@ function Navbar() {
         setOnCollapseProfile(false)
         setHeightCollapseNavMobile('0px')
 
-        await window.scrollTo(0, 0)
+        window.scrollTo(0, 0)
     }
 
     function changePositionPageCollapse(index) {
@@ -96,7 +111,7 @@ function Navbar() {
         if (dataCollapse.length > 0) {
             elementMenuCollapse[index].style.display = 'flex'
 
-            changePositionPageCollapse(index)
+            // changePositionPageCollapse(index)
         }
 
         mouseOverNavMenu(index)
@@ -106,7 +121,7 @@ function Navbar() {
         if (dataCollapse.length > 0) {
             elementMenuCollapse[index].style.display = 'none'
 
-            changePositionPageCollapse(index)
+            // changePositionPageCollapse(index)
         }
 
         mouseLeaveNavMenu()
@@ -127,12 +142,12 @@ function Navbar() {
 
     function mouseOverProfile() {
         setOnOverProfile(true)
-        changePositionProfileCollapse()
+        // changePositionProfileCollapse()
     }
 
     function mouseLeaveProfile() {
         setOnOverProfile(false)
-        changePositionProfileCollapse()
+        // changePositionProfileCollapse()
     }
 
     function logOut() {
@@ -275,7 +290,9 @@ function Navbar() {
 
     return (
         <>
-            <div className="wrapp-navbar">
+            <div className="wrapp-navbar" style={{
+                display: onNavbar ? 'flex' : 'none'
+            }}>
                 <div className="nav-contact">
                     <ul className="column-icon-medsos">
                         {linkMedsos && linkMedsos.length > 0 ? linkMedsos.map((e, i) => (
@@ -363,7 +380,8 @@ function Navbar() {
 
                                             <div className="profile-collapse" style={{
                                                 display: onOverProfile ? 'flex' : 'none',
-                                                top: positionLogin
+                                                // top: positionLogin
+                                                marginTop: '120px'
                                             }}>
                                                 <li className="menu-register"
                                                     onClick={logOut}
@@ -386,7 +404,7 @@ function Navbar() {
 
                                             <div className="profile-collapse" style={{
                                                 display: onOverProfile ? 'flex' : 'none',
-                                                top: positionLogin
+                                                // top: positionLogin
                                             }}>
                                                 <li className={`menu-register ${history && history.location.pathname === '/login' ? 'menu-register-active' : ''}`}
                                                     onClick={() => toPage('/login')}

@@ -13,6 +13,7 @@ import Contact from './pages/contact/Contact';
 import IndexContext from './services/context';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
+import Verification from './pages/verification/Verification';
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Switch>
+            <Route path='/verification/:userId'>
+              <Verification />
+            </Route>
+
             <Route path='/login'>
               <Login />
             </Route>

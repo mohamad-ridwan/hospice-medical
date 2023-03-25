@@ -75,7 +75,7 @@ function Login() {
         API.APIGetUsers()
             .then(res => {
                 const respons = res.data
-                const checkUser = respons.filter(e => e.name === data.name && e.email === data.email && e.password === data.password)
+                const checkUser = respons.filter(e => e.name === data.name && e.email === data.email && e.password === data.password && e.isVerification)
                 if (checkUser.length > 0) {
                     Cookies.set('idUser', `${checkUser[0].id}`)
                     setUsers(checkUser[0])

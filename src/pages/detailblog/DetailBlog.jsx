@@ -117,6 +117,7 @@ function DetailBlog() {
         setTimeout(() => {
             setInputComment({
                 subject: '',
+                message: ''
             })
 
             const parentPosition = document.getElementById('wrapp').getBoundingClientRect()
@@ -563,6 +564,7 @@ function DetailBlog() {
                                                 nameTextArea="message"
                                                 displayErrorMsg="flex"
                                                 marginTxtArea="15px 0 0 0"
+                                                valueInput={inputComment.message}
                                                 errorMessage={errorMessage && errorMessage.message}
                                                 changeTextArea={changeInput}
                                             />

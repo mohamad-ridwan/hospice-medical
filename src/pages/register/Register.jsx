@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { useHistory } from 'react-router';
 import Cookies from 'js-cookie'
 import { ref, uploadBytes } from 'firebase/storage'
@@ -26,6 +27,7 @@ function Register() {
         image: null,
     })
 
+    const urlOrigin = window.location.origin
     const history = useHistory()
 
     const getCookies = Cookies.get('idUser')
@@ -47,7 +49,7 @@ function Register() {
                     console.log(err)
                     alert('Oops!, telah terjadi kesalahan server.')
                 })
-        }else{
+        } else {
             setTimeout(() => {
                 setLoadingPage(false)
             }, 1000)
@@ -77,30 +79,31 @@ function Register() {
         API.APIGetUsers()
             .then(res => {
                 const respons = res.data
-                const checkUser = respons.filter(e => e.email === email)
+                const checkUser = respons.filter(e => e.email === email && e.isVerification)
+                const userIsNotVerifYet = respons.filter(e => e.email === email && e.isVerification === false)
                 if (checkUser.length > 0) {
                     alert('Email sudah terpakai!')
                     setLoadingSubmit(false)
-                } else {
+                } else if (userIsNotVerifYet.length === 0) {
                     API.APIPostUsers(data)
                         .then(res => {
-                            alert('Berhasil mendaftarkan akun Anda!')
-                            setInput({
-                                name: '',
-                                email: '',
-                                password: '',
-                                confirmPassword: '',
-                                image: null,
-                            })
-                            setNameImg('Select your image profile')
-                            setLoadingSubmit(false)
-                            return res;
+                            postVerification(data)
                         })
                         .catch(err => {
                             alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
                             setLoadingSubmit(false)
                             console.log(err)
                         })
+                } else {
+                    const dataUserUpdate = {
+                        name: data.name,
+                        image: data.image,
+                        password: data.password
+                    }
+
+                    updateUserVerif(userIsNotVerifYet[0].id, dataUserUpdate, (data)=>{
+                        postVerification(data)
+                    })
                 }
             })
             .catch(err => {
@@ -108,6 +111,158 @@ function Register() {
                 setLoadingSubmit(false)
                 console.log(err)
             })
+    }
+
+    function updateUserVerif(id, dataForUpdt, success) {
+        API.APIPutUser(id, dataForUpdt)
+            .then(res => {
+                if (res?.data) {
+                    return success(res.data)
+                } else {
+                    alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                    setLoadingSubmit(false)
+                    console.log(res)
+                }
+            })
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
+    }
+
+    function sendCodeToEmailUser(data, code) {
+        const serviceId = process.env.REACT_APP_SERVICE_ID
+        const templateId = process.env.REACT_APP_TEMPLATE_ID
+        const publicKey = process.env.REACT_APP_PUBLIC_KEY
+
+        const dataSend = {
+            userId: data.id,
+            to_name: data.name,
+            to_email: data.email,
+            code: code,
+        }
+        emailjs.send(serviceId, templateId, dataSend, publicKey)
+            .then(result => {
+                alert('Berhasil mendaftarkan akun Anda.\nCek email Anda untuk verifikasi')
+
+                setInput({
+                    name: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    image: null,
+                })
+                setNameImg('Select your image profile')
+                setLoadingSubmit(false)
+
+                setTimeout(() => {
+                    window.open(`${urlOrigin}/verification/${data.id}`)
+                }, 100);
+            }, (error) => {
+                console.log(error)
+            })
+    }
+
+    function updateVerification(dataToken, data) {
+        const { token, date } = dataToken
+
+        const dataVerification = {
+            verification: {
+                token: token,
+                date: date
+            }
+        }
+
+        API.APIPutVerification(data.id, dataVerification)
+            .then(res => {
+                if (res?.data) {
+                    sendCodeToEmailUser(data, token)
+                } else {
+                    alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                    setLoadingSubmit(false)
+                    console.log(res)
+                }
+            })
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
+    }
+
+    function checkUserTokenFirst(data, userAny, userEmpty) {
+        API.APIGetVerification()
+            .then(res => {
+                const result = res?.data
+                const findToken = result?.length > 0 ? result?.find(token => token.userId === data.id) : null
+
+                if (findToken?.userId) {
+                    userAny(findToken)
+                } else {
+                    userEmpty()
+                }
+            })
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
+    }
+
+    function pushToVerification(data, dataToken) {
+        const { newDate, token, date } = dataToken
+
+        const dataPost = {
+            id: newDate,
+            userId: data.id,
+            verification: {
+                token: token,
+                date: date
+            }
+        }
+        API.APIPostVerification(dataPost)
+            .then(res => {
+                sendCodeToEmailUser(data, token)
+            })
+            .catch(err => {
+                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi!')
+                setLoadingSubmit(false)
+                console.log(err)
+            })
+    }
+
+    function postVerification(data) {
+        const ranCode1 = Math.floor(Math.random() * 9)
+        const ranCode2 = Math.floor(Math.random() * 9)
+        const ranCode3 = Math.floor(Math.random() * 9)
+        const ranCode4 = Math.floor(Math.random() * 9)
+        const token = `${ranCode1}${ranCode2}${ranCode3}${ranCode4}`
+
+        const date = new Date()
+        const nowHours = new Date().getHours()
+        const getTimeExpired = nowHours < 23 ? nowHours + 1 : 0
+        date.setHours(getTimeExpired)
+        const newDate = new Date().getTime()
+
+        checkUserTokenFirst(data, (userToken) => {
+            // any user for verification
+            // still not verification yet
+            const dataToken = {
+                token: token,
+                date: `${date}`
+            }
+
+            updateVerification(dataToken, data)
+        }, () => {
+            // no user token is for verification
+            const dataToken = {
+                newDate: `${newDate}`,
+                token: token,
+                date: `${date}`
+            }
+            pushToVerification(data, dataToken)
+        })
     }
 
     const apiFirebaseStorage = 'https://firebasestorage.googleapis.com/v0/b/hospice-medical.appspot.com/o/images%2F'
@@ -188,12 +343,15 @@ function Register() {
                             const nameImg = res.nameImg
 
                             const email = input.email
+                            const date = new Date().getTime()
 
                             const data = {
+                                id: `${date}`,
                                 name: input.name,
                                 email: input.email,
                                 password: input.password,
-                                image: `${apiFirebaseStorage}${nameImg}?alt=media&token=${tokenImg}`
+                                image: `${apiFirebaseStorage}${nameImg}?alt=media&token=${tokenImg}`,
+                                isVerification: false
                             }
 
                             postForm(data, email)

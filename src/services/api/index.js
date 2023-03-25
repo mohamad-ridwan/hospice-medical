@@ -41,6 +41,14 @@ const APIPostContactForm = (_id, data) => useFetch(`v11/contact/post/form-contac
 //users
 const APIGetUsers = () => useFetch('v12/users/get', 'GET')
 const APIPostUsers = (data) => useFetch(`v12/users/post`, 'POST', data)
+const APIPutIsVerification = (userId, data)=>useFetch(`v12/users/put/${userId}`, 'PUT', data)
+const APIPutUser = (id, data)=>useFetch(`v12/users/put/user/${id}`, 'PUT', data)
+
+// verification
+const APIPostVerification = (data)=>useFetch('v13/verification/post', 'POST', data)
+const APIGetVerification = ()=>useFetch('v13/verification/get', 'GET')
+const APIPutVerification = (userId, data)=>useFetch(`v13/verification/put/${userId}`, 'PUT', data)
+const APIDeleteVerification = (id)=>useFetch(`v13/verification/delete/${id}`, 'DELETE')
 
 const API = {
     APIGetNavbar,
@@ -59,8 +67,14 @@ const API = {
     APIPostNewsletter,
     APIGetUsers,
     APIPostUsers,
+    APIPutUser,
     APIPostComment,
-    APIDeleteComment
+    APIDeleteComment,
+    APIPostVerification,
+    APIGetVerification,
+    APIPutIsVerification,
+    APIPutVerification,
+    APIDeleteVerification
 }
 
 export default API
