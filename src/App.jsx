@@ -14,6 +14,7 @@ import IndexContext from './services/context';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Verification from './pages/verification/Verification';
+import UserProfile from './pages/profile/UserProfile';
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
           <Switch>
             <Route path='/verification/:userId'>
               <Verification />
+            </Route>
+
+            <Route path='/profile'>
+              <UserProfile />
             </Route>
 
             <Route path='/login'>

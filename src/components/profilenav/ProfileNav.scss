@@ -1,0 +1,30 @@
+@import '../../utils/variable.scss';
+
+.profile-nav {
+    display: flex;
+    align-items: center;
+
+    .img-profile{
+        display: flex;
+        height: 32px;
+        width: 32px;
+        border-radius: 500px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .name-profile{
+        display: flex;
+        font-size: 12px;
+        color: $color1;
+        margin: 0 5px;
+    }
+
+    i{
+        display: flex;
+        font-size: 12px;
+        color: $color1;
+        margin-top: -3px;
+        overflow: hidden;
+    }
+}

@@ -1,0 +1,43 @@
+@import '../../utils/variable.scss';
+
+.bio-profile-card{
+    display: flex;
+    position: relative;
+    padding: 5px 5px 0 5px;
+    margin-bottom: 20px;
+
+    .bio-icon{
+        display: flex;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        height: 45px;
+        width: 45px;
+        border-radius: 500px;
+        background-color: #fff;
+        margin-top: -5px;
+        box-shadow: 0 1px 3px -1px rgba(0,0,0,0.5);
+
+        i{
+            font-size: 17px;
+            color: $color2;
+            padding: 1px;
+        }
+    }
+
+    .bio-input-profile{
+        display: flex;
+        flex-direction: column;
+        width: 250px;
+        margin-left: 65px;
+
+        label{
+            display: flex;
+            margin-bottom: 0px;
+            span{
+                font-size: 12px;
+                color: $color2;
+            }
+        }
+    }
+}

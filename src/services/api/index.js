@@ -26,6 +26,7 @@ const APIPostFormAppointment = (_id, data) => useFetch(`v8/servicing-hours/post/
 const APIGetBlogs = () => useFetch('v9/blog/get', 'GET')
 const APIPostComment = (_id, id, data) => useFetch(`v9/blog/post/all-document/data/comments/${_id}/${id}`, 'POST', data)
 const APIDeleteComment = (_idblog, iduser, index) => useFetch(`v9/blog/delete/blog/data/comments/${_idblog}/${iduser}/${index}`, 'DELETE')
+const APIPutProfileUserComment = (id, data)=>useFetch(`v9/blog/put/profile-user-comment/every-article/data/comments/${id}`, 'PUT', data)
 
 // footer
 const APIGetFooter = () => useFetch('v2/footer/get', 'GET')
@@ -60,6 +61,7 @@ const API = {
     APIGetServicingHours,
     APIPostFormAppointment,
     APIGetBlogs,
+    APIPutProfileUserComment,
     APIGetFooter,
     APIGetDoctors,
     APIGetContact,

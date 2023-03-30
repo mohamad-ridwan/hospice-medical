@@ -7,6 +7,8 @@ import { NavbarContext } from '../../services/context/NavbarContext';
 import { BlogContext } from '../../services/context/BlogContext';
 import imgUser from '../../images/user.png'
 import NavbarMobile from '../navbarmobile/NavbarMobile';
+import ProfileNav from '../profilenav/ProfileNav';
+import ProfileCollapse from '../profilenav/ProfileCollapse';
 
 function Navbar() {
     const [filterBlog, selectBlogCategory, routeLoginFromComment, setRouteLoginFromComment] = useContext(BlogContext)
@@ -18,11 +20,43 @@ function Navbar() {
     const [onCollapseMenu, setOnCollapseMenu] = useState(false)
     const [onCollapseProfile, setOnCollapseProfile] = useState(false)
     const [onNavbar, setOnNavbar] = useState(true)
+    const [menuNavProfileCollapse, setMenuNavProfileCollapse] = useState([])
 
     const history = useHistory()
 
     const pathname = window.location.pathname
     const params = useParams()
+    const idUser = Cookies.get('idUser')
+
+    useEffect(()=>{
+        if(idUser && users?.id === idUser){
+            setMenuNavProfileCollapse([
+                {
+                    nameMenu: 'PROFILE',
+                    path: `/profile`,
+                    className: history?.location.pathname === '/profile' ? 'menu-register-active' : ''
+                },
+                {
+                    nameMenu: 'LOG OUT',
+                    path: 'logout',
+                    className: ''
+                }
+            ])
+        }else{
+            setMenuNavProfileCollapse([
+                {
+                    nameMenu: 'LOGIN',
+                    path: '/login',
+                    className: history?.location.pathname === '/login' ? 'menu-register-active' : ''
+                },
+                {
+                    nameMenu: 'REGISTER',
+                    path: '/register',
+                    className: history?.location.pathname === '/register' ? 'menu-register-active' : ''
+                }
+            ])
+        }
+    }, [users, params])
 
     useEffect(() => {
         const lengthOfParams = pathname.split('/')
@@ -68,28 +102,32 @@ function Navbar() {
     }
 
     function toPage(path) {
-        const locationBlog = window.location.pathname === "/blog"
+        if (path === 'logout') {
+            logOut()
+        } else {
+            const locationBlog = window.location.pathname === "/blog"
 
-        history.push(path)
-        setRouteLoginFromComment(null)
+            history.push(path)
+            setRouteLoginFromComment(null)
 
-        if (locationBlog === false) {
-            if (filterBlog.length > 0) {
-                const getActiveListPostCtg = document.getElementsByClassName(filterBlog)
-                if (getActiveListPostCtg.length > 0) {
-                    getActiveListPostCtg[0].style.color = "#777"
-                    getActiveListPostCtg[0].style.borderBottom = "2px dotted #eee"
+            if (locationBlog === false) {
+                if (filterBlog.length > 0) {
+                    const getActiveListPostCtg = document.getElementsByClassName(filterBlog)
+                    if (getActiveListPostCtg.length > 0) {
+                        getActiveListPostCtg[0].style.color = "#777"
+                        getActiveListPostCtg[0].style.borderBottom = "2px dotted #eee"
+                    }
+                    selectBlogCategory('')
                 }
-                selectBlogCategory('')
             }
+
+            setOnCollapseNavMobile(false)
+            setOnCollapseMenu(false)
+            setOnCollapseProfile(false)
+            setHeightCollapseNavMobile('0px')
+
+            window.scrollTo(0, 0)
         }
-
-        setOnCollapseNavMobile(false)
-        setOnCollapseMenu(false)
-        setOnCollapseProfile(false)
-        setHeightCollapseNavMobile('0px')
-
-        window.scrollTo(0, 0)
     }
 
     function changePositionPageCollapse(index) {
@@ -151,6 +189,10 @@ function Navbar() {
     }
 
     function logOut() {
+        if(pathname === '/profile'){
+            history.push('/')
+        }
+
         Cookies.set('idUser', '')
         setUsers({})
         setTimeout(() => {
@@ -369,55 +411,39 @@ function Navbar() {
                             <div className="column-profile">
                                 {Object.keys(users).length > 0 ? (
                                     <>
-                                        <div className="profile-nav"
+                                        <ProfileNav
                                             onMouseOver={mouseOverProfile}
                                             onMouseLeave={mouseLeaveProfile}
+                                            imgSrc={users.image}
+                                            nameProfile={users.name.length > 10 ? users.name.substr(0, 10) + '...' : users.name}
                                         >
-                                            <img src={users.image} alt="" className="img-profile" />
-                                            <p className="name-profile">
-                                                {users.name.length > 10 ? users.name.substr(0, 10) + '...' : users.name}
-                                            </p>
-
-                                            <div className="profile-collapse" style={{
+                                            <ProfileCollapse
+                                            styleWrapp={{
                                                 display: onOverProfile ? 'flex' : 'none',
                                                 // top: positionLogin
-                                                marginTop: '120px'
-                                            }}>
-                                                <li className="menu-register"
-                                                    onClick={logOut}
-                                                >
-                                                    LOG OUT
-                                                </li>
-                                            </div>
-                                        </div>
+                                                // marginTop: '120px'
+                                            }}
+                                            clickMenu={(path)=>toPage(path)}
+                                            menuData={menuNavProfileCollapse}
+                                            />
+                                        </ProfileNav>
                                     </>
                                 ) : (
                                     <>
-                                        <div className="profile-nav"
+                                        <ProfileNav
                                             onMouseOver={mouseOverProfile}
                                             onMouseLeave={mouseLeaveProfile}
+                                            imgSrc={imgUser}
+                                            nameProfile={'Login'}
                                         >
-                                            <img src={imgUser} alt="" className="img-profile" />
-                                            <p className="name-profile">
-                                                Login
-                                            </p>
-
-                                            <div className="profile-collapse" style={{
+                                            <ProfileCollapse
+                                            styleWrapp={{
                                                 display: onOverProfile ? 'flex' : 'none',
-                                                // top: positionLogin
-                                            }}>
-                                                <li className={`menu-register ${history && history.location.pathname === '/login' ? 'menu-register-active' : ''}`}
-                                                    onClick={() => toPage('/login')}
-                                                >
-                                                    LOGIN
-                                                </li>
-                                                <li className={`menu-register ${history && history.location.pathname === '/register' ? 'menu-register-active' : ''}`}
-                                                    onClick={() => toPage('/register')}
-                                                >
-                                                    REGISTER
-                                                </li>
-                                            </div>
-                                        </div>
+                                            }}
+                                            clickMenu={(path)=>toPage(path)}
+                                            menuData={menuNavProfileCollapse}
+                                            />
+                                        </ProfileNav>
                                     </>
                                 )}
                             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Button.scss';
 
-function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border, click, cursor, margin}){
+function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border, click, cursor, margin, displayLoading}){
     return(
         <>
         <button className="button-card" style={{
@@ -22,6 +22,13 @@ function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouse
             <i className={icon} style={{
                 display: displayIcon
             }}></i>
+            <div className="loading-btn" style={{
+                display: displayLoading
+            }}>
+                <div className="loading-circle">
+
+                </div>
+            </div>
         </button>
         </>
     )

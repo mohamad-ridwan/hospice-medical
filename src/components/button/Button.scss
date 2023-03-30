@@ -2,6 +2,7 @@
 
 .button-card{
     display: flex;
+    position: relative;
     padding: 15px 40px;
     font-size: 12px;
     font-weight: bold;
@@ -25,5 +26,35 @@
     i{
         display: none;
         margin: 1px 0 0 10px;
+    }
+
+    .loading-btn{
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: $color2;
+        cursor: not-allowed;
+        justify-content: center;
+        align-items: center;
+
+        .loading-circle{
+            display: flex;
+            height: 27px;
+            width: 27px;
+            border-radius: 500px;
+            border: 2px solid #fff;
+            border-top-color: $color2;
+            transform: rotate(0);
+            animation: load 0.6s ease infinite;
+        }
+    }
+}
+
+@keyframes load {
+    to{
+        transform: rotate(360deg);
     }
 }

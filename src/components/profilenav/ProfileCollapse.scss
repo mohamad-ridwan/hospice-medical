@@ -1,0 +1,30 @@
+@import '../../utils/variable.scss';
+
+.profile-collapse{
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    background-color: #fff;
+    box-shadow: 0 2px 8px -1px rgba(0,0,0,0.1);
+    margin-top: 160px;
+
+    .menu-register{
+        display: flex;
+        color: #000;
+        padding: 12px 80px 12px 30px;
+        border-bottom: 1px solid #eee;
+        font-size: 13px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        &:hover{
+            background-color: $color2;
+            color: #fff;
+            border-bottom: 1px solid $color2;
+        }
+    }
+    .menu-register-active{
+        background-color: $color2;
+        color: #fff;
+        border-bottom: 1px solid $color2;
+    }
+}

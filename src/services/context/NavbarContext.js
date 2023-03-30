@@ -11,6 +11,7 @@ const NavbarProvider = ({ children }) => {
     const [menuPage, setMenuPage] = useState([])
     const [users, setUsers] = useState({})
     const [pathActiveMenuNav, setPathActiveMenuNav] = useState(null)
+    const [loadingProfile, setLoadingProfile] = useState(true)
 
     const idUser = Cookies.get('idUser')
 
@@ -37,8 +38,10 @@ const NavbarProvider = ({ children }) => {
                 if (checkUser.length > 0) {
                     setUsers(checkUser[0])
                     Cookies.set('idUser', `${checkUser[0].id}`)
+                    setLoadingProfile(false)
                 } else {
                     setUsers({})
+                    setLoadingProfile(false)
                 }
             })
             .catch(err => console.log(err))
@@ -49,7 +52,7 @@ const NavbarProvider = ({ children }) => {
     }, [])
 
     return (
-        <NavbarContext.Provider value={[linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav]}>
+        <NavbarContext.Provider value={[linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav, loadingProfile]}>
             {children}
         </NavbarContext.Provider>
     )

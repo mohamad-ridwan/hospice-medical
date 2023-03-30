@@ -24,6 +24,17 @@
     transition: 0.3s ease-in-out;
 }
 
+// input card profile
+.input-card-profile{
+    border: none;
+    border-bottom: 1px solid transparent;
+}
+.input-card-profile:focus{
+    border: none;
+    border-bottom: 1px solid $color2;
+    transition: 0.3s ease-in-out;
+}
+
 .btn-input-file{
     display: none;
     color: $color8;
