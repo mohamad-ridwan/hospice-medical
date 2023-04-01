@@ -15,7 +15,7 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
             }}>
                 <ul className="column-navbar-mobile">
                     {users && Object.keys(users).length > 0 ? (
-                        <li className="login-nav-mobile">
+                        <li className="container-navbar-mobile">
                             <div className="column-profile-nav-mobile" onClick={clickProfile}>
                                 <img src={users.image} alt="" className="img-profile-nav-mobile" />
                                 <p className="name-profile-nav-mobile">
@@ -27,15 +27,20 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                                 display: displayCollapseProfile ? 'flex' : 'none',
                                 marginTop: '10px'
                             }}>
+                                <p className={history?.location?.pathname === '/profile' ? 'name-menu-collapse-mobile name-menu-collapse-mobile-active' : 'name-menu-collapse-mobile'}
+                                onClick={()=>toPage('/profile')}
+                                >
+                                    PROFILE
+                                </p>
                                 <p className="name-menu-collapse-mobile"
-                                onClick={logOut}
+                                onClick={()=>toPage('logout')}
                                 >
                                     LOG OUT
                                 </p>
                             </ul>
                         </li>
                     ):(
-                        <li className="login-nav-mobile">
+                        <li className="container-navbar-mobile">
                             <div className="column-profile-nav-mobile" onClick={clickProfile}>
                                 <img src={imgUser} alt="" className="img-profile-nav-mobile" />
                                 <p className="name-profile-nav-mobile">
@@ -47,10 +52,10 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                                 display: displayCollapseProfile ? 'flex' : 'none',
                                 marginTop: '10px'
                             }}>
-                                <p className={`name-menu-collapse-mobile ${history && history.location.pathname === '/login' ? 'name-menu-collapse-mobile-active' : ''}`} onClick={login}>
+                                <p className={history?.location?.pathname === '/login' ? 'name-menu-collapse-mobile name-menu-collapse-mobile-active' : 'name-menu-collapse-mobile'} onClick={()=>toPage('/login')}>
                                     LOGIN
                                 </p>
-                                <p className={`name-menu-collapse-mobile ${history && history.location.pathname === '/register' ? 'name-menu-collapse-mobile-active' : ''}`} onClick={register}>
+                                <p className={history?.location?.pathname === '/register' ? 'name-menu-collapse-mobile name-menu-collapse-mobile-active' : 'name-menu-collapse-mobile'} onClick={()=>toPage('/register')}>
                                     REGISTER
                                 </p>
                             </ul>
@@ -60,7 +65,7 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                     {menuPage && menuPage.length > 0 ? menuPage.map((e, i) => {
                         const pageCollapse = e.menuCollapse
                         return (
-                            <li key={i} className="menu-nav-mobile" style={{
+                            <li key={i} className="container-navbar-mobile" style={{
                                 color: pathActiveNav === i ? '#3face4' : '#000'
                             }}
                                 onClick={() => {
@@ -83,9 +88,7 @@ function NavbarMobile({ menuPage, toPage, height, zIndex, showCollapse, onCollap
                                 }}>
                                     {pageCollapse && pageCollapse.length > 0 ? pageCollapse.map((e, i) => {
                                         return (
-                                            <li key={i} className="name-menu-collapse-mobile" style={{
-                                                borderBottom: i === 0 ? '1px solid #eee' : 'none'
-                                            }}
+                                            <li key={i} className={history?.location?.pathname === e.path ? 'name-menu-collapse-mobile name-menu-collapse-mobile-active' : 'name-menu-collapse-mobile'}
                                                 onClick={(p) => {
                                                     p.stopPropagation()
                                                     toPage(e.path)

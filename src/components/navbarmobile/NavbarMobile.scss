@@ -16,54 +16,7 @@
         display: flex;
     }
 
-    .menu-nav-mobile{
-        display: flex;
-        flex-direction: column;
-        font-size: 13px;
-        align-items: flex-start;
-        padding-bottom: 20px;
-        font-weight: bold;
-        justify-content: flex-start;
-        overflow: hidden;
-        cursor: pointer;
-        transition: 0.3s ease-in-out;
-        
-        .img-profile-nav-mobile{
-            display: flex;
-            height: 30px;
-            width: 30px;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 500px;
-            margin-right: 5px;
-        }
-
-        .name-profile-nav-mobile{
-            color: $color1;
-            font-weight: normal;
-            text-align: start;
-        }
-
-        .collapse-nav-mobile{
-            display: none;
-            flex-direction: column;
-            text-align: start;
-
-            .name-menu-collapse-mobile{
-                padding: 10px 20px;
-                transition: 0.3s ease-in-out;
-                overflow: hidden;
-                color: #000;
-
-                &:hover{
-                    background-color: $color2;
-                    color: #fff;
-                }
-            }
-        }
-    }
-
-    .login-nav-mobile{
+    .container-navbar-mobile{
         display: flex;
         flex-direction: column;
         font-size: 13px;
@@ -105,6 +58,7 @@
             .name-menu-collapse-mobile{
                 padding: 10px 20px;
                 transition: 0.3s ease-in-out;
+                color: #000;
                 overflow: hidden;
 
                 &:hover{

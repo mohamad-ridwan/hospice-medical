@@ -172,9 +172,15 @@
                             transition: 0.3s ease-in-out;
                             &:hover{
                                 background-color: $color2;
-                                color: #fff;
                                 border-bottom: 1px solid $color2;
+                                color: #fff;
                             }
+                        }
+
+                        .name-menu-collapse-active{
+                            background-color: $color2;
+                            border-bottom: 1px solid $color2;
+                            color: #fff;
                         }
                     }
                 }

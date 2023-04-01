@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import './Verification.scss'
+import HelmetWindow from '../../components/helmetwindow/HelmetWindow'
 import logoweb from '../../images/logoweb.jpg'
 import BoxCode from '../../components/boxcode/BoxCode'
 import API from '../../services/api'
@@ -150,9 +151,9 @@ function Verification() {
                             alert('Token is expired!\nPlease re-register')
                             history.push('/register')
                         }
-                    }else{
+                    } else {
                         alert('Invalid tokens! or Token is expired!')
-                        
+
                         setTimeout(() => {
                             setLoading(false)
                         }, 10);
@@ -176,6 +177,10 @@ function Verification() {
 
     return (
         <>
+            <HelmetWindow
+                title={userData?.name ? `Verification | ${userData?.name}` : 'Hospice Medical'}
+                description="verification account hospice medical"
+            />
             <div className="wrapp-verification">
                 <div className="container-verification">
                     <div className="loading" style={{

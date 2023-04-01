@@ -20,6 +20,7 @@ function Navbar() {
     const [onCollapseMenu, setOnCollapseMenu] = useState(false)
     const [onCollapseProfile, setOnCollapseProfile] = useState(false)
     const [onNavbar, setOnNavbar] = useState(true)
+    const [pageCollapseActive, setPageCollapseActive] = useState('')
     const [menuNavProfileCollapse, setMenuNavProfileCollapse] = useState([])
 
     const history = useHistory()
@@ -27,6 +28,31 @@ function Navbar() {
     const pathname = window.location.pathname
     const params = useParams()
     const idUser = Cookies.get('idUser')
+
+    const setMenuPageActive = ()=>{
+        if(menuPage?.length > 0){
+            const getPageCollapse = ()=>{
+                let newPageActive = ''
+                menuPage.map(menu=>{
+                    if(menu.menuCollapse.length > 0){
+                        const getPage =  menu.menuCollapse.filter(page=>(page.path === pathname ? page.path : null))
+                        newPageActive = getPage.length === 1 ? getPage[0].path : ''
+                    }
+                })
+                return newPageActive
+            }
+            const newPath = getPageCollapse()
+            if(pathname === newPath){
+                setPageCollapseActive(newPath)
+            }else{
+                setPageCollapseActive('')
+            }
+        }
+    }
+
+    useEffect(()=>{
+        setMenuPageActive()
+    }, [params, menuPage])
 
     useEffect(()=>{
         if(idUser && users?.id === idUser){
@@ -389,7 +415,7 @@ function Navbar() {
                                                 <ul className="menu-collapse">
                                                     {pageCollapse && pageCollapse.length > 0 ? pageCollapse.map((e, i) => {
                                                         return (
-                                                            <li key={i} className="name-menu-collapse" onClick={(p) => {
+                                                            <li key={i} className={`name-menu-collapse ${pageCollapseActive === e.path ? 'name-menu-collapse-active' : ''}`} onClick={(p) => {
                                                                 p.stopPropagation()
                                                                 toPage(e.path)
                                                             }}>
@@ -463,9 +489,6 @@ function Navbar() {
                         displayCollapseProfile={onCollapseProfile}
                         clickProfile={showProfile}
                         users={users}
-                        logOut={logOut}
-                        login={() => toPage('/login')}
-                        register={() => toPage('/register')}
                         activePathNavMobile={(idx) => clickActiveNavMobile(idx)}
                         pathActiveNav={pathActiveMenuNav}
                         mouseOver={(idx) => mouseOverNavMenuMobile(idx)}
