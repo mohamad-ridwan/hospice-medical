@@ -121,6 +121,8 @@ function Blog() {
                                     }
                                 }, 100);
                             }
+                        } else {
+                            setLoadingBottom(false)
                         }
                     }, 0);
                     return getData
@@ -317,7 +319,7 @@ function Blog() {
                                     <div className="card-content-blog">
                                         <Card
                                             displayContentCard="flex"
-                                            img={`${endpoint}/${e.image}`}
+                                            img={e.image}
                                             title={e.title}
                                             paragraph={<RenderParagraphSatu paragraphSatu={e.paragraphSatu} />}
                                             heightImg="auto"
@@ -340,16 +342,22 @@ function Blog() {
                                 </div>
                             )
                         }) : (
-                            <div></div>
+                            <div>
+                                <p className="no-articles">
+                                    There are no articles at this time
+                                </p>
+                            </div>
                         )}
 
                         <Pagination
                             perPage={perPage}
                             totalData={contentBlog.length}
                             idxPaginateActive={idxPaginateActive}
-                            click={async (i) => {
+                            click={(i) => {
                                 clickPaginate(i)
-                                await scrollToMainBlog()
+                                setTimeout(() => {
+                                    scrollToMainBlog()
+                                }, 0)
                             }}
                         />
                     </div>

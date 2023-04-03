@@ -1,9 +1,8 @@
 import React from 'react';
 import './PopularPosts.scss';
 import Card from '../card/Card';
-import endpoint from '../../services/api/endpoint';
 
-function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategories, mouseOver, mouseLeave,clickPopularPosts }) {
+function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategories, mouseOver, mouseLeave, clickPopularPosts }) {
     return (
         <>
             <div className="column-kanan-content-blog">
@@ -16,7 +15,7 @@ function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategor
                         <Card
                             key={i}
                             displayContentCard="flex"
-                            img={`${endpoint}/${e.image}`}
+                            img={e.image}
                             heightImg="60px"
                             title={e.title}
                             paragraph={e.date}
@@ -32,12 +31,16 @@ function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategor
                             marginWrapp="0 0 20px 0"
                             cursorTitle="pointer"
                             alignItemsWrapp="center"
-                            clickTitle={()=>clickPopularPosts(e.path)}
-                            clickImg={()=>clickPopularPosts(e.path)}
+                            clickTitle={() => clickPopularPosts(e.path)}
+                            clickImg={() => clickPopularPosts(e.path)}
                         />
                     )
                 }) : (
-                    <div></div>
+                    <div>
+                        <p className="no-popular-posts">
+                            There are no articles at this time
+                        </p>
+                    </div>
                 )}
 
                 <div className="line-grey"></div>
@@ -50,18 +53,22 @@ function PopularPosts({ dataPopularPosts, dataPostCategories, btnListPostCategor
                     {dataPostCategories && dataPostCategories.length > 0 ? dataPostCategories.map((e, i) => {
                         return (
                             <li key={i} className={`list-post-categories ${e.id}`}
-                            onClick={()=>btnListPostCategories(e.id)}
-                            onMouseOver={()=>mouseOver(i)}
-                            onMouseLeave={mouseLeave}
+                                onClick={() => btnListPostCategories(e.id)}
+                                onMouseOver={() => mouseOver(i)}
+                                onMouseLeave={mouseLeave}
                             >
                                 {e.title}
                                 <p className="total-post-categories">
-                                    {e.data.length.toString().length === 1 ? `0${e.data.length}` : e.data.length}
+                                    {e.data.length > 0 && e.data.length.toString().length === 1 ? `0${e.data.length}` : e.data.length}
                                 </p>
                             </li>
                         )
                     }) : (
-                        <div></div>
+                        <div>
+                            <p className="no-categories">
+                                There are no article categories at this time
+                            </p>
+                        </div>
                     )}
                 </ul>
             </div>

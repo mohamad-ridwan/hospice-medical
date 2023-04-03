@@ -26,6 +26,11 @@
     border: 1px solid #eee;
     padding: 30px;
 
+    .no-popular-posts{
+        display: flex;
+        margin-bottom: 20px;
+    }
+
     @include navContactMobile(){
         width: auto;
         margin-top: 30px;
@@ -67,6 +72,10 @@
     .column-list-post-categories{
         display: flex;
         flex-direction: column;
+        
+        .no-categories{
+            display: flex;
+        }
 
         .list-post-categories{
             display: flex;

@@ -57,40 +57,54 @@ function DetailBlog() {
                 if (pathLocal !== undefined) {
                     const getDataFromLocation = respons.filter((e) => e.id === getIdLocal)
                     const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocal)
-                    setDataDetailBlog(getDetailData[0])
-                    set_IdDocument(getDataFromLocation[0]._id)
-                    setIdBlog(getDetailData[0].id)
-                    setListUserComments(getDetailData[0].comments)
+                    if(getDetailData?.length > 0){
+                        setDataDetailBlog(getDetailData[0])
+                        set_IdDocument(getDataFromLocation[0]._id)
+                        setIdBlog(getDetailData[0].id)
+                        setListUserComments(getDetailData[0].comments)
+    
+                        // filter content prev post and next post
+                        nextOrPrevContent(respons, getIdLocal, getDataFromLocation, getDetailData[0].id)
+    
+                        if (onSuccessComments) {
+                            successComments()
+                        }
 
-                    // filter content prev post and next post
-                    nextOrPrevContent(respons, getIdLocal, getDataFromLocation, getDetailData[0].id)
-
-                    if (onSuccessComments) {
-                        successComments()
-                    }
-
-                    if (getDataFromLocation.length > 0) {
-                        getDataFromLocation[0].data.filter((e, i) => e.path === pathLocal ? setIndexDetailBlog(i) : null)
+                        if (getDataFromLocation.length > 0) {
+                            getDataFromLocation[0].data.filter((e, i) => e.path === pathLocal ? setIndexDetailBlog(i) : null)
+                        }
+                    }else{
+                        alert('page not found')
+                        setTimeout(() => {
+                            history.push('/')
+                        }, 0);
                     }
                 } else {
                     const getDataFromLocation = respons.filter((e) => e.id === idLocation)
 
-                    const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
+                    const getDetailData = getDataFromLocation[0]?.data?.filter((e) => e.path === pathLocation)
 
-                    setDataDetailBlog(getDetailData[0])
-                    set_IdDocument(getDataFromLocation[0]._id)
-                    setIdBlog(getDetailData[0].id)
-                    setListUserComments(getDetailData[0].comments)
-
-                    // filter content prev post and next post
-                    nextOrPrevContent(respons, idLocation, getDataFromLocation, getDetailData[0].id)
-
-                    if (onSuccessComments) {
-                        successComments()
-                    }
-
-                    if (getDataFromLocation.length > 0) {
-                        getDataFromLocation[0].data.filter((e, i) => e.path === pathLocation ? setIndexDetailBlog(i) : null)
+                    if(getDetailData?.length > 0){
+                        setDataDetailBlog(getDetailData[0])
+                        set_IdDocument(getDataFromLocation[0]._id)
+                        setIdBlog(getDetailData[0].id)
+                        setListUserComments(getDetailData[0].comments)
+    
+                        // filter content prev post and next post
+                        nextOrPrevContent(respons, idLocation, getDataFromLocation, getDetailData[0].id)
+    
+                        if (onSuccessComments) {
+                            successComments()
+                        }
+    
+                        if (getDataFromLocation.length > 0) {
+                            getDataFromLocation[0].data.filter((e, i) => e.path === pathLocation ? setIndexDetailBlog(i) : null)
+                        }
+                    }else{
+                        alert('page not found')
+                        setTimeout(() => {
+                            history.push('/')
+                        }, 0);
                     }
                 }
 
@@ -394,9 +408,9 @@ function DetailBlog() {
 
                 <div className="container-content-blog-details">
                     <div className="column-kiri-content-blog-details">
-                        {Object.keys(dataDetailBlog).length > 0 ? (
+                        {dataDetailBlog && Object.keys(dataDetailBlog).length > 0 ? (
                             <>
-                                <img src={`${endpoint}/${dataDetailBlog.image}`} alt="" className="img-content-blog-details" />
+                                <img src={dataDetailBlog.image} alt="" className="img-content-blog-details" />
 
                                 <div className="main-content-blog-details">
                                     <div className="column-category-blog-details">
@@ -431,7 +445,7 @@ function DetailBlog() {
                                     </div>
                                 </div>
 
-                                {dataDetailBlog && dataDetailBlog.paragraphBeforeHighlight ? (
+                                {dataDetailBlog?.paragraphBeforeHighlight ? (
                                     <RenderParagraphBeforeHighlight text={dataDetailBlog.paragraphBeforeHighlight} />
                                 ) : (
                                     <div></div>
@@ -443,7 +457,7 @@ function DetailBlog() {
                                     <div></div>
                                 )}
 
-                                <img src={`${endpoint}/${dataDetailBlog.imageDetailContent && dataDetailBlog.imageDetailContent.image}`} alt="" className="img-content-blog-details img-body-content" />
+                                <img src={dataDetailBlog?.imageDetailContent?.image} alt="" className="img-content-blog-details img-body-content" />
 
                                 {dataDetailBlog.paragraphDua !== 'null' ? (
                                     <RenderParagraphDua paragraphDua={dataDetailBlog.paragraphDua} />
@@ -458,7 +472,7 @@ function DetailBlog() {
                                                 <div className="card-prev-next-blog-details">
                                                     <Card
                                                         displayContentCard="flex"
-                                                        img={`${endpoint}/${e.image}`}
+                                                        img={e.image}
                                                         heightImg="60px"
                                                         title={i === 0 ? 'Prev Post' : 'Next Post'}
                                                         displayTxtComment="flex"

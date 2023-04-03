@@ -286,7 +286,7 @@ function Home() {
                                             <Card
                                                 displayContentCard="flex"
                                                 displayDate="flex"
-                                                img={`${endpoint}/${e.image}`}
+                                                img={e.image}
                                                 title={e.title}
                                                 paragraph={<RenderParagraph paragraph={e.paragraphSatu} />}
                                                 cursorWrapp="pointer"

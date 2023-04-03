@@ -101,6 +101,10 @@
             margin-right: 30px;
             width: 72%;
 
+            .no-articles{
+                display: flex;
+            }
+
             @include navContactMobile(){
                 width: auto;
                 margin-right: 0;
