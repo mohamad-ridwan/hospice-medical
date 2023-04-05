@@ -98,7 +98,10 @@ function Home() {
 
     function RenderParagraph({ paragraph }) {
         return (
-            <p dangerouslySetInnerHTML={{ __html: paragraph.length > 150 ? paragraph.substr(0, 150) + '...' : paragraph }}></p>
+            <p dangerouslySetInnerHTML={{ __html: paragraph.length > 150 ? paragraph.substr(0, 150) + '...' : paragraph }} style={{
+                color: '#666',
+                lineHeight: '1.5'
+            }}></p>
         )
     }
 

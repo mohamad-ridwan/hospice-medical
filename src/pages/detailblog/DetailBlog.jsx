@@ -231,7 +231,7 @@ function DetailBlog() {
 
     function RenderParagraphHighlight({ paragraphHighlight }) {
         return (
-            <p className="paragraph-highlight" dangerouslySetInnerHTML={{ __html: paragraphHighlight }}></p>
+            <p className="paragraph-highlight" dangerouslySetInnerHTML={{ __html: `"${paragraphHighlight}"` }}></p>
         )
     }
 
@@ -467,18 +467,18 @@ function DetailBlog() {
 
                                 <div className="container-comments-blog-details">
                                     <div className="paginate-next-posts">
-                                        {nextAndPrevPosts && nextAndPrevPosts.length > 0 ? nextAndPrevPosts.map((e, i) => {
+                                        {nextAndPrevPosts?.length > 2 ? nextAndPrevPosts?.map((e, i) => {
                                             return (
                                                 <div className="card-prev-next-blog-details">
                                                     <Card
                                                         displayContentCard="flex"
-                                                        img={e.image}
+                                                        img={e?.image}
                                                         heightImg="60px"
                                                         title={i === 0 ? 'Prev Post' : 'Next Post'}
                                                         displayTxtComment="flex"
-                                                        comments={`Category, ${e.category}`}
+                                                        comments={`Category, ${e?.category}`}
                                                         iconHoverImg={i === 0 ? 'fas fa-long-arrow-alt-left' : 'fas fa-long-arrow-alt-right'}
-                                                        paragraph={e.title.length > 30 ? `${e.title.substr(0, 30)}...` : e.title}
+                                                        paragraph={e?.title.length > 30 ? `${e?.title.substr(0, 30)}...` : e?.title}
                                                         flexDirectionWrapp={i === 0 ? 'row' : 'row-reverse'}
                                                         justifyContentTitle={i === 0 ? 'flex-start' : 'flex-end'}
                                                         textAlignTitle={i === 0 ? 'start' : 'end'}
@@ -504,8 +504,8 @@ function DetailBlog() {
                                                         classHoverBgImg="hover-paginate-blog-details"
                                                         mouseOver={() => mouseOverPaginate(i)}
                                                         mouseLeave={mouseLeavePaginate}
-                                                        clickImg={() => clickPopularPosts(e.path)}
-                                                        clickParagraph={() => clickPopularPosts(e.path)}
+                                                        clickImg={() => clickPopularPosts(e?.path)}
+                                                        clickParagraph={() => clickPopularPosts(e?.path)}
                                                     />
                                                 </div>
                                             )

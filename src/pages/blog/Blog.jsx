@@ -156,7 +156,10 @@ function Blog() {
 
     function RenderParagraphSatu({ paragraphSatu }) {
         return (
-            <p dangerouslySetInnerHTML={{ __html: paragraphSatu.length > 300 ? paragraphSatu.substr(0, 300) + '...' : paragraphSatu }}></p>
+            <p dangerouslySetInnerHTML={{ __html: paragraphSatu.length > 300 ? paragraphSatu.substr(0, 300) + '...' : paragraphSatu }} style={{
+                color: '#666',
+                lineHeight: '1.5'
+            }}></p>
         )
     }
 
