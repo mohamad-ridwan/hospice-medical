@@ -21,6 +21,8 @@ function DetailBlog() {
     const [dataDetailBlog, setDataDetailBlog] = useState({})
     const [dataPopularPosts, setDataPopularPosts] = useState([])
     const [dataPostCategories, setDataPostCategories] = useState([])
+    const [dataOurRecentBlogs, setDataOurRecentBlogs] = useState({})
+    const [_idOurRecentBlogs, set_IdOurRecentBlogs] = useState('')
     const [_idDocument, set_IdDocument] = useState('')
     const [idBlog, setIdBlog] = useState('')
     const [indexDetailBlog, setIndexDetailBlog] = useState(null)
@@ -50,22 +52,26 @@ function DetailBlog() {
         API.APIGetBlogs()
             .then(res => {
                 const respons = res.data
+                const dataCategories = respons.filter(post => post.id !== 'our-recent-blogs')
                 const idLocation = location.split('/')[3]
                 const pathLocation = location.split('blog/blog-details/')[1]
                 const getIdLocal = pathLocal !== undefined ? pathLocal.split('/')[0] : null
+                const ourRecentBlogs = respons.filter(post => post.id === 'our-recent-blogs')[0].data
+                const _idDocOurRecentBlogs = respons.filter(post => post.id === 'our-recent-blogs')
+                set_IdOurRecentBlogs(_idDocOurRecentBlogs.length > 0 ? _idDocOurRecentBlogs[0]._id : '')
 
                 if (pathLocal !== undefined) {
                     const getDataFromLocation = respons.filter((e) => e.id === getIdLocal)
                     const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocal)
-                    if(getDetailData?.length > 0){
+                    if (getDetailData?.length > 0) {
                         setDataDetailBlog(getDetailData[0])
                         set_IdDocument(getDataFromLocation[0]._id)
                         setIdBlog(getDetailData[0].id)
                         setListUserComments(getDetailData[0].comments)
-    
+
                         // filter content prev post and next post
-                        nextOrPrevContent(respons, getIdLocal, getDataFromLocation, getDetailData[0].id)
-    
+                        nextOrPrevContent(dataCategories, getIdLocal, getDataFromLocation, getDetailData[0].id)
+
                         if (onSuccessComments) {
                             successComments()
                         }
@@ -73,7 +79,15 @@ function DetailBlog() {
                         if (getDataFromLocation.length > 0) {
                             getDataFromLocation[0].data.filter((e, i) => e.path === pathLocal ? setIndexDetailBlog(i) : null)
                         }
-                    }else{
+
+                        // find data the same category in our-recent-blogs
+                        const findSameDataFromCurrentPost = ourRecentBlogs?.length > 0 ? ourRecentBlogs.filter(post => post.id === getDetailData[0].id) : []
+                        if (findSameDataFromCurrentPost?.length > 0) {
+                            setDataOurRecentBlogs(findSameDataFromCurrentPost[0])
+                        } else {
+                            setDataOurRecentBlogs({})
+                        }
+                    } else {
                         alert('page not found')
                         setTimeout(() => {
                             history.push('/')
@@ -84,23 +98,30 @@ function DetailBlog() {
 
                     const getDetailData = getDataFromLocation[0]?.data?.filter((e) => e.path === pathLocation)
 
-                    if(getDetailData?.length > 0){
+                    if (getDetailData?.length > 0) {
                         setDataDetailBlog(getDetailData[0])
                         set_IdDocument(getDataFromLocation[0]._id)
                         setIdBlog(getDetailData[0].id)
                         setListUserComments(getDetailData[0].comments)
-    
+
                         // filter content prev post and next post
-                        nextOrPrevContent(respons, idLocation, getDataFromLocation, getDetailData[0].id)
-    
+                        nextOrPrevContent(dataCategories, idLocation, getDataFromLocation, getDetailData[0].id)
+
                         if (onSuccessComments) {
                             successComments()
                         }
-    
+
                         if (getDataFromLocation.length > 0) {
                             getDataFromLocation[0].data.filter((e, i) => e.path === pathLocation ? setIndexDetailBlog(i) : null)
                         }
-                    }else{
+                        // find data the same category in our-recent-blogs
+                        const findSameDataFromCurrentPost = ourRecentBlogs?.length > 0 ? ourRecentBlogs.filter(post => post.id === getDetailData[0].id) : []
+                        if (findSameDataFromCurrentPost?.length > 0) {
+                            setDataOurRecentBlogs(findSameDataFromCurrentPost[0])
+                        } else {
+                            setDataOurRecentBlogs({})
+                        }
+                    } else {
                         alert('page not found')
                         setTimeout(() => {
                             history.push('/')
@@ -154,67 +175,18 @@ function DetailBlog() {
     }, [])
 
     async function nextOrPrevContent(data, idLocal, categoryContentInPage, idDetailBlog) {
-        let newArr = []
-        let idxCategoryInPage = null
-        let newIdxDetailBlog = null
-
-        const indexCategoryBlog = data.map((e, i) => e.id === idLocal ? idxCategoryInPage = i : null)
-        const indexDetailBlog = categoryContentInPage[0].data.map((e, i) => e.id === idDetailBlog ? newIdxDetailBlog = i : null)
-
-        const totalBlogInPage = categoryContentInPage[0].data.length
-
-        const getPrevPost = await data.filter((e, i) => i === idxCategoryInPage - 1)
-        const getNextPost = await data.filter((e, i) => i === idxCategoryInPage + 1)
-
-        setTimeout(() => {
-            if (totalBlogInPage === 1) {
-                if (getPrevPost.length === 0) {
-                    const getMainContent = data.filter((e, i) => i === data.length - 1)
-                    newArr.push(getMainContent[0].data[getMainContent[0].data.length - 1], getNextPost[0].data[0])
-                }
-
-                if (getNextPost.length === 0) {
-                    const getMainContent = data.filter((e, i) => i === 0)
-                    newArr.push(getPrevPost[0].data[getPrevPost[0].data.length - 1], getMainContent[0].data[0])
-                }
-
-                if (getPrevPost.length !== 0 && getNextPost.length !== 0) {
-                    newArr.push(getPrevPost[0].data[getPrevPost[0].data.length - 1], getNextPost[0].data[0])
-                }
-
-                setNextAndPrevPosts(newArr)
-            } else if (totalBlogInPage > 1) {
-                const getPrevPostInCtg = categoryContentInPage[0].data.filter((e, i) => i === newIdxDetailBlog - 1)
-                const getNextPostInCtg = categoryContentInPage[0].data.filter((e, i) => i === newIdxDetailBlog + 1)
-
-                if (getPrevPostInCtg.length === 0) {
-                    if (getPrevPost.length === 0) {
-                        const getMainContent = data.filter((e, i) => i === data.length - 1)
-                        newArr.push(getMainContent[0].data[getMainContent[0].data.length - 1], getNextPostInCtg[0])
-                    } else {
-                        newArr.push(getPrevPost[0].data[getPrevPost[0].data.length - 1], getNextPostInCtg[0])
-                    }
-                }
-
-                if (getNextPostInCtg.length === 0) {
-                    if (getNextPost.length === 0) {
-                        const getMainContent = data.filter((e, i) => i === 0)
-                        newArr.push(getPrevPostInCtg[0], getMainContent[0].data[0])
-                    }
-                    else {
-                        newArr.push(getPrevPostInCtg[0], getNextPost[0].data[0])
-                    }
-                }
-
-                if (getPrevPostInCtg.length !== 0 && getNextPostInCtg.length !== 0) {
-                    newArr.push(getPrevPostInCtg[0], getNextPostInCtg[0])
-                }
-
-                setNextAndPrevPosts(newArr)
-            }
-        }, 0)
-
-        return { indexCategoryBlog, indexDetailBlog }
+        const combineCategory = async () => {
+            let dataCategory = []
+            await data.forEach((post) => post.data.length > 0 ? post.data.map(item => dataCategory.push(item)) : null)
+            return dataCategory
+        }
+        const newData = await combineCategory()
+        const findIdxCurrentPost = newData.findIndex(post => post?.id === idDetailBlog)
+        if (newData.length > 1) {
+            const prevPost = newData[findIdxCurrentPost - 1] ? newData[findIdxCurrentPost - 1] : {}
+            const nextPost = newData[findIdxCurrentPost + 1] ? newData[findIdxCurrentPost + 1] : {}
+            setNextAndPrevPosts([prevPost, nextPost])
+        }
     }
 
     function RenderParagraphSatu({ paragraphSatu }) {
@@ -283,17 +255,48 @@ function DetailBlog() {
         }
     }
 
+    async function pushToBlogData(_idDocument, idBlog, data) {
+        return await new Promise((resolve, reject) => {
+            API.APIPostComment(_idDocument, idBlog, data)
+                .then(res => {
+                    resolve({ message: 'success' })
+                    return res
+                })
+                .catch(err => reject(err))
+        })
+
+    }
+
     function postComment(data) {
-        API.APIPostComment(_idDocument, idBlog, data)
-            .then(res => {
-                setAllAPI(undefined, undefined, true)
-                return res
-            })
-            .catch(err => {
-                alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
-                console.log(err)
-                setLoadingPost(false)
-            })
+        if (dataOurRecentBlogs?.id) {
+            pushToBlogData(_idOurRecentBlogs, dataOurRecentBlogs.id, data)
+                .then(res => {
+                    pushToBlogData(_idDocument, idBlog, data)
+                        .then(res => {
+                            setAllAPI(undefined, undefined, true)
+                        })
+                        .catch(err => {
+                            alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                            console.log(err)
+                            setLoadingPost(false)
+                        })
+                })
+                .catch(err => {
+                    alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                    console.log(err)
+                    setLoadingPost(false)
+                })
+        } else {
+            pushToBlogData(_idDocument, idBlog, data)
+                .then(res => {
+                    setAllAPI(undefined, undefined, true)
+                })
+                .catch(err => {
+                    alert('Terjadi kesalahan server\nMohon coba beberapa saat lagi')
+                    console.log(err)
+                    setLoadingPost(false)
+                })
+        }
     }
 
     const nameMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -342,38 +345,89 @@ function DetailBlog() {
         setErrorMessage(err)
     }
 
+    async function pushToDeleteComment(_idDocument, idUserComment, indexDetailBlog) {
+        return await new Promise((resolve, reject) => {
+            API.APIDeleteComment(_idDocument, idUserComment, indexDetailBlog)
+                .then(res => {
+                    resolve({ message: 'success' })
+                })
+                .catch(err => reject(err))
+        })
+    }
+
     function deleteComment(id, idUserComment) {
         if (users && users.id === id && window.confirm('Hapus pesan Anda?')) {
             setLoading(true)
 
-            API.APIDeleteComment(_idDocument, idUserComment, indexDetailBlog)
-                .then(res => {
-                    API.APIGetBlogs()
-                        .then(res => {
-                            const respons = res.data
-                            const idLocation = location.split('/')[3]
-                            const pathLocation = location.split('blog/blog-details/')[1]
+            if (dataOurRecentBlogs?.id) {
+                pushToDeleteComment(_idOurRecentBlogs, idUserComment, indexDetailBlog)
+                    .then(res => {
+                        pushToDeleteComment(_idDocument, idUserComment, indexDetailBlog)
+                            .then(res => {
+                                API.APIGetBlogs()
+                                    .then(res => {
+                                        const respons = res.data
+                                        const idLocation = location.split('/')[3]
+                                        const pathLocation = location.split('blog/blog-details/')[1]
 
-                            const getDataFromLocation = respons.filter((e) => e.id === idLocation)
+                                        const getDataFromLocation = respons.filter((e) => e.id === idLocation)
 
-                            const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
-                            setListUserComments(getDetailData[0].comments)
+                                        const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
+                                        setDataDetailBlog(getDetailData[0])
+                                        setListUserComments(getDetailData[0].comments)
 
-                            setTimeout(() => {
+                                        setTimeout(() => {
+                                            setLoading(false)
+                                        }, 50)
+                                    })
+                                    .catch(err => {
+                                        console.log(err)
+                                        alert('Oops!, telah terjadi kesalahan server.')
+                                        window.location.reload()
+                                    })
+                            })
+                            .catch(err => {
+                                console.log(err)
+                                alert('Oops!, telah terjadi kesalahan server.\nMohon coba beberapa saat lagi.')
                                 setLoading(false)
-                            }, 50)
-                        })
-                        .catch(err=>{
-                            console.log(err)
-                            alert('Oops!, telah terjadi kesalahan server.')
-                            window.location.reload()
-                        })
-                })
-                .catch(err => {
-                    console.log(err)
-                    alert('Oops!, telah terjadi kesalahan server.\nMohon coba beberapa saat lagi.')
-                    setLoading(false)
-                })
+                            })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        alert('Oops!, telah terjadi kesalahan server.\nMohon coba beberapa saat lagi.')
+                        setLoading(false)
+                    })
+            } else {
+                pushToDeleteComment(_idDocument, idUserComment, indexDetailBlog)
+                    .then(res => {
+                        API.APIGetBlogs()
+                            .then(res => {
+                                const respons = res.data
+                                const idLocation = location.split('/')[3]
+                                const pathLocation = location.split('blog/blog-details/')[1]
+
+                                const getDataFromLocation = respons.filter((e) => e.id === idLocation)
+
+                                const getDetailData = getDataFromLocation[0].data.filter((e) => e.path === pathLocation)
+                                setDataDetailBlog(getDetailData[0])
+                                setListUserComments(getDetailData[0].comments)
+
+                                setTimeout(() => {
+                                    setLoading(false)
+                                }, 50)
+                            })
+                            .catch(err => {
+                                console.log(err)
+                                alert('Oops!, telah terjadi kesalahan server.')
+                                window.location.reload()
+                            })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        alert('Oops!, telah terjadi kesalahan server.\nMohon coba beberapa saat lagi.')
+                        setLoading(false)
+                    })
+            }
         }
     }
 
@@ -467,18 +521,18 @@ function DetailBlog() {
 
                                 <div className="container-comments-blog-details">
                                     <div className="paginate-next-posts">
-                                        {nextAndPrevPosts?.length > 2 ? nextAndPrevPosts?.map((e, i) => {
+                                        {nextAndPrevPosts?.length > 1 ? nextAndPrevPosts?.map((e, i) => {
                                             return (
                                                 <div className="card-prev-next-blog-details">
                                                     <Card
                                                         displayContentCard="flex"
                                                         img={e?.image}
                                                         heightImg="60px"
-                                                        title={i === 0 ? 'Prev Post' : 'Next Post'}
+                                                        title={e?.id ? i === 0 ? 'Prev Post' : 'Next Post' : ''}
                                                         displayTxtComment="flex"
-                                                        comments={`Category, ${e?.category}`}
+                                                        comments={e?.id ? `Category, ${e?.category}` : ''}
                                                         iconHoverImg={i === 0 ? 'fas fa-long-arrow-alt-left' : 'fas fa-long-arrow-alt-right'}
-                                                        paragraph={e?.title.length > 30 ? `${e?.title.substr(0, 30)}...` : e?.title}
+                                                        paragraph={e?.title?.length > 30 ? `${e?.title?.substr(0, 30)}...` : e?.title}
                                                         flexDirectionWrapp={i === 0 ? 'row' : 'row-reverse'}
                                                         justifyContentTitle={i === 0 ? 'flex-start' : 'flex-end'}
                                                         textAlignTitle={i === 0 ? 'start' : 'end'}

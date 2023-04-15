@@ -315,7 +315,7 @@
 
         .column-card-recent-blogs-home{
             display: flex;
-            justify-content: space-between;
+            grid-gap: 30px;
             margin-top: 80px;
             padding: 0 10% 0 10%;
 
