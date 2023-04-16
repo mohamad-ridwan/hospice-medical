@@ -15,6 +15,10 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Verification from './pages/verification/Verification';
 import UserProfile from './pages/profile/UserProfile';
+import ForgotPassword from './pages/forgotpassword/ForgotPassword';
+import SuccessSendEmail from './pages/forgotpassword/successSendEmail/SuccessSendEmail';
+import SuccessPasswordReset from './pages/forgotpassword/successPasswordReset/SuccessPasswordReset';
+import SetNewPassword from './pages/forgotpassword/setNewPassword/SetNewPassword';
 
 function App() {
   return (
@@ -23,6 +27,22 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Switch>
+            <Route path='/forgot-password/create-new-password/has-been-successfully/:token'>
+              <SuccessPasswordReset />
+            </Route>
+
+            <Route path='/forgot-password/create-new-password/:token'>
+              <SetNewPassword />
+            </Route>
+
+            <Route path='/forgot-password/success-send-email/:token'>
+              <SuccessSendEmail />
+            </Route>
+
+            <Route path='/forgot-password'>
+              <ForgotPassword />
+            </Route>
+
             <Route path='/verification/:userId'>
               <Verification />
             </Route>

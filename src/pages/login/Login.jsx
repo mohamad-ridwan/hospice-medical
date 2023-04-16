@@ -47,7 +47,7 @@ function Login() {
                     console.log(err)
                     alert('Oops!, telah terjadi kesalahan server.')
                 })
-        }else{
+        } else {
             setTimeout(() => {
                 setLoadingPage(false)
             }, 1000)
@@ -170,6 +170,14 @@ function Login() {
                         changeInput={changeInput}
                         errorMessage={errMessage && errMessage.password}
                     />
+
+                    <div className="forgot-password">
+                        <button className="btn-forgot-password"
+                            onClick={() => toPage('/forgot-password')}
+                        >
+                            Forgot the password?
+                        </button>
+                    </div>
 
                     <Button
                         nameBtn="LOGIN"

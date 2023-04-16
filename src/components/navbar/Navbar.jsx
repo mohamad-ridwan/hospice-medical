@@ -90,7 +90,15 @@ function Navbar() {
 
         if (paramsOfVerification > 0) {
             setOnNavbar(false)
-        } else {
+        } else if(pathname === '/forgot-password') {
+            setOnNavbar(false)
+        }else if(pathname.includes('/forgot-password/success-send-email')){
+            setOnNavbar(false)
+        }else if(pathname.includes('/forgot-password/create-new-password/has-been-successfully')){
+            setOnNavbar(false)
+        }else if(pathname.includes('/forgot-password/create-new-password/')){
+            setOnNavbar(false)
+        }else{
             setOnNavbar(true)
         }
     }, [params])

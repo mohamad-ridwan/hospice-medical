@@ -1,10 +1,12 @@
 import React from 'react';
 import './Button.scss';
 
-function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border, click, cursor, margin, displayLoading}){
+function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouseLeave, color, bgColor,border, click, cursor, margin, displayLoading, flexDirectionBtn, marginIcon, flexWrapBtn}){
     return(
         <>
         <button className="button-card" style={{
+            flexDirection: flexDirectionBtn,
+            flexWrap: flexWrapBtn,
             borderRadius: bdrRadius,
             padding: padding,
             color: color,
@@ -20,7 +22,8 @@ function Button({nameBtn, bdrRadius, padding,icon, displayIcon, mouseOver, mouse
             {nameBtn}
 
             <i className={icon} style={{
-                display: displayIcon
+                display: displayIcon,
+                margin: marginIcon
             }}></i>
             <div className="loading-btn" style={{
                 display: displayLoading

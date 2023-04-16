@@ -6,7 +6,7 @@
     }
 }
 
-.wrapp-login{
+.wrapp-login {
     display: flex;
     margin-top: 125px;
     padding: 100px 10%;
@@ -14,18 +14,18 @@
     justify-content: center;
     background-color: $color3;
 
-    @include navContactMobile(){
+    @include navContactMobile() {
         padding: 50px 5%;
     }
 
-    .form-login{
+    .form-login {
         display: flex;
         flex-direction: column;
         width: 400px;
         padding: 35px;
         background-color: #fff;
 
-        .title-login{
+        .title-login {
             display: flex;
             font-weight: bold;
             font-size: 20px;
@@ -34,7 +34,7 @@
             margin-bottom: 20px;
         }
 
-        .or-login-with{
+        .or-login-with {
             display: flex;
             font-size: 13px;
             color: $color8;
@@ -43,18 +43,34 @@
             margin: 20px 0;
         }
 
-        .login-google-from-register{
+        .login-google-from-register {
             justify-content: center;
             margin: 0 100px;
         }
 
-        .column-already-account{
+        .forgot-password {
+            display: flex;
+            flex-direction: row-reverse;
+            margin: 10px 0 0 0;
+
+            .btn-forgot-password {
+                background: transparent;
+                outline: none;
+                border: none;
+                font-family: 'Mulish', sans-serif;
+                font-size: 13px;
+                color: $color8;
+                cursor: pointer;
+            }
+        }
+
+        .column-already-account {
             display: flex;
             align-items: center;
             margin-top: 40px;
             justify-content: center;
 
-            @include navContactMobile(){
+            @include navContactMobile() {
                 flex-direction: column;
             }
         }

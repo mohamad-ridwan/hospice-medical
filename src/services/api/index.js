@@ -1,3 +1,4 @@
+import fetchJwtToken from "./fetchJwtToken"
 import useFetch from "./useFetch"
 
 // navbar
@@ -50,6 +51,13 @@ const APIPostVerification = (data)=>useFetch('v13/verification/post', 'POST', da
 const APIGetVerification = ()=>useFetch('v13/verification/get', 'GET')
 const APIPutVerification = (userId, data)=>useFetch(`v13/verification/put/${userId}`, 'PUT', data)
 const APIDeleteVerification = (id)=>useFetch(`v13/verification/delete/${id}`, 'DELETE')
+// verification create new password and create jwt-token
+const APIPostCreateJwtToken = (userId)=>useFetch(`v13/verification/post/forgot-password/create-new-password/${userId}`, 'POST')
+const APIGetJwtTokenVerif = (token)=>fetchJwtToken('v13/verification/get/forgot-password/create-new-password', 'GET', token)
+
+// black list JWT
+const APIPostBlackListJWT = (data)=>useFetch(`v15/black-list-jwt/post`, 'POST', data)
+const APIGetBlackListJWT = ()=>useFetch(`v15/black-list-jwt/get`, 'GET')
 
 const API = {
     APIGetNavbar,
@@ -76,7 +84,11 @@ const API = {
     APIGetVerification,
     APIPutIsVerification,
     APIPutVerification,
-    APIDeleteVerification
+    APIDeleteVerification,
+    APIPostCreateJwtToken,
+    APIGetJwtTokenVerif,
+    APIPostBlackListJWT,
+    APIGetBlackListJWT
 }
 
 export default API

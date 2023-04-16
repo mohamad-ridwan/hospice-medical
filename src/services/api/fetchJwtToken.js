@@ -1,14 +1,13 @@
 import endpoint from "./endpoint"
 
-async function useFetch(path, method, data){
+async function fetchJwtToken(path, method, token){
     return await new Promise((resolve, reject)=>{
         fetch(`${endpoint}/${path}`, {
             method,
             mode: 'cors',
             headers: {
-                "Content-Type": "application/json",
+                "Jwt-Token": token
             },
-            body: JSON.stringify(data)
         })
         .then(res=>res.json())
         .then(res=>resolve(res))
@@ -16,4 +15,4 @@ async function useFetch(path, method, data){
     })
 }
 
-export default useFetch
+export default fetchJwtToken

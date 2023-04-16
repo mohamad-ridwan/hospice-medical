@@ -1,0 +1,36 @@
+@import '../../utils/variable.scss';
+
+.container-loading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 280px;
+    width: 400px;
+    padding: 35px;
+    margin: 120px 0 80px 0;
+    background-color: #fff;
+
+    .loading-circle{
+        margin: 0 auto;
+        height: 35px;
+        width: 35px;
+        border-radius: 500px;
+        border: 4px solid $color2;
+        border-top-color: #fff;
+        animation: load 0.6s ease infinite;
+    }
+
+    .waiting{
+        text-align: center;
+        font-size: 14px;
+        color: $color8;
+        margin-top: 15px;
+    }
+}
+
+@keyframes load {
+    to{
+        transform: rotate(360deg);
+    }
+}
