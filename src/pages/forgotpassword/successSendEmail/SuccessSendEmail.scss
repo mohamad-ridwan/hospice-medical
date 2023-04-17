@@ -1,5 +1,11 @@
 @import '../../../utils/variable.scss';
 
+@mixin navContactMobile {
+    @media (max-width: $navContactMobile) {
+        @content;
+    }
+}
+
 .wrapp-success-send-email{
     display: flex;
     padding: 0 10%;
@@ -7,6 +13,10 @@
     min-height: 100vh;
     justify-content: center;
     background-color: $color3;
+
+    @include navContactMobile() {
+        padding: 0px 5%;
+    }
 
     .container-white{
         display: none;
