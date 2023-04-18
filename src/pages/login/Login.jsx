@@ -17,11 +17,11 @@ function Login() {
     const [loadingPage, setLoadingPage] = useState(true)
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [input, setInput] = useState({
-        name: '',
         email: '',
         password: ''
     })
 
+    const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const history = useHistory()
 
     const getCookies = Cookies.get('idUser')
@@ -75,7 +75,7 @@ function Login() {
         API.APIGetUsers()
             .then(res => {
                 const respons = res.data
-                const checkUser = respons.filter(e => e.name === data.name && e.email === data.email && e.password === data.password && e.isVerification)
+                const checkUser = respons.filter(e => e.email === data.email && e.password === data.password && e.isVerification)
                 if (checkUser.length > 0) {
                     Cookies.set('idUser', `${checkUser[0].id}`)
                     setUsers(checkUser[0])
@@ -107,18 +107,14 @@ function Login() {
         let err = {}
 
         const data = {
-            name: input.name,
             email: input.email,
             password: input.password
         }
 
-        if (!input.name) {
-            err.name = 'Must be required!'
-        }
         if (!input.email) {
             err.email = 'Must be required!'
-        } else if (!input.email.includes('@')) {
-            err.email = 'Must be required @!'
+        } else if (!mailRegex.test(input.email)) {
+            err.email = 'Invalid email address!'
         }
         if (!input.password) {
             err.password = 'Must be required!'
@@ -143,15 +139,6 @@ function Login() {
                         Login
                     </p>
 
-                    <Input
-                        type="text"
-                        placeholder="Enter your name"
-                        displayErrorMsg="flex"
-                        nameInput="name"
-                        valueInput={input.name}
-                        changeInput={changeInput}
-                        errorMessage={errMessage && errMessage.name}
-                    />
                     <Input
                         type="email"
                         placeholder="Enter email address"

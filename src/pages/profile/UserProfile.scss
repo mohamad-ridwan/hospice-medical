@@ -33,14 +33,14 @@
     
                 .btn-input-img{
                     position: absolute;
-                    height: 35px;
-                    width: 35px;
+                    height: 45px;
+                    width: 45px;
                     border-radius: 500px;
                     justify-content: center;
                     align-items: center;
                     background-color: $color2;
                     bottom: 10px;
-                    right: -5px;
+                    right: -10px;
                     margin-right: 50px;
                     z-index: 1;
                     cursor: pointer;
@@ -50,7 +50,7 @@
                     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.3);
 
                     i{
-                        font-size: 16px;
+                        font-size: 20px;
                         color: #fff;
                         overflow: hidden;
                         margin-top: 4px;

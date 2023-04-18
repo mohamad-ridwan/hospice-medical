@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import './Verification.scss'
 import HelmetWindow from '../../components/helmetwindow/HelmetWindow'
-import logoweb from '../../images/logoweb.jpg'
 import BoxCode from '../../components/boxcode/BoxCode'
 import API from '../../services/api'
+import Button from '../../components/button/Button'
 
 function Verification() {
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [msgLoadingVerification, setMsgLoadingVerification] = useState('')
+    const [msgLoadingVerification, setMsgLoadingVerification] = useState('Please wait a moment')
     const [success, setSuccess] = useState(false)
     const [boxCode] = useState([
         {
@@ -34,6 +34,10 @@ function Verification() {
 
     const history = useHistory()
     const params = useParams()
+
+    const toPage = (path) => {
+        history.push(path)
+    }
 
     const getUsers = () => {
         API.APIGetUsers()
@@ -191,13 +195,24 @@ function Verification() {
                                 display: success ? 'flex' : 'none'
                             }}></i>
                         ) : (
-                            <div className="loading-circle"></div>
+                            <>
+                                <div className="loading-circle"></div>
+                            </>
                         )}
 
                         <span>{msgLoadingVerification}</span>
+
+                        {success && (
+                            <Button
+                                nameBtn="BACK TO LOG IN"
+                                margin="40px 10px 0 10px"
+                                widthBtn="80%"
+                                click={() => toPage('/login')}
+                            />
+                        )}
                     </div>
-                    <div className="img-logo-web">
-                        <img src={logoweb} alt="" />
+                    <div className="icon">
+                        <i className="fas fa-key"></i>
                     </div>
 
                     <h1>Please check your email</h1>
@@ -216,6 +231,20 @@ function Verification() {
                             )
                         })}
                     </form>
+
+                    <Button
+                        nameBtn="Back to log in"
+                        flexDirectionBtn="row-reverse"
+                        margin="20px 0 0 0"
+                        displayIcon="flex"
+                        icon='fas fa-arrow-left'
+                        marginIcon="1px 10px 0 0"
+                        bgColor="#fff"
+                        border="1px solid #fff"
+                        color="#3face4"
+                        flexWrapBtn="wrap"
+                        click={() => toPage('/login')}
+                    />
                 </div>
             </div>
         </>
