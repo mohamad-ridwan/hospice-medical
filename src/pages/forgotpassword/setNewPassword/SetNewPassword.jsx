@@ -176,7 +176,7 @@ function SetNewPassword() {
                 err.confirmPassword = 'Invalid password confirmation!'
             }
 
-            if (Object.keys(err).length === 0) {
+            if (Object.keys(err).length === 0 && window.confirm('Reset your password?')) {
                 setLoadingSubmit(true)
                 pushToUpdateUser()
             }

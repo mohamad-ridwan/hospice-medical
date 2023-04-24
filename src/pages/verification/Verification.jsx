@@ -45,7 +45,7 @@ function Verification() {
                 const result = res?.data
                 if (result) {
                     const user = result.filter(user => user.id === params?.userId)
-                    if (user.length === 1 && !user[0]?.isVerification) {
+                    if (user.length === 1 && user[0]?.isVerification === false) {
                         setUserData(user[0])
                         setLoading(false)
                     } else {
@@ -218,7 +218,7 @@ function Verification() {
                     <h1>Please check your email</h1>
                     <p>We've sent a code to <span>{userData?.email}</span></p>
 
-                    <form action="">
+                    <form onSubmit={(e)=>e.preventDefault()}>
                         {boxCode.map((item, index) => {
                             return (
                                 <BoxCode

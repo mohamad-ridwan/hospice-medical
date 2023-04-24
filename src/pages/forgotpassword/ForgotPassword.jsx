@@ -14,6 +14,7 @@ function ForgotPassword() {
   const [loadingSubmit, setLoadingSubmit] = useState(false)
 
   const pathname = window.location.pathname
+  const urlOrigin = window.location.origin
   const history = useHistory()
   const params = useParams()
   const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -37,7 +38,9 @@ function ForgotPassword() {
     try {
       const getUser = API.APIGetUsers()
       const result = await getUser.then(res => res)
-      const findUser = await result?.data ? result?.data?.filter(user => user.email === inputEmail) : null
+      const findUser = await result?.data ? result?.data?.filter(user =>
+        user.email === inputEmail && user.isVerification === true
+      ) : null
       return findUser
     } catch (err) {
       return err
@@ -61,7 +64,7 @@ function ForgotPassword() {
 
     const dataSend = {
       to_email: email,
-      token: token
+      url: `${urlOrigin}/forgot-password/create-new-password/${token}`
     }
 
     emailjs.send(serviceId, templateId, dataSend, publicKey)

@@ -27,6 +27,7 @@ function Register() {
         image: null,
     })
 
+    const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const urlOrigin = window.location.origin
     const history = useHistory()
 
@@ -137,7 +138,8 @@ function Register() {
         const publicKey = process.env.REACT_APP_PUBLIC_KEY
 
         const dataSend = {
-            userId: data.id,
+            url: `${urlOrigin}/verification/${data.id}`,
+            from_name: 'Hospice Medical',
             to_name: data.name,
             to_email: data.email,
             code: code,
@@ -307,8 +309,8 @@ function Register() {
         }
         if (!input.email) {
             err.email = 'Must be required!'
-        } else if (!input.email.includes('@')) {
-            err.email = 'Must be required @!'
+        } else if (!mailRegex.test(input.email)) {
+            err.email = 'Invalid email address!'
         }
         if (!input.password) {
             err.password = 'Must be required!'
@@ -328,7 +330,7 @@ function Register() {
         }
         if (input.password.length > 0 && input.confirmPassword.length > 0) {
             if (input.password !== input.confirmPassword) {
-                err.confirmPassword = 'Confirm password must be the same!'
+                err.confirmPassword = 'Invalid password confirmation!'
             }
         }
 
