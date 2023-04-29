@@ -313,6 +313,15 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         const valueOfAppointmentDate = document.getElementById('appointment-date').value
         const getNowYear = new Date().getFullYear().toString()
 
+        const month = new Date().getMonth() + 1
+        const newMonth = month.toString().length === 1 ? `0${month}` : month
+        const date = new Date().getDate().toString().length === 1 ? `0${new Date().getDate()}` : new Date().getDate()
+        const submissionDate = `${newMonth}/${date}/${getNowYear}`
+
+        const hours = new Date().getHours().toString().length === 1 ? `0${new Date().getHours()}` : new Date().getHours()
+        const minutes = new Date().getMinutes().toString().length === 1 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
+        const clock = `${hours}:${minutes}`
+
         const data = {
             patientName: formUserAppointment.patientName,
             phone: formUserAppointment.phone,
@@ -320,7 +329,9 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
             dateOfBirth: valueOfBirth,
             jenisPenyakit: selectJenis,
             appointmentDate: valueOfAppointmentDate,
-            message: formUserAppointment.message
+            message: formUserAppointment.message,
+            submissionDate: submissionDate,
+            clock: clock
         }
 
         let err = {}
