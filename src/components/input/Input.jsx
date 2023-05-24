@@ -4,7 +4,7 @@ import './Input.scss';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile, displayWidgets, displayIconBtn, topCalendar, changeCalendar, displayIconCalendar, colorIconCalendar, acceptFile, starDate, clickWidgets, txtInputCalendar, idInputCalendar, minDate, maxDate, renderCustomHeader, classInputCard, disabledInput, filterDate, styleLoadingBtn }) {
+function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile, displayWidgets, displayIconBtn, topCalendar, changeCalendar, displayIconCalendar, colorIconCalendar, acceptFile, starDate, clickWidgets, txtInputCalendar, idInputCalendar, minDate, maxDate, renderCustomHeader, classInputCard, disabledInput, filterDate, styleLoadingBtn, classNameDiseaseType }) {
     return (
         <>
             <input type={type} className={`input-card ${classInputCard}`} placeholder={placeholder} name={nameInput} value={valueInput} disabled={disabledInput} style={{
@@ -48,9 +48,10 @@ function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, p
             >
                 {dataDiseaseType && dataDiseaseType.length > 0 ? dataDiseaseType.map((e, i) => {
                     return (
-                        <li key={i} className="name-disease-type" style={{
-                            color: e.jenis.includes('Disease Type') ? '#3face4' : "#777"
-                        }}
+                        <li key={i} className={`name-disease-type ${classNameDiseaseType}`} 
+                        // style={{
+                        //     color: e.jenis.includes('Disease Type') || e.jenis.includes('Select Day') ? '#3face4' : "#777"
+                        // }}
                             onMouseOver={() => mouseOverBtnInput(i)}
                             onMouseLeave={mouseLeaveBtnInput}
                             onClick={() => selectType(e.jenis, i)}
