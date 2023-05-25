@@ -371,12 +371,17 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                         })
                         setErrorMessage({})
                         setSelectJenis('Disease Type')
+                        setSelectDay('Select Day')
+                        setIdxSelect(null)
+                        setIdxSelectDay(null)
 
-                        for (let i = 0; i < diseaseType.length; i++) {
-                            diseaseType[i].style.color = '#777'
+                        if(diseaseType?.length > 0){
+                            for (let i = 0; i < diseaseType?.length; i++) {
+                                diseaseType[i].style.color = '#777'
+                            }
+    
+                            diseaseType[0].style.color = '#3face4'
                         }
-
-                        diseaseType[0].style.color = '#3face4'
 
                         setLoadingSubmit(false)
                     })
@@ -397,6 +402,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
         setOnDiseaseType(false)
+        setOnSelectDay(false)
 
         const valueOfBirth = document.getElementById('date-of-birth').value
         const valueOfAppointmentDate = document.getElementById('appointment-date').value
