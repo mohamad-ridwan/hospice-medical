@@ -249,6 +249,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                         } else {
                             alert('Oops, tidak ada dokter yang tersedia!')
                             console.log(result)
+                            setLoadingBtnDisease(false)
                         }
                     })
                     .catch(err => {
