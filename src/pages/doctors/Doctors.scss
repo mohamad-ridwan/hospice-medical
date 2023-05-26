@@ -6,94 +6,102 @@
     }
 }
 
-@mixin tablet{
+@mixin tablet {
     @media (min-width: 569px) and (max-width: 768px) {
         @content;
     }
 }
 
-@mixin bigTablet{
+@mixin bigTablet {
     @media (min-width: 769px) and (max-width: 968px) {
         @content;
     }
 }
 
-.wrapp-doctors{
+.wrapp-doctors {
     display: flex;
     flex-direction: column;
     margin-top: 125px;
 
-    .container-header{
+    .container-header {
         display: flex;
     }
 
-    .offered-services-doctors{
+    .offered-services-doctors {
         display: flex;
         flex-direction: column;
         padding: 100px 0 50px 0;
 
-        @include navContactMobile(){
+        @include navContactMobile() {
             padding: 50px 0;
         }
 
-        .title-services-doctors{
+        .title-services-doctors {
             display: flex;
             font-size: 30px;
             font-weight: bold;
             justify-content: center;
             text-align: center;
 
-            @include navContactMobile(){
+            @include navContactMobile() {
                 padding: 0 5%;
             }
         }
 
-        .paragraph-services-doctors{
+        .paragraph-services-doctors {
             display: flex;
             font-size: 14px;
             color: $color1;
             text-align: center;
             justify-content: center;
             padding: 20px 25% 0 25%;
-            
-            @include navContactMobile(){
+
+            @include navContactMobile() {
                 padding: 20px 10% 0 10%;
             }
         }
 
-        .column-card-services-doctors{
-            display: flex;
-            flex-wrap: wrap;
+        .column-card-services-doctors {
+            // display: flex;
+            // flex-wrap: wrap;
+            // justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, (95%/3));
+            grid-gap: 5px;
             justify-content: space-between;
             padding: 80px 10% 0 10%;
 
-            @include navContactMobile(){
-                flex-direction: column;
+            @include navContactMobile() {
+                grid-template-columns: repeat(auto-fit, (100%));
                 padding: 50px 5% 0 5%;
             }
 
-            @include tablet(){
-                flex-direction: column;
+            @include tablet() {
+                grid-template-columns: repeat(auto-fit, (95%/2));
             }
 
-            .card-services-doctors{
+            @include bigTablet() {
+                grid-template-columns: repeat(auto-fit, (95%/2));
+            }
+
+            .card-services-doctors {
                 display: flex;
-                width: calc(95%/3);
+                width: 100%;
                 margin-bottom: 30px;
 
-                @include navContactMobile(){
-                    width: auto;
-                    margin-bottom: 15px;
-                }
+                // @include navContactMobile() {
+                //     width: auto;
+                //     margin-bottom: 15px;
+                // }
 
-                @include tablet(){
-                    width: auto;
-                    margin-bottom: 15px;
-                }
+                // @include tablet() {
+                //     width: auto;
+                //     margin-bottom: 15px;
+                // }
 
-                @include bigTablet(){
-                    width: calc(95%/2);
-                }
+                // @include bigTablet() {
+                //     width: calc(95%/2);
+                // }
             }
         }
     }

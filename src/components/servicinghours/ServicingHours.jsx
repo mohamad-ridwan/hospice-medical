@@ -516,7 +516,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                         bottom: bottomBook
                     }}>
                         <p className="title-book-an-appointment">
-                            Book an Appointment
+                            Patient Registration
                         </p>
 
                         <form onSubmit={(e) => {
@@ -684,7 +684,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
 
                             <div className="column-btn-submit">
                                 <Button
-                                    nameBtn="CONFIRM BOOKING"
+                                    nameBtn="CONFIRM REGISTRATION"
                                     click={submitForm}
                                 />
                             </div>
