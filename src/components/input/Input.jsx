@@ -4,7 +4,7 @@ import './Input.scss';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
-function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile, displayWidgets, displayIconBtn, topCalendar, changeCalendar, displayIconCalendar, colorIconCalendar, acceptFile, starDate, clickWidgets, txtInputCalendar, idInputCalendar, minDate, maxDate, renderCustomHeader, classInputCard, disabledInput, filterDate, styleLoadingBtn, classNameDiseaseType }) {
+function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, placeholderTxtArea, displayTxtArea, resizeTxtArea, bgColorInputCard, borderInputCard, colorInputCard, bdrRadiusInputCard, paddingInputCard, widthInputCard, marginInputCard, widthTxtArea, borderTxtArea, displayDiseaseType, topDiseaseType, dataDiseaseType, mouseOverBtnInput, mouseLeaveBtnInput, selectType, clickBtnInput, transformIconBtnInput, changeInput, valueInput, nameInput, changeTextArea, nameTextArea, displayErrorMsg, errorMessage, marginBottomError, marginTxtArea, displayInputfile, nameBtnInputFile, clickInputFile, nameInputFile, valueInputFile, changeFile, idInputFile, displayWidgets, displayIconBtn, topCalendar, changeCalendar, displayIconCalendar, colorIconCalendar, acceptFile, starDate, clickWidgets, txtInputCalendar, idInputCalendar, minDate, maxDate, renderCustomHeader, classInputCard, disabledInput, filterDate, styleLoadingBtn, classNameDiseaseType, colsArea, rowsArea }) {
     return (
         <>
             <input type={type} className={`input-card ${classInputCard}`} placeholder={placeholder} name={nameInput} value={valueInput} disabled={disabledInput} style={{
@@ -89,7 +89,7 @@ function Input({ type, placeholder, nameBtn, displayTxtInput, displayBtnInput, p
                 <input name={nameInputFile} accept={acceptFile} type="file" className="input-file" id={idInputFile} value={valueInputFile} onChange={changeFile} />
             </button>
 
-            <textarea name={nameTextArea} value={valueInput} id="" cols="30" rows="8" className="input-area-card" placeholder={placeholderTxtArea} style={{
+            <textarea name={nameTextArea} value={valueInput} id="" cols={colsArea} rows={rowsArea} className="input-area-card" placeholder={placeholderTxtArea} style={{
                 display: displayTxtArea,
                 resize: resizeTxtArea,
                 width: widthTxtArea,

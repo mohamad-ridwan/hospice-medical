@@ -27,13 +27,39 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [loadingBtnDisease, setLoadingBtnDisease] = useState(false)
     const [doctorDateOfAppointmentDate, setDoctorDateOfAppointmentDate] = useState(null)
-    const [dataDayDoctorSchedule, setDataDayDoctorSchedule] = useState([])
+    const [dataDayDoctorSchedule, setDataDayDoctorSchedule] = useState([
+        {
+            jenis: 'Select Day',
+        },
+        {
+            jenis: 'Senin',
+        },
+        {
+            jenis: 'Selasa',
+        },
+        {
+            jenis: 'Rabu',
+        },
+        {
+            jenis: 'Kamis',
+        },
+        {
+            jenis: 'Jumat',
+        },
+        {
+            jenis: 'Sabtu',
+        },
+        {
+            jenis: 'Minggu',
+        }
+    ])
     const [idxSelect, setIdxSelect] = useState(null)
     const [idxSelectDay, setIdxSelectDay] = useState(null)
     const [formUserAppointment, setFormUserAppointment] = useState({
         patientName: '',
         phone: '',
         emailAddress: '',
+        patientComplaints: '',
         message: ''
     })
 
@@ -161,102 +187,102 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     function selectType(jenis, idx, typeOfBtn) {
         if (typeOfBtn === 'diseaseType') {
             if (jenis !== 'Disease Type') {
-                setLoadingBtnDisease(true)
+                // setLoadingBtnDisease(true)
 
-                API.APIGetDoctors()
-                    .then(res => {
-                        const result = res?.data[0]?.data
-                        if (result?.length > 0) {
-                            const findDoctorOfDiseaseType = result.filter(doctor => {
-                                const checkDeskripsi = doctor.deskripsi?.toLowerCase()?.replace('spesialis', '')?.replace(/\s/g, '')
-                                const checkSpesialis = checkDeskripsi?.replace(regexSpecialChar, '')?.replace(/[-]/g, '')
+                // API.APIGetDoctors()
+                //     .then(res => {
+                //         const result = res?.data[0]?.data
+                //         if (result?.length > 0) {
+                //             const findDoctorOfDiseaseType = result.filter(doctor => {
+                //                 const checkDeskripsi = doctor.deskripsi?.toLowerCase()?.replace('spesialis', '')?.replace(/\s/g, '')
+                //                 const checkSpesialis = checkDeskripsi?.replace(regexSpecialChar, '')?.replace(/[-]/g, '')
 
-                                const jenisPenyakit = jenis?.toLowerCase()?.replace(regexSpecialChar, '')?.replace(/[-]/g, '')?.replace(/\s/g, '')
+                //                 const jenisPenyakit = jenis?.toLowerCase()?.replace(regexSpecialChar, '')?.replace(/[-]/g, '')?.replace(/\s/g, '')
 
-                                return checkSpesialis?.includes(jenisPenyakit)
-                            })
-                            if (findDoctorOfDiseaseType?.length > 0) {
-                                const getDayDoctorSchedule = () => {
-                                    let dayOfDoctorSchedule = [
-                                        {
-                                            jenis: 'Select Day'
-                                        }
-                                    ]
-                                    let count = 0
+                //                 return checkSpesialis?.includes(jenisPenyakit)
+                //             })
+                //             if (findDoctorOfDiseaseType?.length > 0) {
+                //                 const getDayDoctorSchedule = () => {
+                //                     let dayOfDoctorSchedule = [
+                //                         {
+                //                             jenis: 'Select Day'
+                //                         }
+                //                     ]
+                //                     let count = 0
 
-                                    const days = () => {
-                                        dayOfDoctorSchedule = [
-                                            {
-                                                jenis: 'Select Day'
-                                            }
-                                        ]
-                                        return findDoctorOfDiseaseType.forEach(item => {
-                                            count = count + 1
+                //                     const days = () => {
+                //                         dayOfDoctorSchedule = [
+                //                             {
+                //                                 jenis: 'Select Day'
+                //                             }
+                //                         ]
+                //                         return findDoctorOfDiseaseType.forEach(item => {
+                //                             count = count + 1
 
-                                            const findDayOn = (chooseDay) => {
-                                                const getDay = item?.jadwalDokter?.find(day => day?.toLowerCase() === chooseDay)
+                //                             const findDayOn = (chooseDay) => {
+                //                                 const getDay = item?.jadwalDokter?.find(day => day?.toLowerCase() === chooseDay)
 
-                                                if (getDay) {
-                                                    const findIndexDay = dayOfDoctorSchedule.findIndex(day => day.jenis === getDay)
+                //                                 if (getDay) {
+                //                                     const findIndexDay = dayOfDoctorSchedule.findIndex(day => day.jenis === getDay)
 
-                                                    if (findIndexDay === -1) {
-                                                        dayOfDoctorSchedule.push({ jenis: getDay })
-                                                    }
-                                                }
-                                            }
-                                            findDayOn('senin')
-                                            findDayOn('selasa')
-                                            findDayOn('rabu')
-                                            findDayOn('kamis')
-                                            findDayOn('jumat')
-                                            findDayOn('sabtu')
-                                            findDayOn('minggu')
-                                        })
-                                    }
+                //                                     if (findIndexDay === -1) {
+                //                                         dayOfDoctorSchedule.push({ jenis: getDay })
+                //                                     }
+                //                                 }
+                //                             }
+                //                             findDayOn('senin')
+                //                             findDayOn('selasa')
+                //                             findDayOn('rabu')
+                //                             findDayOn('kamis')
+                //                             findDayOn('jumat')
+                //                             findDayOn('sabtu')
+                //                             findDayOn('minggu')
+                //                         })
+                //                     }
 
-                                    days()
+                //                     days()
 
-                                    setTimeout(() => {
-                                        if (count === findDoctorOfDiseaseType?.length) {
-                                            setDataDayDoctorSchedule(dayOfDoctorSchedule)
+                //                     setTimeout(() => {
+                //                         if (count === findDoctorOfDiseaseType?.length) {
+                //                             setDataDayDoctorSchedule(dayOfDoctorSchedule)
 
-                                            for (let i = 0; i < diseaseType.length; i++) {
-                                                diseaseType[i].style.color = '#777'
-                                            }
-                                            diseaseType[0].style.color = '#3face4'
-                                            diseaseType[idx].style.color = '#3face4'
+                //                             for (let i = 0; i < diseaseType.length; i++) {
+                //                                 diseaseType[i].style.color = '#777'
+                //                             }
+                //                             diseaseType[0].style.color = '#3face4'
+                //                             diseaseType[idx].style.color = '#3face4'
 
-                                            setSelectJenis(jenis)
-                                            setIdxSelect(idx)
-                                            setOnDiseaseType(false)
-                                            setSelectDay('Select Day')
-                                            setIdxSelectDay(null)
-                                            setErrorMessage({
-                                                ...errorMessage,
-                                                diseaseType: ''
-                                            })
-                                            setStarAppointmentDate(null)
+                //                             setSelectJenis(jenis)
+                //                             setIdxSelect(idx)
+                //                             setOnDiseaseType(false)
+                //                             setSelectDay('Select Day')
+                //                             setIdxSelectDay(null)
+                //                             setErrorMessage({
+                //                                 ...errorMessage,
+                //                                 diseaseType: ''
+                //                             })
+                //                             setStarAppointmentDate(null)
 
-                                            setTimeout(() => {
-                                                setLoadingBtnDisease(false)
-                                            }, 0)
-                                        }
-                                    }, 0)
-                                }
+                //                             setTimeout(() => {
+                //                                 setLoadingBtnDisease(false)
+                //                             }, 0)
+                //                         }
+                //                     }, 0)
+                //                 }
 
-                                getDayDoctorSchedule()
-                            }
-                        } else {
-                            alert('Oops, tidak ada dokter yang tersedia!')
-                            console.log(result)
-                            setLoadingBtnDisease(false)
-                        }
-                    })
-                    .catch(err => {
-                        alert('Telah terjadi kesalahan server!\nMohon coba beberapa saat lagi')
-                        console.log(err)
-                        setLoadingBtnDisease(false)
-                    })
+                //                 getDayDoctorSchedule()
+                //             }
+                //         } else {
+                //             alert('Oops, tidak ada dokter yang tersedia!')
+                //             console.log(result)
+                //             setLoadingBtnDisease(false)
+                //         }
+                //     })
+                //     .catch(err => {
+                //         alert('Telah terjadi kesalahan server!\nMohon coba beberapa saat lagi')
+                //         console.log(err)
+                //         setLoadingBtnDisease(false)
+                //     })
             } else {
                 setDataDayDoctorSchedule([])
 
@@ -391,6 +417,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                             patientName: '',
                             phone: '',
                             emailAddress: '',
+                            patientComplaints: '',
                             message: ''
                         })
                         setErrorMessage({})
@@ -429,7 +456,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         setOnSelectDay(false)
 
         const valueOfBirth = document.getElementById('date-of-birth').value
-        const valueOfAppointmentDate = document.getElementById('appointment-date').value
+        const valueOfAppointmentDate = document.getElementById('appointment-date')?.value
         const getNowYear = new Date().getFullYear().toString()
 
         const month = new Date().getMonth() + 1
@@ -446,8 +473,9 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
             phone: formUserAppointment.phone,
             emailAddress: formUserAppointment.emailAddress,
             dateOfBirth: valueOfBirth,
-            jenisPenyakit: selectJenis,
+            jenisPenyakit: 'null',
             appointmentDate: valueOfAppointmentDate,
+            patientComplaints: formUserAppointment.patientComplaints, 
             message: formUserAppointment.message,
             submissionDate: submissionDate,
             clock: clock
@@ -455,13 +483,13 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
 
         let err = {}
 
-        if (!formUserAppointment.patientName) {
+        if (!formUserAppointment.patientName?.trim()) {
             err.patientName = 'Must be required!'
         }
-        if (!formUserAppointment.phone) {
+        if (!formUserAppointment.phone?.trim()) {
             err.phone = 'Must be required!'
         }
-        if (!formUserAppointment.emailAddress) {
+        if (!formUserAppointment.emailAddress?.trim()) {
             err.emailAddress = 'Must be required!'
         } else if (!formUserAppointment.emailAddress.match(regexEmail)) {
             err.emailAddress = 'Invalid email address!'
@@ -469,14 +497,17 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         if (valueOfBirth.split('/')[2] === getNowYear) {
             err.dateOfBirth = 'Must be required!'
         }
-        if (!formUserAppointment.message) {
+        if(!formUserAppointment.patientComplaints?.trim()){
+            err.patientComplaints = 'Must be required!'
+        }
+        if (!formUserAppointment.message?.trim()) {
             err.message = 'Must be required!'
         } else if (formUserAppointment.message.length < 6) {
             err.message = 'Minimum 6 letters!'
         }
-        if (selectJenis === 'Disease Type') {
-            err.diseaseType = 'Must be required!'
-        }
+        // if (selectJenis === 'Disease Type') {
+        //     err.diseaseType = 'Must be required!'
+        // }
         if (selectDay === 'Select Day') {
             err.selectDay = 'Must be required!'
         }
@@ -641,7 +672,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                                 txtInputCalendar="Date Of Birth"
                                 starDate={starDateOfBirth}
                             />
-                            <Input
+                            {/* <Input
                                 displayTxtInput="none"
                                 displayBtnInput="flex"
                                 displayErrorMsg="flex"
@@ -659,26 +690,24 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                                 selectType={(jenis, idx) => selectType(jenis, idx, 'diseaseType')}
                                 clickBtnInput={() => showDiseaseType('diseaseType', 4)}
                                 topDiseaseType={topDiseaseType}
+                            /> */}
+                            <Input
+                                displayTxtInput="none"
+                                displayBtnInput="flex"
+                                displayErrorMsg="flex"
+                                displayIconCalendar="none"
+                                classNameDiseaseType="name-select-day"
+                                nameBtn={selectDay}
+                                displayDiseaseType={onSelectDay ? 'flex' : 'none'}
+                                transformIconBtnInput={onSelectDay ? 'rotate(180deg)' : 'rotate(0)'}
+                                dataDiseaseType={dataDayDoctorSchedule}
+                                mouseOverBtnInput={(i) => mouseOver(i, 'selectDay')}
+                                errorMessage={errorMessage?.selectDay}
+                                mouseLeaveBtnInput={() => mouseLeave('selectDay')}
+                                selectType={(jenis, idx) => selectType(jenis, idx, 'selectDay')}
+                                clickBtnInput={() => showDiseaseType('selectDay', 4)}
+                                topDiseaseType={topDiseaseType}
                             />
-                            {selectJenis !== 'Disease Type' && (
-                                <Input
-                                    displayTxtInput="none"
-                                    displayBtnInput="flex"
-                                    displayErrorMsg="flex"
-                                    displayIconCalendar="none"
-                                    classNameDiseaseType="name-select-day"
-                                    nameBtn={selectDay}
-                                    displayDiseaseType={onSelectDay ? 'flex' : 'none'}
-                                    transformIconBtnInput={onSelectDay ? 'rotate(180deg)' : 'rotate(0)'}
-                                    dataDiseaseType={dataDayDoctorSchedule}
-                                    mouseOverBtnInput={(i) => mouseOver(i, 'selectDay')}
-                                    errorMessage={errorMessage?.selectDay}
-                                    mouseLeaveBtnInput={() => mouseLeave('selectDay')}
-                                    selectType={(jenis, idx) => selectType(jenis, idx, 'selectDay')}
-                                    clickBtnInput={() => showDiseaseType('selectDay', 5)}
-                                    topDiseaseType={topDiseaseType}
-                                />
-                            )}
                             {selectDay !== 'Select Day' && (
                                 <Input
                                     displayTxtInput="none"
@@ -698,10 +727,26 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
                             <Input
                                 displayTxtInput="none"
                                 displayTxtArea="flex"
+                                placeholderTxtArea="Patient Complaints"
+                                resizeTxtArea="none"
+                                nameTextArea="patientComplaints"
+                                displayErrorMsg="flex"
+                                errorMessage={errorMessage && errorMessage.patientComplaints}
+                                marginBottomError={errorMessage && errorMessage.patientComplaints ? '5px' : '0'}
+                                valueInput={formUserAppointment.patientComplaints}
+                                colsArea='20'
+                                rowsArea='2'
+                                changeTextArea={changeInput}
+                            />
+                            <Input
+                                displayTxtInput="none"
+                                displayTxtArea="flex"
                                 placeholderTxtArea="Messege"
                                 resizeTxtArea="none"
                                 nameTextArea="message"
                                 displayErrorMsg="flex"
+                                colsArea='30'
+                                rowsArea='2'
                                 errorMessage={errorMessage && errorMessage.message}
                                 marginBottomError={errorMessage && errorMessage.message ? '5px' : '0'}
                                 valueInput={formUserAppointment.message}
