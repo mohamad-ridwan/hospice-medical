@@ -47,7 +47,7 @@ function About() {
 
     useEffect(() => {
         setLoading(true)
-        setPathActiveMenuNav(3)
+        setPathActiveMenuNav(2)
         window.scrollTo(0, 0)
 
         setTimeout(() => {

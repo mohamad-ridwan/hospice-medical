@@ -398,7 +398,7 @@ function Navbar() {
 
                 <div className="nav-page">
                     <div className="column-atas-nav-page">
-                        <img src={logoWeb && Object.keys(logoWeb).length !== 0 ? `${endpoint}/${logoWeb.image}` : ''} alt="" className="logo-web" onClick={() => toPage('/')} />
+                        <img src={logoWeb?.image} alt="" className="logo-web" onClick={() => toPage('/')} />
 
                         <div className="column-kanan-navbar">
                             <ul className="menu-page-navbar">
