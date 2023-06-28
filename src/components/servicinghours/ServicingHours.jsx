@@ -398,7 +398,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
     function postUserAppointment(data) {
         setLoadingSubmit(true)
 
-        API.APIPostFormAppointment(_idFormAppointment, data)
+        API.APIPostPatientRegistration('patient-registration', data)
             .then(res => {
                 API.APIGetServicingHours()
                     .then(res => {
@@ -466,19 +466,23 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
 
         const hours = new Date().getHours().toString().length === 1 ? `0${new Date().getHours()}` : new Date().getHours()
         const minutes = new Date().getMinutes().toString().length === 1 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
-        const clock = `${hours}:${minutes}`
+        const seconds = new Date().getSeconds().toString().length === 1 ? `0${new Date().getSeconds()}` : new Date().getSeconds()
+        const clock = `${hours}:${minutes}:${seconds}`
 
         const data = {
             patientName: formUserAppointment.patientName,
             phone: formUserAppointment.phone,
             emailAddress: formUserAppointment.emailAddress,
             dateOfBirth: valueOfBirth,
-            jenisPenyakit: 'null',
             appointmentDate: valueOfAppointmentDate,
-            patientComplaints: formUserAppointment.patientComplaints, 
-            message: formUserAppointment.message,
-            submissionDate: submissionDate,
-            clock: clock
+            patientMessage: {
+                message: formUserAppointment.message,
+                patientComplaints: formUserAppointment.patientComplaints,
+            },
+            submissionDate: {
+                submissionDate: submissionDate,
+                clock: clock
+            }
         }
 
         let err = {}
@@ -497,7 +501,7 @@ function ServicingHours({ widthWrapp, positionWrapp, paddingWrapp, topBook, bott
         if (valueOfBirth.split('/')[2] === getNowYear) {
             err.dateOfBirth = 'Must be required!'
         }
-        if(!formUserAppointment.patientComplaints?.trim()){
+        if (!formUserAppointment.patientComplaints?.trim()) {
             err.patientComplaints = 'Must be required!'
         }
         if (!formUserAppointment.message?.trim()) {

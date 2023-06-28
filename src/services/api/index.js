@@ -22,6 +22,7 @@ const APIGetOurOfferedServices = () => useFetch('v7/our-offered-services/get', '
 // servicing hours
 const APIGetServicingHours = () => useFetch('v8/servicing-hours/get', 'GET')
 const APIPostFormAppointment = (_id, data) => useFetch(`v8/servicing-hours/post/book-an-appointment/user-appointment-data/${_id}`, 'POST', data)
+const APIPostPatientRegistration = (roleId, data)=>useFetch(`v8/servicing-hours/post/role/${roleId}/data`, 'POST', data)
 
 // blogs
 const APIGetBlogs = () => useFetch('v9/blog/get', 'GET')
@@ -68,6 +69,7 @@ const API = {
     APIGetOurOfferedServices,
     APIGetServicingHours,
     APIPostFormAppointment,
+    APIPostPatientRegistration,
     APIGetBlogs,
     APIPutProfileUserComment,
     APIGetFooter,
