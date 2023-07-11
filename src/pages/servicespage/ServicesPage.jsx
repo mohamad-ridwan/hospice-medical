@@ -36,7 +36,7 @@ function ServicesPage() {
 
     useEffect(() => {
         setLoading(true)
-        setPathActiveMenuNav(2)
+        setPathActiveMenuNav(3)
         window.scrollTo(0, 0)
 
         setTimeout(() => {

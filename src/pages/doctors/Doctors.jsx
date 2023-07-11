@@ -7,6 +7,7 @@ import endpoint from '../../services/api/endpoint';
 import Loading from '../../components/loading/Loading';
 import { NavbarContext } from '../../services/context/NavbarContext';
 import HelmetWindow from '../../components/helmetwindow/HelmetWindow';
+import profileDefault from '../../images/user.png'
 
 function Doctors() {
     const [linkMedsos, contactNav, logoWeb, menuPage, users, setUsers, pathActiveMenuNav, setPathActiveMenuNav] = useContext(NavbarContext)
@@ -37,7 +38,7 @@ function Doctors() {
 
     useEffect(() => {
         setLoading(true)
-        setPathActiveMenuNav(3)
+        setPathActiveMenuNav(2)
         window.scrollTo(0, 0)
 
         setTimeout(() => {
@@ -90,7 +91,7 @@ function Doctors() {
                                     return (
                                         <div key={i} className="card-services-doctors">
                                             <Card
-                                                img={`${endpoint}/${e.image}`}
+                                                img={e.image?.includes('https') ? e.image : profileDefault}
                                                 titleImgHover={e.name}
                                                 paragraphHoverImg={e.deskripsi}
                                                 displayTitleHoverImg="flex"

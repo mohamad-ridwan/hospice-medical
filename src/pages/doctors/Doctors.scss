@@ -67,8 +67,7 @@
             // justify-content: space-between;
             display: grid;
             grid-template-columns: repeat(auto-fit, (95%/3));
-            grid-gap: 5px;
-            justify-content: space-between;
+            grid-gap: 30px;
             padding: 80px 10% 0 10%;
 
             @include navContactMobile() {
@@ -87,7 +86,6 @@
             .card-services-doctors {
                 display: flex;
                 width: 100%;
-                margin-bottom: 30px;
 
                 // @include navContactMobile() {
                 //     width: auto;
