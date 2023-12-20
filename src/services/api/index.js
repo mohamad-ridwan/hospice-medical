@@ -2,7 +2,7 @@ import fetchJwtToken from "./fetchJwtToken"
 import useFetch from "./useFetch"
 
 // navbar
-const APIGetNavbar = () => useFetch('navbar/get', 'GET')
+const APIGetNavbar = () => useFetch('navbar/get?limit=50', 'GET')
 
 // headerpage
 const APIGetHeaderPage = () => useFetch('header-page/get', 'GET')
